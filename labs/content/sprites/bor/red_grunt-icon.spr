@@ -1,0 +1,13 @@
+sprite "BOR Red Grunt"
+{
+ source_file "images/bor/red_grunt.png"
+ source_rect 0 0 2048 256
+ frame_size 128 128
+ hot_spot 14 64
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 11
+ }
+}

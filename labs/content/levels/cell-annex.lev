@@ -1,0 +1,13 @@
+// Independent registered cell course. Signed: President.
+name "Cell Terrain Annex"
+theme "themes/presentation.brk"
+author "Kaizer / President"
+requires "0.6.1"
+bgtheme "themes/template.bg"
+spawn_point 3936 4096
+setup "BSL Runtime Setup" "Default Camera" "BSL Pause and Quit"
+players "None"
+brick 0 0 0
+brick 0 8192 8192
+entity "BOR Michio" 3936 4096
+entity "BSL Teleporter" 3936 4128 "c3110002"

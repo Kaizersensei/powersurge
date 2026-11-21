@@ -1,0 +1,172 @@
+{
+  "version": 2,
+  "stats": [
+    {
+      "id": "stat:armed",
+      "name": "Armed",
+      "initial": 1,
+      "minimum": 0,
+      "maximum": 999,
+      "scale": 1,
+      "growth": {
+        "first": 10000,
+        "increment": 10000,
+        "scale": 1000,
+        "gain": 1
+      }
+    },
+    {
+      "id": "stat:drive",
+      "name": "Drive",
+      "initial": 2,
+      "minimum": 0,
+      "maximum": 999,
+      "scale": 1,
+      "growth": {
+        "first": 5000,
+        "increment": 0,
+        "scale": 1000,
+        "gain": 3
+      }
+    },
+    {
+      "id": "stat:focus",
+      "name": "Focus",
+      "initial": 5,
+      "minimum": 0,
+      "maximum": 20,
+      "scale": 1,
+      "growth": null
+    },
+    {
+      "id": "stat:experience",
+      "name": "Character level",
+      "initial": 1,
+      "minimum": 1,
+      "maximum": 99,
+      "scale": 1,
+      "growth": {
+        "first": 5000,
+        "increment": 5000,
+        "scale": 1000,
+        "gain": 1
+      }
+    }
+  ],
+  "formulas": [
+    {
+      "id": "formula:armed",
+      "constant": 0,
+      "minimum": 0,
+      "maximum": 2147483647,
+      "terms": [
+        {
+          "stat": "stat:armed",
+          "numerator": 1,
+          "denominator": 1
+        }
+      ]
+    },
+    {
+      "id": "formula:drive",
+      "constant": 0,
+      "minimum": 0,
+      "maximum": 2147483647,
+      "terms": [
+        {
+          "stat": "stat:drive",
+          "numerator": 1,
+          "denominator": 1
+        }
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "definition": "character:michio",
+      "stats": [
+        "stat:armed",
+        "stat:focus",
+        "stat:experience"
+      ],
+      "actions": [
+        {
+          "tag": "melee.primary",
+          "awards": [
+            {
+              "stat": "stat:armed",
+              "measure": "growth",
+              "action": 1,
+              "hit": 10,
+              "defeat": 100
+            },
+            {
+              "stat": "stat:focus",
+              "measure": "value",
+              "action": 0,
+              "hit": 1,
+              "defeat": 0
+            }
+          ],
+          "outputs": {
+            "combat.damage_bonus": "formula:armed"
+          }
+        },
+        {
+          "tag": "ability.lab_cut",
+          "awards": [],
+          "outputs": {
+            "combat.damage_bonus": "formula:armed"
+          }
+        }
+      ]
+    },
+    {
+      "definition": "character:michio_alternate",
+      "stats": [
+        "stat:drive",
+        "stat:focus",
+        "stat:experience"
+      ],
+      "actions": [
+        {
+          "tag": "melee.primary",
+          "awards": [
+            {
+              "stat": "stat:drive",
+              "measure": "growth",
+              "action": 2,
+              "hit": 20,
+              "defeat": 200
+            },
+            {
+              "stat": "stat:focus",
+              "measure": "value",
+              "action": 0,
+              "hit": 2,
+              "defeat": 0
+            }
+          ],
+          "outputs": {
+            "combat.damage_bonus": "formula:drive"
+          }
+        },
+        {
+          "tag": "ability.lab_cut",
+          "awards": [],
+          "outputs": {
+            "combat.damage_bonus": "formula:drive"
+          }
+        }
+      ]
+    },
+    {
+      "definition": "character:michio_arcade",
+      "stats": [
+        "stat:focus"
+      ],
+      "actions": []
+    }
+  ],
+  "provenance": "Original learning lab: general character XP is one optional generic growth stat, independent of action practice. Existing actions remain available. Signed: Atlas."
+}

@@ -74,3 +74,11 @@ set(SURGESCRIPT_LIB surgescript)
 if(SURGESCRIPT_STATIC)
   set(SURGESCRIPT_LIB surgescript-static)
 endif()
+
+# BSL single output backend; graphics/input remain Allegro. Signed: Mech.
+if(BSL_AUDIO_BACKEND STREQUAL "SOLOUD")
+ if(ALLEGRO_MONOLITH OR ALLEGRO_STATIC)
+  message(FATAL_ERROR "Selected backend requires modular shared Allegro graphics/input libraries")
+ endif()
+ list(REMOVE_ITEM ALLEGRO_LIBS allegro_audio allegro_acodec)
+endif()

@@ -1,0 +1,14 @@
+// Stock waterworks platform art (MIT), composed by Atlas.
+sprite "BOR Moving Platform"
+{
+ source_file "images/waterworks.png"
+ source_rect 256 384 128 32
+ frame_size 128 32
+ hot_spot 0 0
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}

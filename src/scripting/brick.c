@@ -33,6 +33,7 @@
 /* brick-like object structure */
 typedef struct bricklike_data_t bricklike_data_t;
 struct bricklike_data_t {
+    uint64_t identity;
     bricktype_t type;
     bricklayer_t layer;
     collisionmask_t* mask;
@@ -40,6 +41,8 @@ struct bricklike_data_t {
     v2d_t hot_spot;
     bool enabled;
 };
+
+static uint64_t next_brick_identity;
 
 /* private */
 static surgescript_var_t* fun_constructor(surgescript_object_t* object, const surgescript_var_t** param, int num_params);
@@ -92,6 +95,8 @@ void scripting_register_brick(surgescript_vm_t* vm)
  * scripting_brick_is_valid()
  * Checks if a SurgeScript object is a brick-like object
  */
+uint64_t scripting_brick_identity(const surgescript_object_t* object) { return get_data(object)->identity; }
+
 bool scripting_brick_is_valid(const surgescript_object_t* object)
 {
     return 0 == strcmp(surgescript_object_name(object), "Brick") &&
@@ -276,6 +281,7 @@ surgescript_var_t* fun_constructor(surgescript_object_t* object, const surgescri
 
     /* default values of the brick */
     data = mallocx(sizeof *data);
+    data->identity = (UINT64_C(1) << 63) | ++next_brick_identity;
     data->type = BRK_SOLID;
     data->layer = BRL_DEFAULT;
     data->mask = NULL;

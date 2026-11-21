@@ -45,6 +45,8 @@ static void parse_surgescript_options(surgescript_vm_t* vm, int argc, char** arg
 static void setup_surgeengine(surgescript_vm_t* vm);
 extern void scripting_register_application(surgescript_vm_t* vm);
 extern void scripting_register_surgeengine(surgescript_vm_t* vm);
+extern void scripting_register_bor(surgescript_vm_t* vm);
+extern void scripting_register_presentation(surgescript_vm_t* vm);
 extern void scripting_register_actor(surgescript_vm_t* vm);
 extern void scripting_register_androidplatform(surgescript_vm_t* vm);
 extern void scripting_register_animation(surgescript_vm_t* vm);
@@ -417,6 +419,8 @@ void setup_surgeengine(surgescript_vm_t* vm)
     /* next, we register the SurgeEngine builtins */
     scripting_register_surgeengine(vm);
     scripting_register_actor(vm);
+    scripting_register_bor(vm);
+    scripting_register_presentation(vm);
     scripting_register_androidplatform(vm);
     scripting_register_animation(vm);
     scripting_register_brick(vm);

@@ -1,0 +1,11 @@
+if(NOT BSL_AUDIO_BACKEND STREQUAL "SOLOUD")
+ message(FATAL_ERROR "Initial presentation currently requires the selected SoLoud backend; rebuild historical legacy candidates from their retained source snapshot")
+endif()
+# Silent Allegro video decoding; SoLoud remains the only output device. Signed: President.
+find_library(BSL_ALLEGRO_VIDEO NAMES allegro_video PATHS ${ALLEGRO_LIBRARY_PATH})
+find_library(BSL_ALLEGRO_AUDIO NAMES allegro_audio PATHS ${ALLEGRO_LIBRARY_PATH})
+if(NOT BSL_ALLEGRO_VIDEO OR NOT BSL_ALLEGRO_AUDIO)
+ message(FATAL_ERROR "Initial presentation requires modular Allegro video/audio development libraries; audio is used only to audit that no Allegro device is installed")
+endif()
+target_sources(${GAME_UNIXNAME} PRIVATE src/presentation/video_presentation.c src/presentation/presentation_script.c src/presentation/selection_catalog.cpp)
+target_link_libraries(${GAME_UNIXNAME} ${BSL_ALLEGRO_VIDEO} ${BSL_ALLEGRO_AUDIO})

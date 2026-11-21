@@ -23,6 +23,8 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include "stageselect.h"
+#include "../presentation/video_presentation.h"
+#include "../foundation/foundation_host.h"
 #include "util/levparser.h"
 #include "settings.h"
 #include "level.h"
@@ -270,6 +272,10 @@ void stageselect_update()
                 player_set_lives(PLAYER_INITIAL_LIVES);
                 player_set_score(0);
 
+                if(!selected_stage->is_quest&&asset_exists("borsurgelab.runtime")&&!bsl_host_begin_lab_run()){
+                    video_showmessage("Cannot start an independent lab while actors are still active.");
+                    state=STAGESTATE_NORMAL;return;
+                }
                 /* push the next scene */
                 if(selected_stage->is_quest) {
 
@@ -345,6 +351,7 @@ void stageselect_render()
 /* loads the stage list from the level/ folder */
 void load_stage_list()
 {
+    bsl_presentation_loading_begin();
     video_display_loading_screen();
     logfile_message("load_stage_list()");
 
@@ -369,7 +376,9 @@ void load_stage_list()
     for(int i = 0; i < stage_count; i++) {
         stage_label[i] = font_create("MenuText");
         font_set_position(stage_label[i], v2d_new(25, 50 + 20 * (i % STAGE_MAXPERPAGE)));
+        bsl_presentation_loading_pump();
     }
+    bsl_presentation_loading_end();
 }
 
 

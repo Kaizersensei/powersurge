@@ -1,3 +1,4 @@
+#include "../editor_shell/shell.h"
 /*
  * Open Surge Engine
  * video.c - video manager
@@ -39,6 +40,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "video.h"
+#include "../presentation/video_presentation.h"
 #include "image.h"
 #include "shader.h"
 #include "engine.h"
@@ -305,6 +307,7 @@ void video_init()
  */
 void video_release()
 {
+    bsl_shell_shutdown();
     LOG("Releasing the video manager...");
 
     /* release the shader system */
@@ -367,6 +370,8 @@ void video_render(void (*render_overlay)())
         render_overlay();
     render_texts();
 
+    /* Shared editor renders at display resolution, above engine overlays. */
+    bsl_shell_render();
     /* flip display */
     al_flip_display();
 
@@ -700,6 +705,9 @@ void video_display_loading_screen()
  */
 void video_display_loading_screen_ex(double progress)
 {
+    /* Owned movie presentation; classic screen remains fallback. Signed: Atlas. */
+    if(bsl_presentation_loading_frame(progress))
+        return;
     const image_t *img = image_load(LOADING_IMAGE);
     v2d_t camera = v2d_multiply(video_get_screen_size(), 0.5f);
 
@@ -1042,7 +1050,7 @@ void set_display_icon(ALLEGRO_DISPLAY* display)
 
     LPCSTR name = MAKEINTRESOURCE(IDI_GAMEICON);
     HWND hwnd = al_get_win_window_handle(display);
-    HINSTANCE hinstance = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
+    HINSTANCE hinstance = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
 
     HICON big_icon = (HICON)LoadImage(hinstance, name, IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
     if(big_icon != NULL) {

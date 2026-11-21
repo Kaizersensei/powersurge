@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include "brick.h"
 #include "player.h"
 #include "actor.h"
@@ -64,11 +65,16 @@ enum brickstate_t {
 /* brick theme: meta data of bricks */
 struct brickdata_t {
     int id; /* brick ID */
+    brickrole_t role;
+    int palette_order;
+    char shape_group[65];
+    char category[65], definition[129];
     spriteinfo_t *data; /* this is not stored in the main hash */
     const image_t *image; /* pointer to a brick image in the animation */
     int image_width, image_height; /* cached image size */
     char* maskfile; /* collision mask file (may be NULL) */
-    collisionmask_t *mask; /* collision mask (may be NULL) */
+    collisionmask_t *mask;
+    collisionmask_t *surface_mask; /* collision mask (may be NULL) */
     image_t* maskimg; /* mask image for rendering (may be NULL) */
     float zindex; /* 0.0 (background) <= z-index <= 1.0 (foreground) */
     bricktype_t type;
@@ -79,6 +85,12 @@ struct brickdata_t {
 /* brick instances */
 struct brick_t { /* a real, concrete brick */
     const brickdata_t *brick_ref; /* brick metadata */
+    uint64_t placement_id;
+    int brightness;
+    int z_override;
+    char texture_id[65];
+    image_t* surface_image;
+    uint64_t surface_revision;
     int x, y; /* current position */
     int sx, sy; /* spawn point */
     brickstate_t state; /* brick state: BRS_* */
@@ -114,6 +126,18 @@ static inline int get_image_flags(const brick_t* brick);
 static bool is_player_standing_on_platform(const player_t *player, const brick_t *brk);
 static bool can_be_clipped_out(const brick_t* brick, v2d_t topleft);
 static surgescript_object_t* create_particle(const brick_t* brick, int source_x, int source_y, int width, int height, v2d_t position, v2d_t velocity);
+static uint64_t brick_placement_sequence;
+static uint64_t* brick_reserved_ids;
+static size_t brick_reserved_count, brick_reserved_capacity;
+static bool brick_role_visibility[3][2] = {{true,true},{false,true},{true,true}};
+static void srf_clear(void);
+static void srf_register(brick_t*);
+static void srf_unregister(brick_t*);
+static void srf_dirty(void);
+static void srf_geometry_dirty(void);
+static bool srf_render(brick_t*,v2d_t,bool);
+static void srf_load(const char*);
+static bool bsl_palette_loading = false; /* Folder registry overlay; never replace existing bricks. Signed: Mech. */
 static int brickdata_count = 0; /* size of brickdata[] */
 static brickdata_t* brickdata[BRKDATA_MAX]; /* brick data */
 
@@ -148,6 +172,9 @@ void brickset_load(const char* filename)
     logfile_message("Loading brickset \"%s\"...", filename);
     fullpath = asset_path(filename);
 
+    brick_role_visibility[BRR_COLLISION][0] = getenv("BSL_COLLIDER_DEBUG") && !strcmp(getenv("BSL_COLLIDER_DEBUG"),"1");
+    brick_role_visibility[BRR_COLLISION][1]=brick_role_visibility[BRR_COLLISION][0];
+    brick_role_visibility[BRR_DECORATION][0]=brick_role_visibility[BRR_DECORATION][1]=true;
     brickdata_count = 0;
     for(i=0; i<BRKDATA_MAX; i++) 
         brickdata[i] = NULL;
@@ -155,6 +182,19 @@ void brickset_load(const char* filename)
     tree = nanoparser_construct_tree(fullpath);
     nanoparser_traverse_program(tree, traverse);
     tree = nanoparser_deconstruct_tree(tree);
+
+    /* Optional level-specific folder palette; original level/theme stay authoritative. Signed: Mech. */
+    const char* level_path = level_file();
+    char palette_path[2048];
+    if(level_path && !strncmp(level_path, "levels/", 7) && !strstr(level_path, "..") && !strchr(level_path, '\\') &&
+       snprintf(palette_path, sizeof palette_path, "palettes/generated/%s.brk", level_path) < (int)sizeof palette_path && asset_exists(palette_path)) {
+        logfile_message("Loading generated level palette \"%s\"...", palette_path);
+        bsl_palette_loading = true;
+        tree = nanoparser_construct_tree(asset_path(palette_path));
+        nanoparser_traverse_program(tree, traverse);
+        tree = nanoparser_deconstruct_tree(tree);
+        bsl_palette_loading = false;
+    }
 
     if(brickdata_count == 0)
         fatal_error("FATAL ERROR: no bricks have been defined in \"%s\"", filename);
@@ -173,6 +213,7 @@ void brickset_load(const char* filename)
  */
 void brickset_unload()
 {
+    srf_clear();
     int i;
 
     logfile_message("Unloading the brickset...");
@@ -214,9 +255,16 @@ int brickset_loaded()
  */
 brick_t* brick_create(int id, v2d_t position, bricklayer_t layer, brickflip_t flip_flags)
 {
+    return brick_create_with_placement_id(id,position,layer,flip_flags,0);
+}
+brick_t* brick_create_with_placement_id(int id, v2d_t position, bricklayer_t layer, brickflip_t flip_flags, uint64_t uid)
+{
     brick_t *b = mallocx(sizeof *b);
     int i;
 
+    b->z_override = -1;
+    b->placement_id = uid ? uid : brick_fresh_placement_id();
+    brick_reserve_placement_id(b->placement_id);
     b->brick_ref = brickdata_get(id);
     if(b->brick_ref == NULL)
         fatal_error("Can't create brick %d: brick not found.", id);
@@ -232,6 +280,7 @@ brick_t* brick_create(int id, v2d_t position, bricklayer_t layer, brickflip_t fl
     for(i=0; i<BRICK_MAXVALUES; i++)
         b->value[i] = 0.0f;
 
+    srf_register(b);
     return b;
 }
 
@@ -242,6 +291,7 @@ brick_t* brick_create(int id, v2d_t position, bricklayer_t layer, brickflip_t fl
  */
 brick_t* brick_destroy(brick_t *brk)
 {
+    srf_unregister(brk);
     destroy_obstacle(brk->obstacle);
     free(brk);
     return NULL;
@@ -310,7 +360,7 @@ void brick_update(brick_t *brk, player_t** team, int team_size)
 
                         /* destroy brick */
                         sound_play(SFX_BREAK);
-                        brk->state = BRS_DEAD;
+                        {if(brk->state!=BRS_DEAD&&brk->brick_ref->role==BRR_COLLISION)srf_geometry_dirty();brk->state = BRS_DEAD;}
                     }
                 }
             }
@@ -357,7 +407,7 @@ void brick_update(brick_t *brk, player_t** team, int team_size)
 
                 /* destroy brick */
                 sound_play(SFX_BREAK);
-                brk->state = BRS_DEAD;
+                {if(brk->state!=BRS_DEAD&&brk->brick_ref->role==BRR_COLLISION)srf_geometry_dirty();brk->state = BRS_DEAD;}
             }
 
             break;
@@ -512,7 +562,7 @@ void brick_update(brick_t *brk, player_t** team, int team_size)
 
                     /* destroy brick */
                     sound_play(SFX_BREAK);
-                    brk->state = BRS_DEAD;
+                    {if(brk->state!=BRS_DEAD&&brk->brick_ref->role==BRR_COLLISION)srf_geometry_dirty();brk->state = BRS_DEAD;}
                 }
             }
             break;
@@ -600,7 +650,7 @@ void brick_update(brick_t *brk, player_t** team, int team_size)
                 );
 
                 /* destroy brick */
-                brk->state = BRS_DEAD;
+                {if(brk->state!=BRS_DEAD&&brk->brick_ref->role==BRR_COLLISION)srf_geometry_dirty();brk->state = BRS_DEAD;}
             }
             
             /* done */
@@ -620,12 +670,15 @@ void brick_update(brick_t *brk, player_t** team, int team_size)
  */
 void brick_render(brick_t *brk, v2d_t camera_position)
 {
+    bool surface=srf_render(brk,camera_position,false);
+    if(!brick_role_visible(brk->brick_ref->role,false)&&surface)return;
+    if(brk->brick_ref->role!=BRR_COLLISION&&!brick_role_visible(brk->brick_ref->role,false))return;
     if(brk->brick_ref->behavior != BRB_MARKER) {
         v2d_t topleft = v2d_subtract(camera_position, v2d_multiply(video_get_screen_size(), 0.5f));
 
         if(!can_be_clipped_out(brk, topleft)) {
             animate_brick(brk);
-            image_draw(brk->image, brk->x - (int)topleft.x, brk->y - (int)topleft.y, get_image_flags(brk));
+            image_draw_tinted(brk->image, brk->x - (int)topleft.x, brk->y - (int)topleft.y, color_rgb(brk->brightness*17,brk->brightness*17,brk->brightness*17), get_image_flags(brk));
         }
     }
 }
@@ -636,6 +689,9 @@ void brick_render(brick_t *brk, v2d_t camera_position)
  */
 void brick_render_debug(brick_t *brk, v2d_t camera_position)
 {
+    bool surface=srf_render(brk,camera_position,true);
+    if(!brick_role_visible(brk->brick_ref->role,true)&&surface)return;
+    if(brk->brick_ref->role!=BRR_COLLISION&&!brick_role_visible(brk->brick_ref->role,true))return;
     v2d_t topleft = v2d_subtract(camera_position, v2d_multiply(video_get_screen_size(), 0.5f));
 
     if(!can_be_clipped_out(brk, topleft)) {
@@ -644,7 +700,7 @@ void brick_render_debug(brick_t *brk, v2d_t camera_position)
         if(brk->layer != BRL_DEFAULT)
             image_draw_lit(brk->image, brk->x - (int)topleft.x, brk->y - (int)topleft.y, brick_util_layercolor(brk->layer), get_image_flags(brk));
         else
-            image_draw(brk->image, brk->x - (int)topleft.x, brk->y - (int)topleft.y, get_image_flags(brk));
+            image_draw_tinted(brk->image, brk->x - (int)topleft.x, brk->y - (int)topleft.y, color_rgb(brk->brightness*17,brk->brightness*17,brk->brightness*17), get_image_flags(brk));
     }
 }
 
@@ -779,8 +835,11 @@ const obstacle_t* brick_obstacle(const brick_t* brk)
  * brick_zindex()
  * Returns the zindex of the brick
  */
+int brick_z_override(const brick_t* brk) { return brk->z_override; }
+void brick_set_z_override(brick_t* brk,int z) { brk->z_override=clip(z,-1,100); }
 float brick_zindex(const brick_t* brk)
 {
+    if(brk->z_override >= 0) return brk->z_override / 100.0f;
     if(brk->brick_ref)
         return brk->brick_ref->zindex;
     else
@@ -821,7 +880,7 @@ v2d_t brick_size(const brick_t* brk)
  */
 void brick_kill(brick_t* brk)
 {
-    brk->state = BRS_DEAD;
+    {if(brk->state!=BRS_DEAD&&brk->brick_ref->role==BRR_COLLISION)srf_geometry_dirty();brk->state = BRS_DEAD;}
 }
 
 /*
@@ -1143,11 +1202,14 @@ brickdata_t* brickdata_new(int brick_id)
     brickdata_t *obj = mallocx(sizeof *obj);
 
     obj->id = brick_id;
+    obj->role = BRR_LEGACY;
+    obj->palette_order=brick_id;obj->shape_group[0]=0;
+    obj->category[0] = obj->definition[0] = 0;
     obj->data = NULL;
     obj->image = NULL;
     obj->image_width = 0;
     obj->image_height = 0;
-    obj->mask = NULL;
+    obj->mask = NULL;obj->surface_mask=NULL;
     obj->maskfile = NULL;
     obj->maskimg = NULL;
     obj->type = BRK_PASSABLE;
@@ -1166,6 +1228,7 @@ brickdata_t* brickdata_delete(brickdata_t *obj)
     if(obj != NULL) {
         if(obj->data != NULL)
             spriteinfo_destroy(obj->data);
+        if(obj->surface_mask != NULL)collisionmask_destroy(obj->surface_mask);
         if(obj->mask != NULL)
             collisionmask_destroy(obj->mask);
         if(obj->maskimg != NULL)
@@ -1190,6 +1253,10 @@ void validate_brickdata(const brickdata_t *obj)
 {
     if(obj->data == NULL)
         fatal_error("Can't load bricks: all bricks must have a sprite!");
+    if(obj->role != BRR_LEGACY && (!*obj->category || !*obj->definition))fatal_error("Typed bricks require category and definition ID");
+    if(obj->role == BRR_COLLISION && obj->type == BRK_PASSABLE)fatal_error("Collision bricks must be solid or one-way");
+    if(obj->role == BRR_DECORATION && (obj->type != BRK_PASSABLE || obj->mask || obj->maskfile))fatal_error("Decoration cannot define collision");
+    if(*obj->definition)for(int i=0;i<brickdata_count;i++)if(brickdata[i]&&brickdata[i]!=obj&&!strcmp(brickdata[i]->definition,obj->definition))fatal_error("Duplicate brick definition ID: %s",obj->definition);
 }
 
 /* creates an obstacle (for the physics engine) corresponding to the brick */
@@ -1248,6 +1315,7 @@ int traverse(const parsetree_statement_t *stmt)
     identifier = nanoparser_get_identifier(stmt);
     param_list = nanoparser_get_parameter_list(stmt);
 
+    if(!str_icmp(identifier,"surface_profile")){p1=nanoparser_get_nth_parameter(param_list,1);nanoparser_expect_string(p1,"Terrain surface profile path required");srf_load(nanoparser_get_string(p1));return 0;}
     if(str_icmp(identifier, "brick") == 0) {
         p1 = nanoparser_get_nth_parameter(param_list, 1);
         p2 = nanoparser_get_nth_parameter(param_list, 2);
@@ -1259,6 +1327,8 @@ int traverse(const parsetree_statement_t *stmt)
         if(brick_id < 0 || brick_id >= BRKDATA_MAX)
             fatal_error("Can't load bricks: brick number must be in range 0..%d", BRKDATA_MAX-1);
 
+        if(brickdata[brick_id] != NULL && bsl_palette_loading)
+            fatal_error("Generated palette brick %d conflicts with the level theme; refresh the palette registry.", brick_id);
         if(brickdata[brick_id] != NULL)
             brickdata[brick_id] = brickdata_delete(brickdata[brick_id]);
 
@@ -1294,7 +1364,29 @@ int traverse_brick_attributes(const parsetree_statement_t *stmt, void *brickdata
     identifier = nanoparser_get_identifier(stmt);
     param_list = nanoparser_get_parameter_list(stmt);
 
-    if(str_icmp(identifier, "type") == 0) {
+    if(!str_icmp(identifier,"palette_order")){p1=nanoparser_get_nth_parameter(param_list,1);nanoparser_expect_string(p1,"Palette order required");dat->palette_order=atoi(nanoparser_get_string(p1));return 0;}
+    if(!str_icmp(identifier,"shape_group")){p1=nanoparser_get_nth_parameter(param_list,1);nanoparser_expect_string(p1,"Shape group required");str_cpy(dat->shape_group,nanoparser_get_string(p1),sizeof dat->shape_group);return 0;}
+    if(str_icmp(identifier, "role") == 0 || str_icmp(identifier, "category") == 0 || str_icmp(identifier, "definition") == 0) {
+        p1 = nanoparser_get_nth_parameter(param_list, 1);
+        nanoparser_expect_string(p1, "Brick role/category/definition requires one string");
+        const char* value = nanoparser_get_string(p1);
+        if(nanoparser_get_number_of_parameters(param_list) != 1)fatal_error("Brick metadata requires one string");
+        if(str_icmp(identifier,"role") == 0) {
+            if(!strcmp(value,"collision"))dat->role=BRR_COLLISION;
+            else if(!strcmp(value,"decoration"))dat->role=BRR_DECORATION;
+            else if(!strcmp(value,"legacy"))dat->role=BRR_LEGACY;
+            else fatal_error("Unknown brick role: %s",value);
+        }
+        else if(str_icmp(identifier,"category") == 0) {
+            if(!*value || strlen(value)>=sizeof dat->category)fatal_error("Invalid brick category");
+            str_cpy(dat->category,value,sizeof dat->category);
+        }
+        else {
+            if(!*value || strlen(value)>=sizeof dat->definition)fatal_error("Invalid brick definition ID");
+            str_cpy(dat->definition,value,sizeof dat->definition);
+        }
+    }
+    else if(str_icmp(identifier, "type") == 0) {
         p1 = nanoparser_get_nth_parameter(param_list, 1);
         nanoparser_expect_string(p1, "Can't read brick attributes: must specify brick type");
         type = nanoparser_get_string(p1);
@@ -1467,6 +1559,7 @@ void create_collisionmasks()
                 frame_height,
                 flags
             );
+            if(brickdata[i]->role==BRR_COLLISION&&brickdata[i]->type==BRK_CLOUD)brickdata[i]->surface_mask=collisionmask_create(mask,source_rect.x,source_rect.y,frame_width,frame_height,0);
         }
     }
 
@@ -1484,3 +1577,36 @@ void create_collisionmasks()
         }
     }
 }
+/* Typed definition metadata and independent presentation flags. Signed: Atlas. */
+brickrole_t brick_role_preview(int id){return brick_exists(id)?brickdata[id]->role:BRR_LEGACY;}
+const char* brick_category_preview(int id){return brick_exists(id)?brickdata[id]->category:"";}
+const char* brick_definition_preview(int id){return brick_exists(id)?brickdata[id]->definition:"";}
+int brick_resolve_definition(const char* definition){
+ if(!definition||!*definition)return -1;
+ for(int i=0;i<brickdata_count;i++)if(brickdata[i]&&!strcmp(brickdata[i]->definition,definition))return i;
+ return -1;
+}
+bool brick_role_visible(brickrole_t role,bool editor){return role>=BRR_LEGACY&&role<=BRR_DECORATION&&brick_role_visibility[role][editor?1:0];}
+void brick_set_role_visible(brickrole_t role,bool editor,bool visible){if(role>=BRR_LEGACY&&role<=BRR_DECORATION)brick_role_visibility[role][editor?1:0]=visible;}
+void brick_toggle_role_visible(brickrole_t role,bool editor){brick_set_role_visible(role,editor,!brick_role_visible(role,editor));}
+uint64_t brick_placement_id(const brick_t* brick){return brick->placement_id;}
+static size_t brick_uid_lower_bound(uint64_t id){
+ size_t lo=0,hi=brick_reserved_count;
+ while(lo<hi){size_t mid=lo+(hi-lo)/2;if(brick_reserved_ids[mid]<id)lo=mid+1;else hi=mid;}
+ return lo;
+}
+void brick_reset_placement_ids(void){free(brick_reserved_ids);brick_reserved_ids=NULL;brick_reserved_count=brick_reserved_capacity=0;brick_placement_sequence=0;}
+void brick_reserve_placement_id(uint64_t id){
+ if(!id)return;size_t at=brick_uid_lower_bound(id);
+ if(at<brick_reserved_count&&brick_reserved_ids[at]==id)return;
+ if(brick_reserved_count==brick_reserved_capacity){brick_reserved_capacity=brick_reserved_capacity?brick_reserved_capacity*2:128;brick_reserved_ids=reallocx(brick_reserved_ids,brick_reserved_capacity*sizeof(*brick_reserved_ids));}
+ memmove(brick_reserved_ids+at+1,brick_reserved_ids+at,(brick_reserved_count-at)*sizeof(*brick_reserved_ids));brick_reserved_ids[at]=id;brick_reserved_count++;
+}
+uint64_t brick_fresh_placement_id(void){
+ while(brick_placement_sequence!=UINT64_MAX){uint64_t candidate=++brick_placement_sequence;size_t at=brick_uid_lower_bound(candidate);if(at==brick_reserved_count||brick_reserved_ids[at]!=candidate){brick_reserve_placement_id(candidate);return candidate;}}
+ fatal_error("Brick placement identity space exhausted");return 0;
+}
+void brick_set_placement_id(brick_t* brick,uint64_t id){if(!id)fatal_error("Zero brick placement ID");brick->placement_id=id;brick_reserve_placement_id(id);}
+
+#include "../bor/terrain_surface.inc"
+#include "../bor/terrain_surface_test.inc"

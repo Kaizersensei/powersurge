@@ -1,0 +1,5511 @@
+{
+  "version": 2,
+  "signed": "Atlas",
+  "reference_size": [
+    1920.0,
+    1080.0
+  ],
+  "font_family": "Caveat Brush",
+  "points": [
+    56.0,
+    36.0,
+    30.0,
+    24.0,
+    18.0
+  ],
+  "assets": [
+    {
+      "type": "BAR_Container",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/BAR_Container/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.545455
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "BAR_HP",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/BAR_HP/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.571429
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "BAR_HP2",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/BAR_HP2/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.571429
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "BAR_Level",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/BAR_Level/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.571429
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_crosshair",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_crosshair/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_crosshair",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/library/HUD_crosshair/Default/001.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_crosshair",
+      "animation": "Default",
+      "frame": 2,
+      "path": "images/ui/c2/library/HUD_crosshair/Default/002.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/001.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 2,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/002.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 3,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/003.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 4,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/004.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 5,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/005.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 6,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/006.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 7,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/007.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 8,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/008.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 9,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/009.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 10,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/010.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 11,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/011.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 12,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/012.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 13,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/013.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 14,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/014.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 15,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/015.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 16,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/016.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 17,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/017.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 18,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/018.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 19,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/019.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 20,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/020.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 21,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/021.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 22,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/022.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 23,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/023.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 24,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/024.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_HPBar",
+      "animation": "Default",
+      "frame": 25,
+      "path": "images/ui/c2/library/HUD_HPBar/Default/025.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ItemWheel",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_ItemWheel/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ItemWheel",
+      "animation": "Circle1",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_ItemWheel/Circle1/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ItemWheel",
+      "animation": "Circle2",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_ItemWheel/Circle2/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ItemWheel",
+      "animation": "Circle3",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_ItemWheel/Circle3/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ItemWheelPetal",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_ItemWheelPetal/Default/000.png",
+      "hotspot": [
+        0.0,
+        0.515625
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_L",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_Dayphase_L/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.571429
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_L",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/library/HUD_Dayphase_L/Default/001.png",
+      "hotspot": [
+        0.533333,
+        0.533333
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_L",
+      "animation": "Default",
+      "frame": 2,
+      "path": "images/ui/c2/library/HUD_Dayphase_L/Default/002.png",
+      "hotspot": [
+        0.5,
+        0.6
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_L",
+      "animation": "Default",
+      "frame": 3,
+      "path": "images/ui/c2/library/HUD_Dayphase_L/Default/003.png",
+      "hotspot": [
+        0.545455,
+        0.545455
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/001.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 2,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/002.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 3,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/003.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 4,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/004.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 5,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/005.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 6,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/006.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 7,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/007.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 8,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/008.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 9,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/009.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 10,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/010.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 11,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/011.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 12,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/012.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 13,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/013.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 14,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/014.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 15,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/015.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 16,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/016.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 17,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/017.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 18,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/018.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 19,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/019.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 20,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/020.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 21,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/021.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 22,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/022.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 23,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/023.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 24,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/024.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_MPBar",
+      "animation": "Default",
+      "frame": 25,
+      "path": "images/ui/c2/library/HUD_MPBar/Default/025.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_PortraitBG",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_PortraitBG/Default/000.png",
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Portraits",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_Portraits/Default/000.png",
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_R",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_Dayphase_R/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.571429
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_R",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/library/HUD_Dayphase_R/Default/001.png",
+      "hotspot": [
+        0.533333,
+        0.533333
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_R",
+      "animation": "Default",
+      "frame": 2,
+      "path": "images/ui/c2/library/HUD_Dayphase_R/Default/002.png",
+      "hotspot": [
+        0.5,
+        0.6
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_Dayphase_R",
+      "animation": "Default",
+      "frame": 3,
+      "path": "images/ui/c2/library/HUD_Dayphase_R/Default/003.png",
+      "hotspot": [
+        0.545455,
+        0.545455
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ShotType",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/HUD_ShotType/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.571429
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ShotType",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/library/HUD_ShotType/Default/001.png",
+      "hotspot": [
+        0.533333,
+        0.533333
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ShotType",
+      "animation": "Default",
+      "frame": 2,
+      "path": "images/ui/c2/library/HUD_ShotType/Default/002.png",
+      "hotspot": [
+        0.5,
+        0.6
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "HUD_ShotType",
+      "animation": "Default",
+      "frame": 3,
+      "path": "images/ui/c2/library/HUD_ShotType/Default/003.png",
+      "hotspot": [
+        0.545455,
+        0.545455
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "MENUBG_wood_lightthin",
+      "animation": "Texture",
+      "frame": 0,
+      "path": "images/ui/c2/library/MENUBG_wood_lightthin.png",
+      "hotspot": [
+        0,
+        0
+      ]
+    },
+    {
+      "type": "UI_bar",
+      "animation": "default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_bar/default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Daytime",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_Daytime/Default/000.png",
+      "hotspot": [
+        0.510204,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Daytime",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/library/UI_Daytime/Default/001.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Gauge",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_Gauge/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Line",
+      "animation": "default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_Line/default/000.png",
+      "hotspot": [
+        0.0,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Location_Pin",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_Location_Pin/Default/000.png",
+      "hotspot": [
+        0.5,
+        1.0
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_MenuCursor",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_MenuCursor/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_MenuCursor2",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_MenuCursor2/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_PauseBlock",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_PauseBlock/Default/000.png",
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_ScrollBig",
+      "animation": "Texture",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_ScrollBig.png",
+      "hotspot": [
+        0,
+        0
+      ]
+    },
+    {
+      "type": "UI_stats_bg",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_stats_bg/Default/000.png",
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_SubSlot",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_SubSlot/Default/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 0,
+      "path": "images/ui/c2/library/UI_Weather/Weather/000.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 1,
+      "path": "images/ui/c2/library/UI_Weather/Weather/001.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 2,
+      "path": "images/ui/c2/library/UI_Weather/Weather/002.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 3,
+      "path": "images/ui/c2/library/UI_Weather/Weather/003.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 4,
+      "path": "images/ui/c2/library/UI_Weather/Weather/004.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 5,
+      "path": "images/ui/c2/library/UI_Weather/Weather/005.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 6,
+      "path": "images/ui/c2/library/UI_Weather/Weather/006.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 7,
+      "path": "images/ui/c2/library/UI_Weather/Weather/007.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 8,
+      "path": "images/ui/c2/library/UI_Weather/Weather/008.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 9,
+      "path": "images/ui/c2/library/UI_Weather/Weather/009.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 10,
+      "path": "images/ui/c2/library/UI_Weather/Weather/010.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 11,
+      "path": "images/ui/c2/library/UI_Weather/Weather/011.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 12,
+      "path": "images/ui/c2/library/UI_Weather/Weather/012.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 13,
+      "path": "images/ui/c2/library/UI_Weather/Weather/013.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 14,
+      "path": "images/ui/c2/library/UI_Weather/Weather/014.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 15,
+      "path": "images/ui/c2/library/UI_Weather/Weather/015.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 16,
+      "path": "images/ui/c2/library/UI_Weather/Weather/016.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 17,
+      "path": "images/ui/c2/library/UI_Weather/Weather/017.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 18,
+      "path": "images/ui/c2/library/UI_Weather/Weather/018.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 19,
+      "path": "images/ui/c2/library/UI_Weather/Weather/019.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_Weather",
+      "animation": "Weather",
+      "frame": 20,
+      "path": "images/ui/c2/library/UI_Weather/Weather/020.png",
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "duration": 1.0
+    },
+    {
+      "type": "UI_WindArrow",
+      "animation": "Default",
+      "frame": 0,
+      "path": "images/ui/c2/weather/arrow.png",
+      "region": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "type": "UI_WindArrow",
+      "animation": "Default",
+      "frame": 1,
+      "path": "images/ui/c2/weather/arrow.png",
+      "region": [
+        16,
+        0,
+        16,
+        16
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "type": "UI_WindArrow",
+      "animation": "Default",
+      "frame": 2,
+      "path": "images/ui/c2/weather/arrow.png",
+      "region": [
+        32,
+        0,
+        16,
+        16
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "type": "UI_WindArrow",
+      "animation": "Default",
+      "frame": 3,
+      "path": "images/ui/c2/weather/arrow.png",
+      "region": [
+        48,
+        0,
+        16,
+        16
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "uid": 19,
+      "type": "MENUBG_wood_lightthin",
+      "tag": "",
+      "rect": [
+        512.0,
+        8.0,
+        1400.0,
+        992.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "left-margin": "8",
+        "right-margin": "8",
+        "top-margin": "8",
+        "bottom-margin": "8",
+        "edges": "Tile",
+        "fill": "Stretch",
+        "initial-visibility": "Invisible",
+        "hotspot": "Top-left",
+        "seams": "Overlap"
+      },
+      "variables": {
+        "id": "1"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 434,
+      "type": "UI_ScrollBig",
+      "tag": "",
+      "rect": [
+        512,
+        8,
+        1400,
+        1056
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "left-margin": "32",
+        "right-margin": "32",
+        "top-margin": "64",
+        "bottom-margin": "64",
+        "edges": "Tile",
+        "fill": "Tile",
+        "initial-visibility": "Visible",
+        "hotspot": "Top-left",
+        "seams": "Overlap"
+      },
+      "variables": {
+        "Section": "1",
+        "TargetSizeY": "992"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 26,
+      "type": "MENUBG_wood_lightthin",
+      "tag": "",
+      "rect": [
+        4.0,
+        -32.0,
+        128.0,
+        32.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "left-margin": "8",
+        "right-margin": "8",
+        "top-margin": "8",
+        "bottom-margin": "8",
+        "edges": "Tile",
+        "fill": "Stretch",
+        "initial-visibility": "Visible",
+        "hotspot": "Top-left",
+        "seams": "Overlap"
+      },
+      "variables": {
+        "id": "0"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 25,
+      "type": "MENUBG_wood_lightthin",
+      "tag": "",
+      "rect": [
+        0.0,
+        -176.0,
+        128.0,
+        32.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "left-margin": "8",
+        "right-margin": "8",
+        "top-margin": "8",
+        "bottom-margin": "8",
+        "edges": "Tile",
+        "fill": "Stretch",
+        "initial-visibility": "Visible",
+        "hotspot": "Top-left",
+        "seams": "Overlap"
+      },
+      "variables": {
+        "id": "0"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 62,
+      "type": "BAR_Container",
+      "tag": "",
+      "rect": [
+        472.0,
+        -32.0,
+        96.0,
+        11.0
+      ],
+      "hotspot": [
+        0.5,
+        0.545454562
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 63,
+      "type": "BAR_Container",
+      "tag": "",
+      "rect": [
+        320.0,
+        -48.0,
+        80.0,
+        11.0
+      ],
+      "hotspot": [
+        0.5,
+        0.545454562
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 64,
+      "type": "BAR_Container",
+      "tag": "",
+      "rect": [
+        264.0,
+        -40.0,
+        80.0,
+        11.0
+      ],
+      "hotspot": [
+        0.5,
+        0.545454562
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 53,
+      "type": "BAR_Level",
+      "tag": "",
+      "rect": [
+        360.0,
+        -16.0,
+        90.0,
+        7.0
+      ],
+      "hotspot": [
+        0.5,
+        0.571428597
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 49,
+      "type": "BAR_Container",
+      "tag": "",
+      "rect": [
+        256.0,
+        -32.0,
+        96.0,
+        11.0
+      ],
+      "hotspot": [
+        0.5,
+        0.545454562
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 54,
+      "type": "BAR_Container",
+      "tag": "",
+      "rect": [
+        312.0,
+        -48.0,
+        80.0,
+        11.0
+      ],
+      "hotspot": [
+        0.5,
+        0.545454562
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 55,
+      "type": "BAR_Container",
+      "tag": "",
+      "rect": [
+        408.0,
+        -16.0,
+        80.0,
+        11.0
+      ],
+      "hotspot": [
+        0.5,
+        0.545454562
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 57,
+      "type": "BAR_HP",
+      "tag": "",
+      "rect": [
+        360.0,
+        -24.0,
+        74.0,
+        7.0
+      ],
+      "hotspot": [
+        0.5,
+        0.571428597
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 56,
+      "type": "BAR_HP2",
+      "tag": "",
+      "rect": [
+        328.0,
+        -32.0,
+        74.0,
+        7.0
+      ],
+      "hotspot": [
+        0.5,
+        0.571428597
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 381,
+      "type": "UI_PauseBlock",
+      "tag": "",
+      "rect": [
+        8.0,
+        8.0,
+        480.0,
+        96.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 61,
+      "type": "UI_ScrollBig",
+      "tag": "",
+      "rect": [
+        8.0,
+        112.0,
+        480.0,
+        256.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "left-margin": "32",
+        "right-margin": "32",
+        "top-margin": "64",
+        "bottom-margin": "64",
+        "edges": "Tile",
+        "fill": "Tile",
+        "initial-visibility": "Visible",
+        "hotspot": "Top-left",
+        "seams": "Overlap"
+      },
+      "variables": {
+        "Section": "0",
+        "TargetSizeY": "256"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 436,
+      "type": "TEXT_MenuBig",
+      "tag": "Title_Quickstats",
+      "rect": [
+        32,
+        110,
+        432,
+        64
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Quick Stats",
+      "role": 1,
+      "align": "Center",
+      "properties": {
+        "text": "Quick Stats",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-21.6,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Title_Quickstats",
+        "Index": "-2",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 397,
+      "type": "UI_SubSlot",
+      "tag": "SubweaponsDisplay",
+      "rect": [
+        48.0,
+        400.0,
+        56.0,
+        56.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "SubweaponsDisplay"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 22,
+      "type": "HUD_Portraits",
+      "tag": "",
+      "rect": [
+        16.0,
+        168.0,
+        144.0,
+        144.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 403,
+      "type": "UI_SubSlot",
+      "tag": "SubweaponsDisplay",
+      "rect": [
+        112.0,
+        400.0,
+        56.0,
+        56.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "SubweaponsDisplay"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 404,
+      "type": "UI_SubSlot",
+      "tag": "SubweaponsDisplay",
+      "rect": [
+        176.0,
+        400.0,
+        56.0,
+        56.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "SubweaponsDisplay"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 428,
+      "type": "UI_SubSlot",
+      "tag": "SubweaponsDisplay",
+      "rect": [
+        240.0,
+        400.0,
+        56.0,
+        56.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "SubweaponsDisplay"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 429,
+      "type": "UI_SubSlot",
+      "tag": "SubweaponsDisplay",
+      "rect": [
+        304.0,
+        400.0,
+        56.0,
+        56.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "SubweaponsDisplay"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 430,
+      "type": "UI_SubSlot",
+      "tag": "SubweaponsDisplay",
+      "rect": [
+        368.0,
+        400.0,
+        56.0,
+        56.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "SubweaponsDisplay"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 431,
+      "type": "UI_SubSlot",
+      "tag": "SubweaponsDisplay",
+      "rect": [
+        432.0,
+        400.0,
+        56.0,
+        56.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "SubweaponsDisplay"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 433,
+      "type": "UI_ScrollBig",
+      "tag": "",
+      "rect": [
+        8,
+        432,
+        480,
+        528
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "left-margin": "32",
+        "right-margin": "32",
+        "top-margin": "64",
+        "bottom-margin": "64",
+        "edges": "Tile",
+        "fill": "Tile",
+        "initial-visibility": "Visible",
+        "hotspot": "Top-left",
+        "seams": "Overlap"
+      },
+      "variables": {
+        "Section": "0",
+        "TargetSizeY": "464"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 435,
+      "type": "TEXT_MenuHuge",
+      "tag": "Title_Paused",
+      "rect": [
+        8,
+        8,
+        480,
+        96
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "PAUSED",
+      "role": 0,
+      "align": "Center",
+      "properties": {
+        "text": "PAUSED",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Title_Paused",
+        "Index": "-1",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 437,
+      "type": "TEXT_MenuBig",
+      "tag": "Title_Subweapons",
+      "rect": [
+        32.0,
+        314.0,
+        432.0,
+        56.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Subweapons",
+      "role": 1,
+      "align": "Center",
+      "properties": {
+        "text": "Subweapons",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-24,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Title_Subweapons",
+        "Index": "-3",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 438,
+      "type": "TEXT_MenuBig",
+      "tag": "Title_Menu",
+      "rect": [
+        32,
+        430,
+        432,
+        64
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Menu",
+      "role": 1,
+      "align": "Center",
+      "properties": {
+        "text": "Menu",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-24,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Title_Menu",
+        "Index": "-4",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 439,
+      "type": "TEXT_MenuMedium",
+      "tag": "Inventory",
+      "rect": [
+        72,
+        496.0,
+        392,
+        50.285714285714285
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Inventory",
+      "role": 5,
+      "align": "Left",
+      "properties": {
+        "text": "Inventory",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Inventory",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 440,
+      "type": "TEXT_MenuMedium",
+      "tag": "Subweapons",
+      "rect": [
+        72,
+        542,
+        392,
+        50
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Assign Subweapons",
+      "role": 5,
+      "align": "Left",
+      "properties": {
+        "text": "Assign Subweapons",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Subweapons",
+        "Index": "1",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 441,
+      "type": "TEXT_MenuMedium",
+      "tag": "Status",
+      "rect": [
+        72,
+        596.5714285714286,
+        392,
+        50.285714285714285
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Full Status",
+      "role": 5,
+      "align": "Left",
+      "properties": {
+        "text": "Full Status",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Status",
+        "Index": "2",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 442,
+      "type": "TEXT_MenuMedium",
+      "tag": "Map",
+      "rect": [
+        72,
+        697.1428571428571,
+        392,
+        50.285714285714285
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Map",
+      "role": 5,
+      "align": "Left",
+      "properties": {
+        "text": "Map",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Map",
+        "Index": "3",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 443,
+      "type": "TEXT_MenuMedium",
+      "tag": "Options",
+      "rect": [
+        72,
+        747.4285714285714,
+        392,
+        50.285714285714285
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Options",
+      "role": 5,
+      "align": "Left",
+      "properties": {
+        "text": "Options",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Options",
+        "Index": "4",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 444,
+      "type": "TEXT_MenuMedium",
+      "tag": "Quit",
+      "rect": [
+        72,
+        797.7142857142858,
+        392,
+        50.285714285714285
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Quit Game",
+      "role": 5,
+      "align": "Left",
+      "properties": {
+        "text": "Quit Game",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Quit",
+        "Index": "5",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 445,
+      "type": "TEXT_MenuMediumNames",
+      "tag": "QS_Name",
+      "rect": [
+        168,
+        168,
+        296,
+        64
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "{name}",
+      "role": 2,
+      "align": "Left",
+      "properties": {
+        "text": "Hokusai Michio",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-21.6,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "QS_Name",
+        "Index": "-20",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 20,
+      "type": "TEXT_MenuSmall",
+      "tag": "Era",
+      "rect": [
+        148.0,
+        876.0,
+        24.0,
+        20.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "AE",
+      "role": 4,
+      "align": "Center",
+      "properties": {
+        "text": "AE",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-13.6,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Era",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 447,
+      "type": "UI_Daytime",
+      "tag": "",
+      "rect": [
+        212,
+        920,
+        49,
+        48
+      ],
+      "hotspot": [
+        0.510204077,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 0.75,
+      "fit": true,
+      "animation": "Default",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 449,
+      "type": "UI_Weather",
+      "tag": "",
+      "rect": [
+        212,
+        920,
+        64,
+        32
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "1",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "Weather",
+      "frame": 1,
+      "max_frame": 20
+    },
+    {
+      "uid": 451,
+      "type": "TEXT_MenuSmall",
+      "tag": "Weather",
+      "rect": [
+        248,
+        928,
+        196,
+        24
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "{weather}",
+      "role": 6,
+      "align": "Right",
+      "properties": {
+        "text": "Current Weather",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-16,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Top",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Weather",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 452,
+      "type": "TEXT_MenuSmall",
+      "tag": "Location",
+      "rect": [
+        248,
+        888,
+        196,
+        32
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "{location}",
+      "role": 6,
+      "align": "Right",
+      "properties": {
+        "text": "Country, Locality",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-16,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Right",
+        "vertical-alignment": "Top",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Location",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 453,
+      "type": "UI_Location_Pin",
+      "tag": "",
+      "rect": [
+        464,
+        952,
+        24,
+        40
+      ],
+      "hotspot": [
+        0.5,
+        1.0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "Default",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 454,
+      "type": "TEXT_MenuSmall",
+      "tag": "Year",
+      "rect": [
+        108,
+        928,
+        80,
+        24
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "{year}",
+      "role": 6,
+      "align": "Center",
+      "properties": {
+        "text": "1326",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-14.4,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Year",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 455,
+      "type": "TEXT_MenuSmall",
+      "tag": "Month",
+      "rect": [
+        16,
+        888,
+        92,
+        32
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "{month}",
+      "role": 6,
+      "align": "Center",
+      "properties": {
+        "text": "Month Name",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-16,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Month",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 456,
+      "type": "TEXT_MenuSmall",
+      "tag": "Day",
+      "rect": [
+        16,
+        928,
+        92,
+        24
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "{day}",
+      "role": 6,
+      "align": "Center",
+      "properties": {
+        "text": "Day",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-16,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Day",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 446,
+      "type": "TEXT_MenuSmall",
+      "tag": "Clock",
+      "rect": [
+        108,
+        888,
+        80,
+        32
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "{time}",
+      "role": 6,
+      "align": "Center",
+      "properties": {
+        "text": "00:00",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-16,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Clock",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 461,
+      "type": "TEXT_MenuBig",
+      "tag": "Objective_Title",
+      "rect": [
+        528.0,
+        948.0,
+        432.0,
+        48.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Current Objective:",
+      "role": 1,
+      "align": "Left",
+      "properties": {
+        "text": "Current Objective:",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-24,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Objective_Title",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 462,
+      "type": "TEXT_MenuMedium",
+      "tag": "Objective",
+      "rect": [
+        916.0,
+        948.0,
+        992.0,
+        48.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Save yourself from the horrors of existence",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "text": "Save yourself from the horrors of existence",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "Objective",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 474,
+      "type": "UI_MenuCursor",
+      "tag": "",
+      "rect": [
+        48.0,
+        528.0,
+        64.0,
+        16.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 475,
+      "type": "TEXT_MenuMedium",
+      "tag": "QuitOptions",
+      "rect": [
+        1176.0,
+        252.0,
+        376.0,
+        48.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Save and Continue",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "text": "Save and Continue",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "QuitOptions",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 476,
+      "type": "TEXT_MenuHuge",
+      "tag": "QuitOptions",
+      "rect": [
+        516.0,
+        172.0,
+        1392.0,
+        80.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "What would you like to do?",
+      "role": 0,
+      "align": "Center",
+      "properties": {
+        "text": "What would you like to do?",
+        "initial-visibility": "Visible",
+        "font": "Caveat Brush,-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Center",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "QuitOptions",
+        "Index": "-1",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 477,
+      "type": "TEXT_MenuMedium",
+      "tag": "QuitOptions",
+      "rect": [
+        1176.0,
+        309.0,
+        376.0,
+        48.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Save and Quit",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "text": "Save and Quit",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "QuitOptions",
+        "Index": "1",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 478,
+      "type": "TEXT_MenuMedium",
+      "tag": "QuitOptions",
+      "rect": [
+        1176.0,
+        365.0,
+        376.0,
+        48.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Quit Without Saving",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "text": "Quit Without Saving",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "QuitOptions",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 480,
+      "type": "UI_SubSlot",
+      "tag": "QuitOptions",
+      "rect": [
+        1144.0,
+        276.0,
+        48.0,
+        48.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "QuitOptions"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 481,
+      "type": "TEXT_MenuMedium",
+      "tag": "QuitCancel",
+      "rect": [
+        1176.0,
+        420.0,
+        376.0,
+        48.0
+      ],
+      "hotspot": [
+        0.0,
+        0.0
+      ],
+      "text": "Cancel",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "text": "Cancel",
+        "initial-visibility": "Visible",
+        "font": ",-32,400,0",
+        "color": "0,0,0",
+        "horizontal-alignment": "Left",
+        "vertical-alignment": "Center",
+        "hotspot": "Top-left",
+        "wrapping": "Word",
+        "line-height": "0"
+      },
+      "variables": {
+        "tag": "QuitCancel",
+        "Index": "0",
+        "StrRelay": ""
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 482,
+      "type": "UI_SubSlot",
+      "tag": "QuitOptions",
+      "rect": [
+        1144.0,
+        332.0,
+        48.0,
+        48.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "QuitOptions"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 483,
+      "type": "UI_SubSlot",
+      "tag": "QuitOptions",
+      "rect": [
+        1144.0,
+        388.0,
+        48.0,
+        48.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "QuitOptions"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 484,
+      "type": "UI_SubSlot",
+      "tag": "QuitOptions",
+      "rect": [
+        1144.0,
+        444.0,
+        48.0,
+        48.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {
+        "tag": "QuitOptions"
+      },
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 479,
+      "type": "UI_MenuCursor2",
+      "tag": "",
+      "rect": [
+        1144.0,
+        444.0,
+        32.0,
+        32.0
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {
+        "initial-visibility": "Visible",
+        "initial-animation": "Default",
+        "initial-frame": "0",
+        "collisions": "Enabled"
+      },
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10001,
+      "type": "TEXT_MenuMedium",
+      "tag": "Player_HP_Text",
+      "rect": [
+        168,
+        232,
+        296,
+        56
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "HP {hp} / {max_hp}",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10002,
+      "type": "TEXT_MenuMedium",
+      "tag": "Assigned_Subweapon_Marker",
+      "rect": [
+        24,
+        368,
+        56,
+        48
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "K",
+      "role": 4,
+      "align": "Center",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10003,
+      "type": "TEXT_MenuMedium",
+      "tag": "Menu_Quest_Log",
+      "rect": [
+        72,
+        646.8571428571429,
+        392,
+        50.285714285714285
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "Quest Log",
+      "role": 5,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10010,
+      "type": "TEXT_MenuMedium",
+      "tag": "Detail_Title",
+      "rect": [
+        536,
+        8,
+        1352,
+        64
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "{title}",
+      "role": 1,
+      "align": "Center",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10011,
+      "type": "TEXT_MenuMedium",
+      "tag": "Detail_Content",
+      "rect": [
+        536,
+        84,
+        1352,
+        904
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "{body}",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "vertical_align": "Top",
+      "wrap": true,
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10020,
+      "type": "UI_Group",
+      "tag": "Inventory_Grid",
+      "rect": [
+        536,
+        174,
+        1352,
+        584
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10021,
+      "type": "TEXT_MenuMedium",
+      "tag": "Inventory_Details",
+      "rect": [
+        536,
+        770,
+        1352,
+        218
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "{inventory_details}",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "vertical_align": "Top",
+      "wrap": true,
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10022,
+      "type": "TEXT_MenuMedium",
+      "tag": "Inventory_Count",
+      "rect": [
+        536,
+        84,
+        1352,
+        44
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "{used} / {capacity} slots",
+      "role": 3,
+      "align": "Center",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10023,
+      "type": "TEXT_MenuMedium",
+      "tag": "Inventory_Category",
+      "rect": [
+        536,
+        128,
+        1352,
+        44
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "{category}",
+      "role": 3,
+      "align": "Center",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10030,
+      "type": "UI_Group",
+      "tag": "Calendar_Footer",
+      "rect": [
+        8,
+        888,
+        480,
+        80
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10040,
+      "type": "HUD_HPBar",
+      "tag": "Player_HP_Gauge",
+      "rect": [
+        24,
+        972,
+        72,
+        96
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "max_frame": 25,
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "frame": 0
+    },
+    {
+      "uid": 10041,
+      "type": "HUD_MPBar",
+      "tag": "Player_MP_Gauge",
+      "rect": [
+        48,
+        972,
+        72,
+        96
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "frame": 25,
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "",
+      "max_frame": 25
+    },
+    {
+      "uid": 10060,
+      "type": "UI_MenuCursor",
+      "tag": "Menu_Selection_Cursor",
+      "rect": [
+        -64,
+        0,
+        64,
+        16
+      ],
+      "hotspot": [
+        0,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10061,
+      "type": "UI_SubSlot",
+      "tag": "Inventory_Cell",
+      "rect": [
+        0,
+        0,
+        72,
+        72
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10062,
+      "type": "TEXT_MenuMedium",
+      "tag": "Inventory_Cell_Name",
+      "rect": [
+        6,
+        6,
+        60,
+        42
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "{item}",
+      "role": 4,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "vertical_align": "Top",
+      "wrap": true,
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10063,
+      "type": "TEXT_MenuMedium",
+      "tag": "Inventory_Cell_Quantity",
+      "rect": [
+        6,
+        48,
+        60,
+        18
+      ],
+      "hotspot": [
+        0,
+        0
+      ],
+      "text": "{equipped}{assigned} x{quantity}",
+      "role": 4,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "vertical_align": "Top",
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": false,
+      "animation": "",
+      "frame": 0,
+      "max_frame": 0
+    },
+    {
+      "uid": 10070,
+      "type": "UI_WindArrow",
+      "tag": "Weather_Wind",
+      "rect": [
+        248,
+        880,
+        196,
+        32
+      ],
+      "hotspot": [
+        0.5,
+        0.5
+      ],
+      "text": "",
+      "role": 3,
+      "align": "Left",
+      "properties": {},
+      "variables": {},
+      "color": [
+        0,
+        0,
+        0
+      ],
+      "vertical_align": "Center",
+      "wrap": false,
+      "visible": true,
+      "opacity": 1,
+      "fit": true,
+      "animation": "Default",
+      "frame": 0,
+      "max_frame": 3
+    }
+  ],
+  "sources": [
+    {
+      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Densetsu Arcade.caproj",
+      "sha256": "1b9ff2df1f49e3ce55e1ff304da24e950a9bda6f373641edb0c44b5325416f5c"
+    },
+    {
+      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Layouts\\MENU.xml",
+      "sha256": "cf962870ed1701015288f2b1f62bb403a5c1724dce4411801fce02c55cba4c50"
+    },
+    {
+      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Event sheets\\MENU.xml",
+      "sha256": "51d9349bf3e5b69e153363c05ef92764c6d540f49bd660b1765a04a4c5528b08"
+    },
+    {
+      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Files\\stylesheet.css",
+      "sha256": "40fe569dec16d3952c406d2b1520ca8b2c429f4978cd64ae3389c8eb70214a73"
+    }
+  ],
+  "font_asset": "fonts/c2/CaveatBrush-Regular.ttf",
+  "composition": {
+    "nodes": [
+      {
+        "uid": 381,
+        "kind": "image",
+        "parent": -1,
+        "animation": 4,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 435,
+        "kind": "text",
+        "parent": 381,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 61,
+        "kind": "panel",
+        "parent": -1,
+        "animation": 4,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "parchment",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 436,
+        "kind": "text",
+        "parent": 61,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 22,
+        "kind": "image",
+        "parent": 61,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 445,
+        "kind": "text",
+        "parent": 61,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10001,
+        "kind": "text",
+        "parent": 61,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 437,
+        "kind": "text",
+        "parent": 61,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": true,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 397,
+        "kind": "image",
+        "parent": -1,
+        "animation": 6,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0.6,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 403,
+        "kind": "image",
+        "parent": -1,
+        "animation": 6,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0.6,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 404,
+        "kind": "image",
+        "parent": -1,
+        "animation": 6,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0.6,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 428,
+        "kind": "image",
+        "parent": -1,
+        "animation": 6,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0.6,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 429,
+        "kind": "image",
+        "parent": -1,
+        "animation": 6,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0.6,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 430,
+        "kind": "image",
+        "parent": -1,
+        "animation": 6,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0.6,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 431,
+        "kind": "image",
+        "parent": -1,
+        "animation": 6,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0.6,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10002,
+        "kind": "text",
+        "parent": 397,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "assigned",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 433,
+        "kind": "panel",
+        "parent": -1,
+        "animation": 5,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "parchment",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 438,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 439,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 1,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 440,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 2,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 441,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 3,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10003,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 7,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 442,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 4,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 443,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 5,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 444,
+        "kind": "text",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 6,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10030,
+        "kind": "strip",
+        "parent": 433,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": true,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "parchment",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 455,
+        "kind": "text",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 446,
+        "kind": "text",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 452,
+        "kind": "text",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 454,
+        "kind": "text",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 451,
+        "kind": "text",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 447,
+        "kind": "image",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "daytime",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 449,
+        "kind": "image",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "weather_icon",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 453,
+        "kind": "image",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 456,
+        "kind": "text",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10040,
+        "kind": "image",
+        "parent": -1,
+        "animation": 4,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "health_frame",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10041,
+        "kind": "image",
+        "parent": -1,
+        "animation": 4,
+        "slide": [
+          -500,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 434,
+        "kind": "panel",
+        "parent": -1,
+        "animation": 0,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "parchment",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10010,
+        "kind": "text",
+        "parent": 434,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10011,
+        "kind": "text",
+        "parent": 434,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10020,
+        "kind": "inventory",
+        "parent": 434,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [
+          1,
+          2
+        ],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10022,
+        "kind": "text",
+        "parent": 434,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [
+          1,
+          2
+        ],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10023,
+        "kind": "text",
+        "parent": 434,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [
+          1,
+          2
+        ],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10021,
+        "kind": "text",
+        "parent": 434,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [
+          1,
+          2
+        ],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      },
+      {
+        "uid": 10070,
+        "kind": "wind",
+        "parent": 10030,
+        "animation": -1,
+        "slide": [
+          0,
+          0
+        ],
+        "bottom_anchor": false,
+        "binding": "",
+        "pages": [],
+        "action": 0,
+        "skin": "",
+        "fade_start": 0,
+        "skin_scale": 1,
+        "clip_children": true
+      }
+    ],
+    "selection": {
+      "cursor": 10060,
+      "cursor_anchor": [
+        0,
+        0.5
+      ],
+      "padding": [
+        8,
+        0,
+        0,
+        0
+      ],
+      "color": [
+        224,
+        184,
+        112
+      ]
+    },
+    "inventory": {
+      "cell": 10061,
+      "name": 10062,
+      "quantity": 10063,
+      "gap": 8,
+      "locked_opacity": 0.3,
+      "outline": [
+        255,
+        238,
+        150
+      ],
+      "outline_width": 1,
+      "equipped_marker": "E",
+      "assigned_marker": "K"
+    },
+    "defaults": {
+      "month": "Session",
+      "location": "Location unbound",
+      "weather": "Weather unbound"
+    },
+    "page_title": "Menu",
+    "grids": [
+      {
+        "parent": 10030,
+        "role": 6,
+        "columns": [
+          1,
+          1,
+          2.2
+        ],
+        "rows": 3,
+        "line_height_em": 1.2,
+        "padding_em": [
+          0.6,
+          0.3,
+          0.6,
+          0.3
+        ],
+        "gap_em": 0.3,
+        "items": [
+          {
+            "uid": 455,
+            "column": 0,
+            "row": 0,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              0,
+              0
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 456,
+            "column": 0,
+            "row": 1,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              0,
+              0
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 454,
+            "column": 0,
+            "row": 2,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              0,
+              0
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 447,
+            "column": 1,
+            "row": 0,
+            "column_span": 1,
+            "row_span": 2,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              2.2,
+              2.2
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 449,
+            "column": 1,
+            "row": 0,
+            "column_span": 1,
+            "row_span": 2,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              2.7,
+              1.35
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 446,
+            "column": 1,
+            "row": 2,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              0,
+              0
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 452,
+            "column": 2,
+            "row": 0,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0.85,
+              0
+            ],
+            "max_size_em": [
+              0,
+              0
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 453,
+            "column": 2,
+            "row": 0,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              0.6,
+              1
+            ],
+            "alignment": [
+              1,
+              0.5
+            ]
+          },
+          {
+            "uid": 10070,
+            "column": 2,
+            "row": 1,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              0,
+              0
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "uid": 451,
+            "column": 2,
+            "row": 2,
+            "column_span": 1,
+            "row_span": 1,
+            "inset_em": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "max_size_em": [
+              0,
+              0
+            ],
+            "alignment": [
+              0.5,
+              0.5
+            ]
+          }
+        ],
+        "content_offset": [
+          0,
+          6
+        ]
+      }
+    ],
+    "wind": {
+      "max_strength": 10,
+      "scale": [
+        0.55,
+        1
+      ],
+      "fps": [
+        2,
+        12
+      ],
+      "max_arrows": 3,
+      "gap_em": 0.15,
+      "calm_opacity": 0.25
+    }
+  }
+}

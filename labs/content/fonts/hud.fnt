@@ -1,0 +1,21 @@
+// Development HUD roles; gameplay menu typography retains its own definitions. Signed: President.
+font "HUD"
+{
+ truetype
+ {
+  source_file "fonts/Roboto-Medium.ttf"
+  size 22
+  shadow
+  antialias
+ }
+}
+font "HUD Large"
+{
+ truetype
+ {
+  source_file "fonts/Roboto-Bold.ttf"
+  size 28
+  shadow
+  antialias
+ }
+}

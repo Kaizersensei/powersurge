@@ -1,4 +1,34 @@
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(GAME_SRCS
+  src/foundation/foundation.cpp
+  src/foundation/spatial_script.c
+  src/foundation/acoustic_scene.c
+  src/foundation/acoustics_native.cpp
+  src/foundation/spatial_audio.cpp
+  src/foundation/ambience_native.cpp
+  src/foundation/particles_native.cpp
+  src/foundation/equipment.cpp
+  src/foundation/event_rewards.cpp
+  src/foundation/quests.cpp
+  src/foundation/commerce.cpp
+  src/foundation/teleport.cpp
+  src/foundation/calendar.cpp
+  src/foundation/loot.cpp
+  src/foundation/pickups.cpp
+  src/foundation/progress_save.cpp
+  src/foundation/checkpoints.cpp
+  src/foundation/learning.cpp
+  src/foundation/progression.cpp
+  src/foundation/gameplay.cpp
+  src/foundation/session.cpp
+  src/foundation/events.cpp
+  src/foundation/bor_health_effects.cpp
+  src/foundation/compiled_snapshot.cpp
+  src/foundation/foundation_host.cpp
+  src/foundation/foundation_ui.c
+  src/bor/bor_core.c
+  src/bor/bor_bridge.c
   src/core/animation.c
   src/core/asset.c
   src/core/audio.c
@@ -266,4 +296,10 @@ endif()
 if(WANT_FASTDRAW)
   list(APPEND GAME_SRCS src/third_party/fast_draw.c)
   list(APPEND GAME_HEADERS src/third_party/fast_draw.h)
+endif()
+
+# BSL production audio facade. Signed: Mech.
+if(BSL_AUDIO_BACKEND STREQUAL "SOLOUD")
+ list(REMOVE_ITEM GAME_SRCS src/core/audio.c src/foundation/spatial_audio.cpp)
+ list(APPEND GAME_SRCS src/core/bsl_audio.cpp)
 endif()

@@ -49,6 +49,16 @@ struct sound_t {
     char* filepath; /* relative path */
 };
 
+/* Decoded-sample leases: main thread only, no file loading. Instance dies before lease. Signed: Mech. */
+void* bsl_audio_cached_acquire(const char* path)
+{
+    sound_t* sound = path ? resourcemanager_find_sample(path) : NULL;
+    if(sound) resourcemanager_ref_sample(sound->filepath);
+    return sound;
+}
+void* bsl_audio_cached_sample(void* lease) { return lease ? ((sound_t*)lease)->sample : NULL; }
+void bsl_audio_cached_release(void* lease) { if(lease) sound_unref((sound_t*)lease); }
+
 /* music structure */
 struct music_t {
     ALLEGRO_AUDIO_STREAM* stream;
@@ -96,6 +106,13 @@ static void init_muffler();
 static void update_muffler(mufflerprofile_t profile, int flags);
 static void muffle_mixer(ALLEGRO_MIXER* mixer, mufflerprofile_t profile);
 static const float* muffler_sigma(mufflerprofile_t profile);
+static void muffler_postprocess(void* buf, unsigned int num_samples, void* data);
+extern void bsl_master_prepare(unsigned frequency);
+extern void bsl_master_limit(void* buffer, unsigned frames);
+static void master_postprocess(void* buf, unsigned frames, void* data) {
+    muffler_postprocess(buf, frames, data);
+    bsl_master_limit(buf, frames);
+}
 static void muffler_postprocess(void* buf, unsigned int num_samples, void* data);
 
 
@@ -629,6 +646,7 @@ void audio_init()
         sample_pool[i].parent = parent;
     }
 
+    bsl_master_prepare(44100);
     init_muffler();
 
     engine_add_event_listener(ALLEGRO_EVENT_DISPLAY_HALT_DRAWING, NULL, handle_haltresume_event);
@@ -937,7 +955,7 @@ void muffle_mixer(ALLEGRO_MIXER* mixer, mufflerprofile_t profile)
 
     if(num_channels != 2 || depth_size != sizeof(float))
         logfile_message("Can't set the mixer postprocess callback: num_channels = %u, depth_size = %u, sizeof(float) = %u", num_channels, depth_size, sizeof(float));
-    else if(!al_set_mixer_postprocess_callback(mixer, profile != MUFFLER_OFF ? muffler_postprocess : NULL, (void*)muffler_sigma(profile)))
+    else if(!al_set_mixer_postprocess_callback(mixer, mixer == master_mixer ? master_postprocess : (profile != MUFFLER_OFF ? muffler_postprocess : NULL), (void*)muffler_sigma(profile)))
         logfile_message("Can't set the mixer postprocess callback.");
 }
 
@@ -964,6 +982,10 @@ const float* muffler_sigma(mufflerprofile_t profile)
 
 /* this function runs in a dedicated audio thread
    Only one mixer can be muffled at any given time - notice the static variables */
+/* Original BORSurgeLab engine adapter. Signed: Atlas. */
+/* Spatial voices own their decoded samples and release instances before samples. */
+void* bsl_audio_parent(void) { return al_get_mixer_playing(primary_sound_mixer) ? primary_sound_mixer : secondary_sound_mixer; }
+
 void muffler_postprocess(void* buf, unsigned int num_samples, void* data)
 {
     /* the input buffer is expected to be float32 stereo, where
@@ -1058,4 +1080,44 @@ void muffler_postprocess(void* buf, unsigned int num_samples, void* data)
 
         }
     }
+}
+
+/* Owned ambient instances keep their sample position while paused and cannot be
+ * recycled by ordinary one-shot SFX. Caller holds the sound reference. Signed: Atlas. */
+struct bsl_audio_loop_t { ALLEGRO_SAMPLE_INSTANCE* instance; ALLEGRO_MIXER* parent; };
+bsl_audio_loop_t* bsl_audio_loop_create(const sound_t* sound)
+{
+    if(sound == NULL || sound_mixer == NULL) return NULL;
+    bsl_audio_loop_t* loop = malloc(sizeof *loop);
+    if(loop == NULL) return NULL;
+    loop->parent = al_get_mixer_playing(primary_sound_mixer) ? primary_sound_mixer : secondary_sound_mixer;
+    loop->instance = al_create_sample_instance(sound->sample);
+    if(loop->instance == NULL) { free(loop); return NULL; }
+    if(!al_set_sample_instance_playmode(loop->instance, ALLEGRO_PLAYMODE_LOOP) ||
+       !al_set_sample_instance_gain(loop->instance, 0.0f) ||
+       !al_attach_sample_instance_to_mixer(loop->instance, loop->parent)) {
+        al_destroy_sample_instance(loop->instance); free(loop); return NULL;
+    }
+    return loop;
+}
+void bsl_audio_loop_destroy(bsl_audio_loop_t* loop)
+{
+    if(loop != NULL) { al_destroy_sample_instance(loop->instance); free(loop); }
+}
+bool bsl_audio_loop_set(bsl_audio_loop_t* loop,float gain,bool playing)
+{
+    if(loop == NULL || !(gain >= 0.0f && gain <= 1.0f)) return false;
+    if(!al_set_sample_instance_gain(loop->instance, gain)) return false;
+    if(al_get_sample_instance_playing(loop->instance) == playing) return true;
+    unsigned position = al_get_sample_instance_position(loop->instance);
+    bool ok = al_set_sample_instance_playing(loop->instance, playing);
+    if(ok && !playing) ok = al_set_sample_instance_position(loop->instance, position);
+    return ok;
+}
+bool bsl_audio_loop_probe(const bsl_audio_loop_t* loop,unsigned* position,float* gain)
+{
+    if(loop == NULL) return false;
+    if(position != NULL) *position = al_get_sample_instance_position(loop->instance);
+    if(gain != NULL) *gain = al_get_sample_instance_gain(loop->instance);
+    return al_get_sample_instance_playing(loop->instance) && al_get_mixer_playing(loop->parent);
 }

@@ -1,0 +1,38 @@
+// Trusted SurgeScript owned-voice adapter; same live controls as native callers. Signed: Atlas.
+#include "spatial_audio.h"
+#include <surgescript.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct {uint64_t voice,owner,spatial;double gain,rate,balance,cutoff;bool playing;} ScriptVoice;
+static surgescript_var_t* construct(surgescript_object_t* obj,const surgescript_var_t** args,int count){ScriptVoice* v=calloc(1,sizeof(*v));v->owner=0x7000000000000000ULL|surgescript_object_handle(obj);v->rate=1;v->cutoff=20000;surgescript_object_set_userdata(obj,v);return NULL;}
+static surgescript_var_t* idle(surgescript_object_t* obj,const surgescript_var_t** args,int count){return NULL;}
+static surgescript_var_t* destroy(surgescript_object_t* obj,const surgescript_var_t** args,int count){ScriptVoice* v=surgescript_object_userdata(obj);if(v){bsl_acoustic_cancel_owner(v->owner);free(v);surgescript_object_set_userdata(obj,NULL);}return NULL;}
+static surgescript_var_t* open_voice(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);bool ok=false;if(v&&surgescript_var_is_string(a[0])&&surgescript_var_is_bool(a[1])){const char* p=surgescript_var_fast_get_string(a[0]);if(!strncmp(p,"samples/",8)&&!strstr(p,"..")&&!strchr(p,'\\')){uint64_t next=bsl_voice_create(p,v->owner,surgescript_var_get_bool(a[1]));if(next){bsl_voice_destroy(v->voice);bsl_spatial_stop(v->spatial);v->voice=next;v->spatial=0;ok=true;}}}return surgescript_var_set_bool(surgescript_var_create(),ok);}
+static surgescript_var_t* parameters(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);bool ok=false;if(v)ok=bsl_voice_set(v->voice,surgescript_var_get_number(a[0]),surgescript_var_get_number(a[1]),surgescript_var_get_number(a[2]),surgescript_var_get_number(a[3]),surgescript_var_get_bool(a[4]),1.0/60);return surgescript_var_set_bool(surgescript_var_create(),ok);}
+static surgescript_var_t* spatial_play(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);bool ok=false;if(v&&surgescript_var_is_string(a[0])&&surgescript_var_is_number(a[1])&&surgescript_var_is_number(a[2])){uint64_t next=bsl_spatial_play(surgescript_var_fast_get_string(a[0]),v->owner,surgescript_var_get_number(a[1]),surgescript_var_get_number(a[2]));if(next){bsl_voice_destroy(v->voice);bsl_spatial_stop(v->spatial);v->spatial=next;v->voice=0;ok=true;}}return surgescript_var_set_bool(surgescript_var_create(),ok);}
+/* Explicit recipe-based cached opening retains transactional replacement. Signed: Mech. */
+static surgescript_var_t* spatial_cached(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);bool ok=false;if(v&&surgescript_var_is_string(a[0])&&surgescript_var_is_number(a[1])&&surgescript_var_is_number(a[2])){uint64_t next=bsl_spatial_play_cached(surgescript_var_fast_get_string(a[0]),v->owner,surgescript_var_get_number(a[1]),surgescript_var_get_number(a[2]));if(next){bsl_voice_destroy(v->voice);bsl_spatial_stop(v->spatial);v->spatial=next;v->voice=0;ok=true;}}return surgescript_var_set_bool(surgescript_var_create(),ok);}
+static surgescript_var_t* spatial_move(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);if(v)bsl_spatial_move(v->spatial,surgescript_var_get_number(a[0]),surgescript_var_get_number(a[1]),surgescript_var_get_number(a[2]),surgescript_var_get_bool(a[3]));return NULL;}
+static surgescript_var_t* spatial_noise(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);uint64_t event=0;double category=surgescript_var_get_number(a[2]);if(v&&category>=1&&category<=2147483647)event=bsl_acoustic_emit(v->owner,surgescript_var_get_number(a[0]),surgescript_var_get_number(a[1]),(uint32_t)category,surgescript_var_get_number(a[3]),surgescript_var_get_number(a[4]),surgescript_var_get_number(a[5]),surgescript_var_get_number(a[6]),surgescript_var_get_number(a[7]),true);return surgescript_var_set_number(surgescript_var_create(),(double)event);}
+static surgescript_var_t* stop_voice(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);if(v){bsl_acoustic_cancel_owner(v->owner);v->voice=v->spatial=0;}return NULL;}
+/* Read-only diagnostics and shared spatial controls. Signed: Mech. */
+static BslVoiceProbe view(surgescript_object_t* obj){ScriptVoice* v=surgescript_object_userdata(obj);BslVoiceProbe p={0};if(v){if(v->spatial)bsl_spatial_probe(v->spatial,&p);else bsl_voice_probe(v->voice,&p);}return p;}
+static surgescript_var_t* configure(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);bool ok=v&&surgescript_var_is_number(a[0])&&surgescript_var_is_number(a[1])&&bsl_spatial_configure(v->spatial,surgescript_var_get_number(a[0]),surgescript_var_get_number(a[1]));return surgescript_var_set_bool(surgescript_var_create(),ok);}
+static surgescript_var_t* present(surgescript_object_t* obj,const surgescript_var_t** a,int count){return surgescript_var_set_bool(surgescript_var_create(),view(obj).present);}
+static surgescript_var_t* playing(surgescript_object_t* obj,const surgescript_var_t** a,int count){return surgescript_var_set_bool(surgescript_var_create(),view(obj).playing);}
+static surgescript_var_t* position(surgescript_object_t* obj,const surgescript_var_t** a,int count){return surgescript_var_set_number(surgescript_var_create(),view(obj).position);}
+static surgescript_var_t* identity(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);return surgescript_var_set_number(surgescript_var_create(),v?(double)(v->spatial?bsl_spatial_voice_id(v->spatial):v->voice):0);}
+static surgescript_var_t* gain(surgescript_object_t* obj,const surgescript_var_t** a,int count){return surgescript_var_set_number(surgescript_var_create(),view(obj).gain);}
+static surgescript_var_t* rate(surgescript_object_t* obj,const surgescript_var_t** a,int count){return surgescript_var_set_number(surgescript_var_create(),view(obj).rate);}
+static surgescript_var_t* kind(surgescript_object_t* obj,const surgescript_var_t** a,int count){ScriptVoice* v=surgescript_object_userdata(obj);return surgescript_var_set_string(surgescript_var_create(),v&&v->spatial?"spatial":v&&v->voice?"raw":"none");}
+void scripting_register_spatial_audio(surgescript_vm_t* vm){
+ surgescript_vm_bind(vm,"BSLOwnedVoice","playCached",spatial_cached,3);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","configure",configure,2);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","get_present",present,0);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","get_playing",playing,0);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","get_position",position,0);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","get_identity",identity,0);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","get_gain",gain,0);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","get_rate",rate,0);
+ surgescript_vm_bind(vm,"BSLOwnedVoice","get_kind",kind,0);
+surgescript_vm_bind(vm,"BSLOwnedVoice","constructor",construct,0);surgescript_vm_bind(vm,"BSLOwnedVoice","destructor",destroy,0);surgescript_vm_bind(vm,"BSLOwnedVoice","state:main",idle,0);surgescript_vm_bind(vm,"BSLOwnedVoice","open",open_voice,2);surgescript_vm_bind(vm,"BSLOwnedVoice","set",parameters,5);surgescript_vm_bind(vm,"BSLOwnedVoice","play",spatial_play,3);surgescript_vm_bind(vm,"BSLOwnedVoice","move",spatial_move,4);surgescript_vm_bind(vm,"BSLOwnedVoice","noise",spatial_noise,8);surgescript_vm_bind(vm,"BSLOwnedVoice","stop",stop_voice,0);}

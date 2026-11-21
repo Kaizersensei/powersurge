@@ -1,3 +1,4 @@
+#include "../editor_shell/shell.h"
 /*
  * Open Surge Engine
  * level.c - code for the game levels
@@ -21,15 +22,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
+
+/* BOR consumes one current post-script map per frame. Signed: Atlas. */
+extern bool scripting_bor_tick_pending(void);
+extern void scripting_update_bor(void);
 #include <stddef.h>
 #include <limits.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
 #include "level.h"
+#include "../presentation/video_presentation.h"
 #include "confirmbox.h"
 #include "gameover.h"
 #include "pause.h"
+#include "../foundation/foundation_host.h"
+extern void scripting_prepare_bsl_level(void); /* After-header service defaults. Signed: President. */
 #include "quest.h"
 #include "util/levparser.h"
 #include "util/editorgrp.h"
@@ -65,6 +74,7 @@
 #include "../entities/waterfx.h"
 #include "../entities/background.h"
 #include "../entities/renderqueue.h"
+#include "../cell_terrain/native.h"
 #include "../entities/sfx.h"
 #include "../entities/legacy/entitymanager.h"
 #include "../entities/legacy/item.h"
@@ -297,7 +307,9 @@ enum editor_entity_type {
     EDT_ITEM,
     EDT_ENEMY,
     EDT_GROUP,
-    EDT_SSOBJ
+    EDT_SSOBJ,
+    EDT_INSPECT,
+    EDT_EVENTS
 };
 #define EDITORGRP_ENTITY_TO_EDT(t) \
                 ( ((t) == EDITORGRP_ENTITY_BRICK) ? EDT_BRICK : \
@@ -368,6 +380,21 @@ static void editor_brick_init();
 static void editor_brick_release();
 static int editor_brick_index(int brick_id); /* index of brick_id at editor_brick[] */
 static int editor_brick_id(int index); /* the index-th valid brick - at editor_brick[] */
+static brickrole_t* editor_brick_filter_roles;
+static char (*editor_brick_filter_categories)[65];
+static int editor_brick_filter_count, editor_brick_filter;
+static void editor_brick_refresh_filter(int filter);
+static void editor_brick_cycle_filter(int delta);
+static bool bsl_brick_style_input(void);
+static bool bsl_workflow_input(void);
+static int editor_stamp_z=-1;
+static int editor_stamp_brightness=15;
+static char editor_stamp_texture[65];
+static bool editor_texture_pending;
+static uint64_t editor_texture_target;
+static bool editor_texture_release;
+static bool editor_brick_matches_filter(const brick_t* brick);
+
 
 /* editor: UI */
 #define EDITOR_UI_COLOR()              color_rgb(40, 44, 52)
@@ -377,6 +404,15 @@ static int editor_brick_id(int index); /* the index-th valid brick - at editor_b
 #define EDITOR_GRID_INITIAL_SIZE 16
 static const int EDITOR_GRID_SIZES[] = { 128, 64, 32, 16, 8, 1 };
 static int editor_grid_size = EDITOR_GRID_INITIAL_SIZE;
+STATIC_DARRAY(point2d_t, editor_brush_cells);
+static v2d_t editor_brush_origin;
+static bool editor_brush_active;
+static v2d_t editor_brush_previous;
+static int editor_brush_grid, editor_brush_type, editor_brush_id;
+static bricklayer_t editor_brush_layer;
+static brickflip_t editor_brush_flip;
+static void editor_brush_reset();
+static void editor_brush_paint(bool clicked);
 static vertexcache_t* editor_grid_cache;
 static void editor_grid_init();
 static void editor_grid_release();
@@ -443,7 +479,15 @@ enum editor_action_type {
     EDA_CHANGESPAWN,
     EDA_RESTORESPAWN,
     EDA_CHANGEWATER,
-    EDA_RESTOREWATER
+    EDA_RESTOREWATER,
+    EDA_INSTANCEPARAM,
+    EDA_RESTOREINSTANCEPARAM,
+    EDA_EVENTBIND,
+    EDA_RESTOREEVENTBIND,
+    EDA_BRICKSTYLE,
+    EDA_RESTOREBRICKSTYLE,
+    EDA_MOVEINSTANCE,
+    EDA_RESTOREMOVEINSTANCE
 };
 
 /* action = action type + action properties */
@@ -456,10 +500,21 @@ typedef struct editor_action_t {
     bricklayer_t layer;
     brickflip_t flip;
     uint64_t ssobj_id;
+    v2d_t move_world_before, move_world_after;
+    uint64_t brick_uid;
+    int brightness, brightness_before;
+    int z_override, z_before;
+    char texture_id[65],texture_before[65];
+    int parameter_field;
+    double parameter_before, parameter_after;
+    bool parameter_had_before, parameter_has_after;
+    bool rejected;
+    char event_before[257], event_after[257];
 } editor_action_t;
 
 /* action: constructors */
 static editor_action_t editor_action_entity_new(int is_new_object, enum editor_entity_type obj_type, int obj_id, v2d_t obj_position);
+static editor_action_t editor_action_brick_delete(const brick_t* brick);
 static editor_action_t editor_action_spawnpoint_new(int is_changing, v2d_t obj_position, v2d_t obj_old_position);
 static editor_action_t editor_action_waterlevel_new(int is_changing, int new_waterlevel, int old_waterlevel);
 
@@ -480,7 +535,9 @@ editor_action_list_t *editor_action_buffer_cursor;
 static void editor_action_init();
 static void editor_action_release();
 static void editor_action_undo();
+static void shell_mark_dirty(void);
 static void editor_action_redo();
+static editor_action_t bsl_brick_style_action(brick_t*,int,const char*);
 static editor_action_t editor_action_commit(editor_action_t action);
 static void editor_action_register(editor_action_t action); /* internal */
 static editor_action_list_t* editor_action_delete_list(editor_action_list_t *list); /* internal */
@@ -496,6 +553,34 @@ static editor_action_list_t* editor_action_delete_list(editor_action_list_t *lis
 
 
 
+#include "../bor/level_instance.inc"
+/* Placement lookup never treats shared coordinates as ownership. Signed: Atlas. */
+static brick_t* bsl_brick_create(int id,v2d_t position,bricklayer_t layer,brickflip_t flip,uint64_t uid){
+ brick_t* brick=brick_create_with_placement_id(id,position,layer,flip,uid);brickmanager_add_brick(brick_manager,brick);return brick;
+}
+static const char* bsl_brick_parse_definition(int count,const char** params){
+ const char* result=NULL;
+ for(int i=3;i<count;i++)if(!strncmp(params[i],"def:",4)){if(result||!params[i][4])fatal_error("Invalid/repeated brick definition reference");result=params[i]+4;}
+ return result;
+}
+static brick_t* bsl_brick_by_uid(uint64_t uid){
+ if(!uid)return NULL;
+ brick_t* found=NULL;iterator_t* it=brickmanager_retrieve_all_bricks(brick_manager);
+ while(iterator_has_next(it)){brick_t* b=iterator_next(it);if(brick_is_alive(b)&&brick_placement_id(b)==uid){found=b;break;}}
+ iterator_destroy(it);return found;
+}
+static uint64_t bsl_brick_parse_uid(int count,const char** params){
+ uint64_t result=0;
+ for(int i=3;i<count;i++)if(!strncmp(params[i],"uid:",4)){
+  const char* hex=params[i]+4;if(result||strlen(hex)!=16)fatal_error("Malformed or repeated brick placement ID");
+  for(int j=0;j<16;j++)if(!isxdigit((unsigned char)hex[j]))fatal_error("Malformed brick placement ID");
+  result=str_to_x64(hex);if(!result)fatal_error("Invalid brick placement ID");
+ }
+ return result;
+}
+static bool bsl_terrain_test_poll(void);
+
+
 /* level-specific functions */
 
 /*
@@ -505,6 +590,14 @@ static editor_action_list_t* editor_action_delete_list(editor_action_list_t *lis
 void level_load(const char *filepath)
 {
     logfile_message("Loading level \"%s\"...", filepath);
+
+    brick_reset_placement_ids();
+    bsl_instance_count = bsl_loaded_count = 0;
+    bsl_event_count = 0;
+    bsl_event_nearest = 0;
+    bsl_inspect_id = 0;
+    bsl_inspect_drag.id = 0;
+    bsl_inspect_unsaved = false;
 
     /* initialize fields with default values */
     str_cpy(file, filepath, sizeof(file)); /* we want the relative filepath */
@@ -537,6 +630,9 @@ void level_load(const char *filepath)
     /* initialize the water effect */
     waterfx_init();
 
+    /* Selected progress must precede level object construction. Signed: Atlas. */
+    bsl_host_level_begin(filepath);
+
     /* scripting: preparing a new Level... */
     surgescript_object_t* level_manager = scripting_util_surgeengine_component(surgescript_vm(), "LevelManager");
     surgescript_object_call_function(level_manager, "onLevelLoad", NULL, 0, NULL);
@@ -544,6 +640,8 @@ void level_load(const char *filepath)
     /* read the header of the level file */
     if(!levparser_parse(filepath, NULL, level_interpret_header_line))
         fatal_error("Can\'t open level file \"%s\".", filepath);
+
+    scripting_prepare_bsl_level();
 
     /* load the music */
     music_stop(); /* stop any music that's playing */
@@ -553,9 +651,11 @@ void level_load(const char *filepath)
 
     /* load the brickset */
     brickset_load(theme);
+    bsl_presentation_loading_pump();
 
     /* load the background */
     backgroundtheme = background_load(bgtheme);
+    bsl_presentation_loading_pump();
 
     /* players */
     spawn_players();
@@ -567,6 +667,7 @@ void level_load(const char *filepath)
     /* read the body of the level file;
        load bricks & entities */
     levparser_parse(filepath, NULL, level_interpret_body_line);
+    bsl_instance_finish_load();
 
     /* recompute the level size */
     update_level_size();
@@ -636,8 +737,10 @@ void level_unload()
  */
 int level_save(const char *filepath)
 {
-    const char* fullpath = asset_path(filepath);
+    char fullpath[PATH_MAXLEN * 2];
+    if(!bsl_instance_native_path(asset_path(filepath), fullpath, sizeof fullpath)) return FALSE;
     ALLEGRO_FILE *fp;
+    char staged[PATH_MAXLEN * 2 + 64];
 
     /* skip if the readonly flag is set
        should this be moved to the scripting layer instead? */
@@ -654,7 +757,7 @@ int level_save(const char *filepath)
 
     /* open file for writing */
     logfile_message("level_save(\"%s\")", fullpath);
-    if(NULL == (fp = al_fopen(fullpath, "w"))) {
+    if(NULL == (fp = bsl_instance_open_staged(fullpath, staged, sizeof staged))) {
         logfile_message("Warning: could not open \"%s\" for writing.", fullpath);
         video_showmessage("Could not open \"%s\" for writing.", fullpath);
         return FALSE;
@@ -758,12 +861,13 @@ int level_save(const char *filepath)
     iterator_t* brick_iterator = brickmanager_retrieve_all_bricks(brick_manager);
     while(iterator_has_next(brick_iterator)) {
         const brick_t* brick = iterator_next(brick_iterator);
+        if(!brick_is_alive(brick))continue;
         v2d_t spawn_point = brick_spawnpoint(brick);
         bricklayer_t layer = brick_layer(brick);
         brickflip_t flip = brick_flip(brick);
 
         al_fprintf(fp,
-            "brick %d %d %d%s%s%s%s\n",
+            "brick %d %d %d%s%s%s%s%s%s brightness:%d texture:%s z:%d uid:%016llx\n",
 
             brick_id(brick),
             (int)(spawn_point.x), (int)(spawn_point.y),
@@ -772,7 +876,11 @@ int level_save(const char *filepath)
             layer != BRL_DEFAULT ? brick_util_layername(layer) : "",
 
             flip != BRF_NOFLIP ? " " : "",
-            flip != BRF_NOFLIP ? brick_util_flipstr(flip) : ""
+            flip != BRF_NOFLIP ? brick_util_flipstr(flip) : "",
+            *brick_definition_preview(brick_id(brick)) ? " def:" : "",
+            brick_definition_preview(brick_id(brick)),
+            brick_brightness(brick),*brick_texture(brick)?brick_texture(brick):"default",brick_z_override(brick),
+            (unsigned long long)brick_placement_id(brick)
         );
     }
     iterator_destroy(brick_iterator);
@@ -805,7 +913,16 @@ int level_save(const char *filepath)
 
     /* end of file */
     al_fprintf(fp, "\n// EOF");
-    al_fclose(fp);
+    bool saved = !al_ferror(fp) && al_fflush(fp);
+    if(!al_fclose(fp)) saved = false;
+    if(getenv("BSL_INSTANCE_FAIL_SAVE")) saved = false;
+    if(saved && bsl_shell_present() && !strcmp(filepath,file)) saved = bsl_shell_file_unchanged(file);
+    if(saved) saved = bsl_instance_publish(staged, fullpath);
+    if(!saved) {
+        logfile_message("Level save failed; original retained: %s", fullpath);
+        al_remove_filename(staged);
+        return FALSE;
+    }
 
     /* done! */
     logfile_message("level_save() ok");
@@ -819,6 +936,10 @@ int level_save(const char *filepath)
 bool level_interpret_header_line(const char* filepath, int fileline, levparser_command_t command, const char* command_name, int param_count, const char** param, void* data)
 {
     switch(command) {
+    case LEVCOMMAND_ENTITY:
+        if(param_count > 3) bsl_instance_note_id(param[3]);
+        break;
+
     case LEVCOMMAND_NAME: {
         if(param_count >= 1)
             str_cpy(name, param[0], sizeof(name));
@@ -1044,7 +1165,10 @@ bool level_interpret_header_line(const char* filepath, int fileline, levparser_c
     }
 
     case LEVCOMMAND_BRICK:
-    case LEVCOMMAND_ENTITY:
+        brick_reserve_placement_id(bsl_brick_parse_uid(param_count,param));
+        break;
+    case LEVCOMMAND_INSTANCEPARAM:
+    case LEVCOMMAND_EVENTBIND:
     case LEVCOMMAND_LEGACYOBJECT:
     case LEVCOMMAND_LEGACYITEM:
         /* skip the body of the file */
@@ -1066,6 +1190,7 @@ bool level_interpret_header_line(const char* filepath, int fileline, levparser_c
  */
 bool level_interpret_body_line(const char* filepath, int fileline, levparser_command_t command, const char* command_name, int param_count, const char** param, void* data)
 {
+    bsl_presentation_loading_pump();
     switch(command) {
     case LEVCOMMAND_BRICK: {
         if(param_count >= 3) {
@@ -1073,6 +1198,8 @@ bool level_interpret_body_line(const char* filepath, int fileline, levparser_com
                 bricklayer_t layer = BRL_DEFAULT;
                 brickflip_t flip = BRF_NOFLIP;
                 int id = atoi(param[0]);
+                const char* definition=bsl_brick_parse_definition(param_count,param);
+                if(definition){id=brick_resolve_definition(definition);if(id<0)fatal_error("Missing brick definition: %s",definition);}
                 int x = atoi(param[1]);
                 int y = atoi(param[2]);
 
@@ -1083,8 +1210,27 @@ bool level_interpret_body_line(const char* filepath, int fileline, levparser_com
                         flip = brick_util_flipcode(param[j]);
                 }
 
-                if(brick_exists(id))
-                    level_create_brick(id, v2d_new(x,y), layer, flip);
+                if(brick_exists(id)) {
+                    uint64_t uid=bsl_brick_parse_uid(param_count,param);
+                    if(uid&&bsl_brick_by_uid(uid))fatal_error("Duplicate brick placement ID: %016llx",(unsigned long long)uid);
+                    brick_t* placed=bsl_brick_create(id,v2d_new(x,y),layer,flip,uid);
+                    bool brightness_seen=false,texture_seen=false,z_seen=false;
+                    for(int j=3;j<param_count;j++){
+                        if(!strncmp(param[j],"brightness:",11)){
+                            char* end;long value=strtol(param[j]+11,&end,10);
+                            if(brightness_seen||end==param[j]+11||*end||value<0||value>15)fatal_error("Invalid brick brightness");
+                            brick_set_brightness(placed,value);brightness_seen=true;
+                        }else if(!strncmp(param[j],"z:",2)){
+                            char* end;long value=strtol(param[j]+2,&end,10);
+                            if(z_seen||end==param[j]+2||*end||value< -1||value>100)fatal_error("Invalid brick Z override");
+                            brick_set_z_override(placed,(int)value);z_seen=true;
+                        }else if(!strncmp(param[j],"texture:",8)){
+                            const char* id=param[j]+8;
+                            if(texture_seen||!brick_set_texture(placed,!strcmp(id,"default")?"":id))fatal_error("Invalid/missing brick texture: %s",id);
+                            texture_seen=true;
+                        }
+                    }
+                }
                 else
                     logfile_message("Level loader - invalid brick: %d", id);
             }
@@ -1107,8 +1253,11 @@ bool level_interpret_body_line(const char* filepath, int fileline, levparser_com
                 if(obj != NULL) {
                     if(!surgescript_object_has_tag(obj, "entity"))
                         fatal_error("Level loader - can't spawn \"%s\": object is not an entity", name);
-                    else if(param_count > 3 && entity_info_exists(obj))
+                    else if(param_count > 3 && entity_info_exists(obj)) {
+                        surgescript_object_t* existing = level_get_entity_by_id(param[3]);
+                        if(existing && existing != obj) fatal_error("Placement ID already occupied: %s", param[3]);
                         entity_info_set_id(obj, str_to_x64(param[3]));
+                    }
                 }
                 else {
                     logfile_message("Level loader - can't spawn \"%s\": entity doesn't exist", name);
@@ -1121,6 +1270,14 @@ bool level_interpret_body_line(const char* filepath, int fileline, levparser_com
 
         break;
     }
+
+    case LEVCOMMAND_INSTANCEPARAM:
+        bsl_instance_load(param_count, param);
+        break;
+
+    case LEVCOMMAND_EVENTBIND:
+        bsl_event_load(param_count, param);
+        break;
 
     case LEVCOMMAND_LEGACYOBJECT: {
         if(param_count >= 3) {
@@ -1196,6 +1353,7 @@ bool level_save_ssobject(surgescript_object_t* object, void* param)
             uint64_t entity_id = entity_info_id(object);
 
             al_fprintf(fp, "entity \"%s\" %d %d \"%s\"\n", str_addslashes(object_name, NULL, 0), (int)spawn_point.x, (int)spawn_point.y, x64_to_str(entity_id, NULL, 0));
+            bsl_instance_save(object, fp);
         }
     }
 
@@ -1215,6 +1373,7 @@ void level_init(void *path_to_lev_file)
     const char *filepath = (const char*)path_to_lev_file;
 
     logfile_message("level_init()");
+    bsl_presentation_loading_begin();
     video_display_loading_screen();
 
     /* initialize variables */
@@ -1269,6 +1428,8 @@ void level_init(void *path_to_lev_file)
 
     /* load level file */
     level_load(filepath);
+    bsl_cell_begin(filepath);
+    bsl_shell_level_begin();
 
     /* editor */
     editor_init();
@@ -1281,6 +1442,7 @@ void level_init(void *path_to_lev_file)
     video_set_immersive(true); /* enable immersive mode during gameplay */
 
     /* done! */
+    bsl_presentation_loading_end();
     logfile_message("level_init() ok");
 }
 
@@ -1292,6 +1454,7 @@ void level_init(void *path_to_lev_file)
  */
 void level_release()
 {
+    bsl_shell_detach();
     logfile_message("level_release()");
 
     /* save prefs */
@@ -1307,6 +1470,9 @@ void level_release()
 
     /* release the editor */
     editor_release();
+
+    /* Release native UI ownership before actors and scripts are destroyed. */
+    bsl_host_shutdown();
 
     /* unload the level and its scripts */
     level_unload();
@@ -1329,6 +1495,8 @@ void level_release()
     cached_entity_manager = NULL;
 
     destroy_obstaclemap();
+    bsl_shell_level_end();
+    bsl_cell_end();
     entitymanager_release();
     camera_release();
     audio_muffler_activate(MUFFLE_NOTHING);
@@ -1366,6 +1534,7 @@ void level_release()
  */
 void level_update()
 {
+    brick_surface_test_tick();
     int i, cbox;
     bool got_dying_player = false;
     float dt = timer_get_delta();
@@ -1374,6 +1543,12 @@ void level_update()
     enemy_list_t *major_enemies, *enode;
     v2d_t cam = level_editmode() ? editor_camera : camera_get_position();
     (void)dt;
+
+    if(editorcmd_is_triggered(editor_cmd,"toggle-collision-role"))brick_toggle_role_visible(BRR_COLLISION,level_editmode());
+    if(editorcmd_is_triggered(editor_cmd,"toggle-decoration-role"))brick_toggle_role_visible(BRR_DECORATION,level_editmode());
+    if(bsl_terrain_test_poll()) return;
+    if(bsl_event_test_poll()) return;
+    if(bsl_instance_test_poll()) return;
 
     /* legacy: release entities */
     entitymanager_remove_dead_bricks();
@@ -1417,6 +1592,10 @@ void level_update()
         scenestack_push(storyboard_get_scene(SCENE_GAMEOVER), NULL);
         return;
     }
+
+    /* Native UI updates independently while a menu pauses the world. Signed: Atlas. */
+    if(!level_is_setup_object("BSL Presentation Only") && bsl_host_preupdate() && !(bsl_host_player_assembly_waiting() && editor_want_to_activate()))
+        return;
 
     /* got a dying player? */
     for(i = 0; i < team_size && !got_dying_player; i++) {
@@ -1486,7 +1665,7 @@ void level_update()
 
     /* open level editor */
     if(editor_want_to_activate()) {
-        if(readonly) {
+        if(readonly || !bsl_host_level_editable()) {
             video_showmessage("No way!");
             sound_play(SFX_DENY);
         }
@@ -1597,10 +1776,12 @@ void level_update()
     update_ssobjects();
 
     /* update the obstacle map again after updating the scripts */
-    if(is_obstaclemap_dirty) {
+    if(is_obstaclemap_dirty || scripting_bor_tick_pending()) {
         update_obstaclemap(major_items, major_enemies);
         is_obstaclemap_dirty = false;
     }
+
+    scripting_update_bor();
 
     /* update players */
     if(brickmanager_number_of_bricks(brick_manager) > 0) {
@@ -1712,6 +1893,12 @@ void level_render()
     /* release lists of active entites */
     major_items = entitymanager_release_retrieved_item_list(major_items);
     major_enemies = entitymanager_release_retrieved_object_list(major_enemies);
+
+    /* Retained gameplay services belong to world scenes. Signed: President. */
+    if(!level_is_setup_object("BSL Presentation Only")) {
+        bsl_event_render();
+        bsl_host_render();
+    }
 }
 
 
@@ -2007,13 +2194,109 @@ const obstaclemap_t* level_obstaclemap()
     return obstaclemap;
 }
 
+/* Bounded read-only checkpoint terrain query, independent of the active camera ROI.
+ * Caller owns the context and its bricklike masks. Signed: Atlas. */
+struct checkpoint_terrain_t {
+    obstaclemap_t* map;
+    DARRAY(obstacle_t*, owned)
+    int left, right;
+};
+static bool checkpoint_intersects(const obstacle_t* obstacle, v2d_t center)
+{
+    point2d_t p = obstacle_get_position(obstacle);
+    return p.x <= center.x + 512 && p.x + obstacle_get_width(obstacle) >= center.x - 512 &&
+           p.y <= center.y + 512 && p.y + obstacle_get_height(obstacle) >= center.y - 512;
+}
+static void checkpoint_add(struct checkpoint_terrain_t* query, const obstacle_t* obstacle)
+{
+    point2d_t p = obstacle_get_position(obstacle);
+    if(p.x < query->left) query->left = p.x;
+    if(p.x + obstacle_get_width(obstacle) > query->right) query->right = p.x + obstacle_get_width(obstacle);
+    obstaclemap_add(query->map, obstacle);
+}
+void level_checkpoint_terrain_destroy(struct checkpoint_terrain_t* query)
+{
+    if(query == NULL) return;
+    obstaclemap_destroy(query->map);
+    for(int i = 0; i < darray_length(query->owned); i++) obstacle_destroy(query->owned[i]);
+    darray_release(query->owned);
+    free(query);
+}
+struct checkpoint_terrain_t* level_checkpoint_terrain_create(v2d_t center)
+{
+    struct checkpoint_terrain_t* query = mallocx(sizeof *query);
+    query->map = obstaclemap_create(); query->left = (int)center.x; query->right = (int)center.x;
+    darray_init(query->owned);
+    iterator_t* it = brickmanager_retrieve_all_bricks(brick_manager);
+    while(iterator_has_next(it)) {
+        const obstacle_t* obstacle = brick_obstacle(iterator_next(it));
+        if(obstacle != NULL && checkpoint_intersects(obstacle, center)) checkpoint_add(query, obstacle);
+    }
+    iterator_destroy(it);
+    const surgescript_objectmanager_t* manager = surgescript_object_manager(level_ssobject());
+    it = entitymanager_bricklike_iterator(entitymanager_ssobject());
+    while(iterator_has_next(it)) {
+        surgescript_objecthandle_t handle = *(surgescript_objecthandle_t*)iterator_next(it);
+        if(!surgescript_objectmanager_exists(manager, handle)) continue;
+        surgescript_object_t* object = surgescript_objectmanager_get(manager, handle);
+        if(!scripting_brick_is_valid(object) || !scripting_brick_enabled(object)) continue;
+        obstacle_t* obstacle = bricklike2obstacle(object);
+        if(checkpoint_intersects(obstacle, center)) {
+            darray_push(query->owned, obstacle); checkpoint_add(query, obstacle);
+        }
+        else obstacle_destroy(obstacle);
+    }
+    iterator_destroy(it);
+    /* This engine map clamps wide bucket spans. Refuse unknown coverage, never assume clear. */
+    if(query->right - query->left > 12000) { level_checkpoint_terrain_destroy(query); return NULL; }
+    bsl_cell_obstacles(query->map);
+    obstaclemap_build(query->map);
+    return query;
+}
+const obstaclemap_t* level_checkpoint_terrain_map(const struct checkpoint_terrain_t* query) { return query->map; }
+void level_checkpoint_rebase(v2d_t center)
+{
+    camera_set_position(center);
+    v2d_t at = camera_get_position();
+    brickmanager_set_roi(brick_manager, create_roi(at, ROI_MARGIN_UPDATE_BRICK));
+    rect_t entity_roi = create_roi(at, ROI_MARGIN_UPDATE_ENTITY);
+    set_entitymanager_roi(entity_roi);
+    entitymanager_set_active_region(entity_roi);
+    update_obstaclemap(NULL, NULL);
+    is_obstaclemap_dirty = false;
+}
+
 /*
  * level_set_obstaclemap_dirty()
  * Require another update of the obstacle map after updating the scripts
  */
+/* Camera-independent read-only acoustic visitor. Borrowed masks never escape callback. Signed: Atlas. */
+void bsl_level_acoustic_visit(void (*visit)(const obstacle_t*, void*), void* data)
+{
+    iterator_t* it = brickmanager_retrieve_all_bricks(brick_manager);
+    while(iterator_has_next(it)) {
+        const obstacle_t* obstacle = brick_obstacle(iterator_next(it));
+        if(obstacle != NULL && obstacle_is_solid(obstacle)) visit(obstacle, data);
+    }
+    iterator_destroy(it);
+    const surgescript_objectmanager_t* manager = surgescript_object_manager(level_ssobject());
+    it = entitymanager_bricklike_iterator(entitymanager_ssobject());
+    while(iterator_has_next(it)) {
+        surgescript_objecthandle_t handle = *(surgescript_objecthandle_t*)iterator_next(it);
+        if(!surgescript_objectmanager_exists(manager, handle)) continue;
+        surgescript_object_t* object = surgescript_objectmanager_get(manager, handle);
+        if(!scripting_brick_is_valid(object) || !scripting_brick_enabled(object)) continue;
+        obstacle_t* obstacle = bricklike2obstacle(object);
+        if(obstacle_is_solid(obstacle)) visit(obstacle, data);
+        obstacle_destroy(obstacle);
+    }
+    iterator_destroy(it);
+}
+extern void bsl_acoustic_geometry_dirty(void);
 void level_set_obstaclemap_dirty()
 {
     is_obstaclemap_dirty = true;
+    bsl_acoustic_geometry_dirty();
 }
 
 
@@ -2076,6 +2359,7 @@ v2d_t level_size()
  */
 int level_height_at(int xpos)
 {
+    if(bsl_cell_world_height())return bsl_cell_world_height();
     int half_window_size = VIDEO_SCREEN_W / 2;
     int left_xpos = xpos - half_window_size;
     int right_xpos = xpos + half_window_size;
@@ -2511,6 +2795,8 @@ void render_level(const item_list_t *major_items, const enemy_list_t *major_enem
 
     /* okay, enough! let's render */
     renderqueue_end();
+    v2d_t cell_camera=camera_get_position();
+    bsl_cell_render(cell_camera.x,cell_camera.y,editor_is_enabled());
 }
 
 
@@ -2643,7 +2929,7 @@ void spawn_players()
     /* default players */
     if(team_size == 0) {
         video_showmessage("No players have been specified!");
-        team[0] = player_create(0, "Surge");
+        team[0] = player_create(0, asset_exists("borsurgelab.runtime")?"None":"Surge");
         team_size = 1;
     }
 
@@ -2957,6 +3243,8 @@ void update_obstaclemap(const item_list_t* item_list, const object_list_t* objec
         }
     }
 
+    /* The signed cell field remains collision-active off screen. */
+    bsl_cell_obstacles(obstaclemap);
     /* build the obstacle map */
     obstaclemap_build(obstaclemap);
 }
@@ -2989,12 +3277,15 @@ obstacle_t* bricklike2obstacle(const surgescript_object_t* object)
         flags |= OF_CLOUD;
 
     collisionmask_t* clone = create_collisionmask_of_bricklike_object(object);
-    return obstacle_create_ex(
+    obstacle_t* obstacle = obstacle_create_ex(
         clone,
         point2d_new(position.x, position.y),
         layer, flags,
         destroy_collisionmask_of_bricklike_object, clone
     );
+    /* Brick lifetime serials survive mock rebuilds without handle-reuse ambiguity. */
+    obstacle_set_id(obstacle, scripting_brick_identity(object));
+    return obstacle;
 }
 
 /* creates a collision mask for a brick-like SurgeScript object */
@@ -3296,6 +3587,7 @@ void editor_init()
 
     /* cursor */
     editor_cursor_init();
+    bsl_inspect_font = font_create("EditorInspect");
 
     /* grid */
     editor_grid_init();
@@ -3356,6 +3648,8 @@ void editor_release()
 
     /* cursor */
     editor_cursor_release();
+    font_destroy(bsl_inspect_font);
+    bsl_inspect_font = NULL;
 
     /* destroying objects */
     editorcmd_destroy(editor_cmd);
@@ -3370,23 +3664,113 @@ void editor_release()
  * editor_update()
  * Updates the level editor
  */
+/* Grid brush: each cell is placed once per stroke, including skipped mouse cells. */
+void editor_brush_reset()
+{
+    editor_brush_active = false;
+    darray_clear(editor_brush_cells);
+}
+
+void editor_brush_paint(bool clicked)
+{
+    v2d_t position = editor_cursor.world_grid_position;
+    if(clicked)
+        editor_brush_reset();
+    if(!editor_brush_active) {
+        if(!clicked)
+            return;
+        editor_brush_grid = editor_grid_size;
+        editor_brush_type = editor_selected_entity_type;
+        editor_brush_id = editor_selected_entity_id;
+        editor_brush_layer = editor_layer;
+        editor_brush_flip = editor_flip;
+        editor_brush_previous = position;
+        editor_brush_origin=v2d_new(position.x-roundf(position.x/editor_grid_size)*editor_grid_size,position.y-roundf(position.y/editor_grid_size)*editor_grid_size);
+        editor_brush_active = true;
+    }
+    if(editor_brush_grid != editor_grid_size || editor_brush_type != (int)editor_selected_entity_type ||
+       editor_brush_id != editor_selected_entity_id || editor_brush_layer != editor_layer || editor_brush_flip != editor_flip) {
+        editor_brush_reset();
+        return;
+    }
+
+    v2d_t origin=v2d_new(position.x-roundf(position.x/editor_grid_size)*editor_grid_size,position.y-roundf(position.y/editor_grid_size)*editor_grid_size);
+    if(!nearly_zero(origin.x-editor_brush_origin.x)||!nearly_zero(origin.y-editor_brush_origin.y)){editor_brush_reset();return;}
+    int x = (int)roundf(editor_brush_previous.x / editor_grid_size);
+    int y = (int)roundf(editor_brush_previous.y / editor_grid_size);
+    int end_x = (int)roundf(position.x / editor_grid_size);
+    int end_y = (int)roundf(position.y / editor_grid_size);
+    int dx = abs(end_x - x), dy = -abs(end_y - y);
+    int sx = x < end_x ? 1 : -1, sy = y < end_y ? 1 : -1;
+    int error = dx + dy;
+    for(;;) {
+        v2d_t cell = v2d_new(position.x + (x - end_x) * editor_grid_size,
+                              position.y + (y - end_y) * editor_grid_size);
+        bool visited = false;
+        for(int i = 0; i < darray_length(editor_brush_cells); i++) {
+            if(x == editor_brush_cells[i].x && y == editor_brush_cells[i].y) {
+                visited = true;
+                break;
+            }
+        }
+        if(!visited) {
+            editor_action_t action = editor_action_entity_new(TRUE,
+                editor_selected_entity_type == EDT_EVENTS ? EDT_SSOBJ : editor_selected_entity_type,
+                editor_selected_entity_id, cell);
+            action = editor_action_commit(action);
+            editor_action_register(action);
+            darray_push(editor_brush_cells, ((point2d_t){x,y}));
+        }
+        if(x == end_x && y == end_y)
+            break;
+        int twice_error = 2 * error;
+        if(twice_error >= dy) { error += dy; x += sx; }
+        if(twice_error <= dx) { error += dx; y += sy; }
+    }
+    editor_brush_previous = position;
+}
+
 void editor_update()
 {
+    if(bsl_shell_level_update())return;
+    if(bsl_cell_tool()) {
+        editor_scroll();
+        editor_grid_update();
+        editor_cursor_update();
+        bsl_cell_input(editor_cursor.world_position.x,editor_cursor.world_position.y,editor_grid_size,editor_cursor.screen_position.x,editor_cursor.screen_position.y);
+        if((editorcmd_is_triggered(editor_cmd,"quit") || editorcmd_is_triggered(editor_cmd,"quit-alt"))) editor_disable();
+        return;
+    }
+    /* Disruptive commands cancel an unfinished preview before doing their work. */
+    if(bsl_inspect_drag.id && (editorcmd_is_triggered(editor_cmd, "quit") ||
+       editorcmd_is_triggered(editor_cmd, "quit-alt") || editorcmd_is_triggered(editor_cmd, "save") ||
+       editorcmd_is_triggered(editor_cmd, "reload") || editorcmd_is_triggered(editor_cmd, "help") ||
+       editorcmd_is_triggered(editor_cmd, "open-brick-palette") || editorcmd_is_triggered(editor_cmd, "open-entity-palette") ||
+       editorcmd_is_triggered(editor_cmd, "next-class") || editorcmd_is_triggered(editor_cmd, "previous-class") ||
+       editorcmd_is_triggered(editor_cmd, "undo") || editorcmd_is_triggered(editor_cmd, "redo")))
+        bsl_inspect_drag_cancel();
+    if(editor_texture_release){ALLEGRO_MOUSE_STATE mouse;al_get_mouse_state(&mouse);if(mouse.buttons&3)return;editor_texture_release=false;}
     brick_list_t* major_bricks;
     item_list_t *major_items;
     enemy_list_t *major_enemies;
     int pick_object, delete_object = FALSE;
     int selected_item;
 
+    /* Palette/menu commands are handled by the shared shell. */
+    if(!editorcmd_is_triggered(editor_cmd, "paint-item"))
+        editor_brush_reset();
+
     /* disable the level editor */
     if(editorcmd_is_triggered(editor_cmd, "quit") || editorcmd_is_triggered(editor_cmd, "quit-alt")) {
         editor_disable();
+        editor_brush_reset();
         return;
     }
 
     /* save the level */
     if(editorcmd_is_triggered(editor_cmd, "save")) {
         editor_save();
+        editor_brush_reset();
         return;
     }
 
@@ -3394,6 +3778,7 @@ void editor_update()
     if(editorcmd_is_triggered(editor_cmd, "reload")) {
         confirmboxdata_t cbd = { "$EDITOR_CONFIRM_RELOAD", "$EDITOR_CONFIRM_YES", "$EDITOR_CONFIRM_NO", 1 };
         scenestack_push(storyboard_get_scene(SCENE_CONFIRMBOX), &cbd);
+        editor_brush_reset();
         return;
     }
 
@@ -3410,13 +3795,25 @@ void editor_update()
             path
         );
 
+        editor_brush_reset();
         return;
     }
 
     /* help */
     if(editorcmd_is_triggered(editor_cmd, "help")) {
         scenestack_push(storyboard_get_scene(SCENE_EDITORHELP), NULL);
+        editor_brush_reset();
         return;
+    }
+
+    if(editorcmd_is_triggered(editor_cmd, "open-inspect")) {
+        editor_selected_entity_type = EDT_INSPECT;
+        editor_selected_entity_id = 0;
+    }
+
+    if(editorcmd_is_triggered(editor_cmd, "open-events")) {
+        editor_selected_entity_type = EDT_EVENTS;
+        editor_selected_entity_id = editor_ssobj_index("BSL Event Anchor");
     }
 
     /* open palette */
@@ -3431,6 +3828,7 @@ void editor_update()
             };
             scenestack_push(storyboard_get_scene(SCENE_EDITORPAL), &config);
             editor_selected_entity_type = EDT_BRICK; editor_next_entity();
+            editor_brush_reset();
             return;
         }
         else
@@ -3447,13 +3845,25 @@ void editor_update()
             };
             scenestack_push(storyboard_get_scene(SCENE_EDITORPAL), &config);
             editor_selected_entity_type = EDT_SSOBJ; editor_next_entity();
-            return;           
+            editor_brush_reset();
+            return;
         }
         else
             sound_play(SFX_DENY);
     }
 
-    if(-1 < (selected_item = editorpal_selected_item())) {
+    if(editor_texture_pending){
+        editor_texture_pending=false;selected_item=editorpal_selected_item();
+        if(selected_item>=0&&selected_item<brick_texture_count()){
+            const char* texture=brick_texture_id(selected_item);
+            brick_t* target=editor_texture_target?bsl_brick_by_uid(editor_texture_target):NULL;
+            if(target){editor_action_t action=bsl_brick_style_action(target,brick_brightness(target),texture);action=editor_action_commit(action);editor_action_register(action);editor_status_display("Texture applied to selected placement",0,NULL);}
+            else if(!editor_texture_target){str_cpy(editor_stamp_texture,texture,sizeof editor_stamp_texture);editor_status_display("Texture selected for new placements",0,NULL);}
+            else editor_status_display("Texture target is no longer available",0,NULL);
+        }
+        editor_texture_target=0;editor_texture_release=true;return;
+    }
+    else if(-1 < (selected_item = editorpal_selected_item())) {
         if(editor_selected_entity_type == EDT_BRICK) {
             editor_selected_entity_id = editor_brick_id(selected_item);
             editor_flip = BRF_NOFLIP;
@@ -3474,6 +3884,17 @@ void editor_update()
     set_entitymanager_roi(entity_roi);
     entitymanager_set_active_region(entity_roi); /* legacy */
 
+    /* Inspect is a virtual tool; it cannot place, erase or serialize itself. */
+    editor_cursor_update();
+    if(editorcmd_is_triggered(editor_cmd, "next-class")) editor_next_class();
+    else if(editorcmd_is_triggered(editor_cmd, "previous-class")) editor_previous_class();
+    if(editor_selected_entity_type != EDT_INSPECT) bsl_inspect_drag_cancel();
+    if(editor_selected_entity_type == EDT_INSPECT) {
+        bsl_inspect_update();
+        editor_brush_reset();
+        return;
+    }
+
     /* get legacy entities */
     major_enemies = entitymanager_retrieve_active_objects();
     major_items = entitymanager_retrieve_active_items();
@@ -3485,17 +3906,15 @@ void editor_update()
 
     /* change class / entity / object category */
     if(editorcmd_is_triggered(editor_cmd, "next-category")) {
-        if(editor_selected_entity_type == EDT_ENEMY) /* change category: legacy objects */
+        if(editor_selected_entity_type == EDT_BRICK) editor_brick_cycle_filter(1);
+        else if(editor_selected_entity_type == EDT_ENEMY) /* change category: legacy objects */
             editor_next_object_category();
     }
     else if(editorcmd_is_triggered(editor_cmd, "previous-category")) {
-        if(editor_selected_entity_type == EDT_ENEMY)
+        if(editor_selected_entity_type == EDT_BRICK) editor_brick_cycle_filter(-1);
+        else if(editor_selected_entity_type == EDT_ENEMY)
             editor_previous_object_category();
     }
-    else if(editorcmd_is_triggered(editor_cmd, "next-class"))
-        editor_next_class();
-    else if(editorcmd_is_triggered(editor_cmd, "previous-class"))
-        editor_previous_class();
     else if(editorcmd_is_triggered(editor_cmd, "next-item"))
         editor_next_entity();
     else if(editorcmd_is_triggered(editor_cmd, "previous-item"))
@@ -3565,9 +3984,15 @@ void editor_update()
     }
 
     /* put item */
-    if(editorcmd_is_triggered(editor_cmd, "put-item")) {
+    if(editor_grid_is_enabled() && editorcmd_is_triggered(editor_cmd, "paint-item")) {
+        if(editorcmd_is_triggered(editor_cmd, "snap-to-grid"))
+            editor_brush_reset();
+        else
+            editor_brush_paint(editorcmd_is_triggered(editor_cmd, "put-item"));
+    }
+    else if(editorcmd_is_triggered(editor_cmd, "put-item")) {
         v2d_t position = editor_cursor.world_grid_position;
-        editor_action_t eda = editor_action_entity_new(TRUE, editor_selected_entity_type, editor_selected_entity_id, position);
+        editor_action_t eda = editor_action_entity_new(TRUE, editor_selected_entity_type == EDT_EVENTS ? EDT_SSOBJ : editor_selected_entity_type, editor_selected_entity_id, position);
         eda = editor_action_commit(eda);
         editor_action_register(eda);
     }
@@ -3577,6 +4002,7 @@ void editor_update()
     delete_object = editorcmd_is_triggered(editor_cmd, "delete-item") || editor_is_eraser_enabled();
     if(pick_object || delete_object) {
         switch(editor_selected_entity_type) {
+        case EDT_INSPECT: break;
             /* brick */
             case EDT_BRICK: {
                 const brick_t* candidate = NULL;
@@ -3585,6 +4011,7 @@ void editor_update()
                 iterator_t* it = brickmanager_retrieve_active_bricks(brick_manager);
                 while(iterator_has_next(it)) {
                     const brick_t* brick = iterator_next(it);
+                    if(!editor_brick_matches_filter(brick)) continue;
                     v2d_t brk_topleft = brick_position(brick);
                     v2d_t brk_bottomright = v2d_add(brk_topleft, brick_size(brick));
                     float a[4] = { brk_topleft.x, brk_topleft.y, brk_bottomright.x, brk_bottomright.y };
@@ -3615,9 +4042,10 @@ void editor_update()
                         editor_selected_entity_id = brick_id(candidate);
                         editor_layer = brick_layer(candidate);
                         editor_flip = brick_flip(candidate);
+                        editor_stamp_brightness=brick_brightness(candidate);editor_stamp_z=brick_z_override(candidate);str_cpy(editor_stamp_texture,brick_texture(candidate),sizeof editor_stamp_texture);
                     }
                     else {
-                        editor_action_t eda = editor_action_entity_new(FALSE, EDT_BRICK, brick_id(candidate), brick_position(candidate));
+                        editor_action_t eda = editor_action_brick_delete(candidate);
                         eda = editor_action_commit(eda);
                         editor_action_register(eda);
                     }
@@ -3695,6 +4123,7 @@ void editor_update()
                 break;
 
             /* SurgeScript entity */
+            case EDT_EVENTS:
             case EDT_SSOBJ: {
                 surgescript_object_t* ssobject = NULL;
                 surgescript_object_t* entity_manager = entitymanager_ssobject();
@@ -3707,7 +4136,8 @@ void editor_update()
 
                     if(surgescript_objectmanager_exists(manager, entity_handle)) {
                         surgescript_object_t* entity = surgescript_objectmanager_get(manager, entity_handle);
-                        editor_pick_entity(entity, &ssobject);
+                        if(editor_selected_entity_type != EDT_EVENTS || surgescript_object_has_tag(entity, "bsl-event"))
+                            editor_pick_entity(entity, &ssobject);
                     }
                 }
                 iterator_destroy(it);
@@ -3715,7 +4145,7 @@ void editor_update()
                 if(ssobject != NULL) {
                     int index = editor_ssobj_index(surgescript_object_name(ssobject));
                     if(!pick_object) {
-                        editor_action_t eda = editor_action_entity_new(FALSE, EDT_SSOBJ, index, scripting_util_world_position(ssobject));
+                        editor_action_t eda = editor_action_entity_new(FALSE, EDT_SSOBJ, index, entity_info_spawnpoint(ssobject));
                         eda.ssobj_id = entity_info_id(ssobject);
                         eda = editor_action_commit(eda);
                         editor_action_register(eda);
@@ -3784,17 +4214,22 @@ void editor_render()
     /* draw editor water line */
     editor_render_waterline();
 
+    bsl_event_render();
+
     /* tooltip */
-    editor_tooltip_render();
+    /* Unified shell owns if(editor_selected_entity_type != EDT_INSPECT) editor_tooltip_render(); */
 
     /* mouse cursor */
-    editor_cursor_render();
+    if(!bsl_cell_painting() && !bsl_shell_block_editor() && editor_selected_entity_type!=EDT_INSPECT) editor_draw_object(editor_selected_entity_type,editor_selected_entity_id,editor_cursor.screen_grid_position);
 
     /* status bar */
-    editor_status_render();
+    /* Unified shell owns editor_status_render(); */
 
     /* top bar */
-    editor_topbar_render();
+    /* Unified shell owns editor_topbar_render(); */
+    /* Unified shell owns if(editor_selected_entity_type == EDT_INSPECT) bsl_inspect_render(); */
+    v2d_t cell_editor_camera=camera_get_position();
+    bsl_cell_overlay(cell_editor_camera.x,cell_editor_camera.y);
 
     /* done */
     major_items = entitymanager_release_retrieved_item_list(major_items);
@@ -3809,7 +4244,10 @@ void editor_render()
  */
 void editor_enable()
 {
+    bsl_sequence_exit_suspend();
     logfile_message("Entering the level editor");
+    bsl_host_interaction_reset();
+    bsl_event_nearest = 0;
 
     /* pause the SurgeScript VM */
     scripting_pause_vm();
@@ -3820,10 +4258,13 @@ void editor_enable()
 
     /* activating the editor */
     editor_action_init();
+    editor_brush_reset();
     editor_enabled = true;
+    bsl_shell_enter();
     editor_camera.x = (int)camera_get_position().x;
     editor_camera.y = (int)camera_get_position().y;
     memset(&editor_cursor, 0, sizeof(editor_cursor));
+    editor_cursor_update();
 
     /* display a warm, welcome message */
     editor_status_display("$EDITOR_MESSAGE_WELCOME", 0, NULL);
@@ -3836,10 +4277,14 @@ void editor_enable()
  */
 void editor_disable()
 {
+    if(!bsl_cell_leave())return;
+    bsl_inspect_drag_cancel();
     logfile_message("Exiting the level editor");
+    bsl_host_interaction_reset();
 
     /* disabling the level editor */
     editor_action_release();
+    editor_brush_reset();
     editor_enabled = false;
 
     /* changing the video mode */
@@ -3907,7 +4352,9 @@ void editor_render_waterline()
  */
 void editor_save()
 {
+    bsl_inspect_drag_cancel();
     if(level_save(file)) {
+        bsl_inspect_unsaved = false;
         sound_play(SFX_SAVE);
         editor_status_display("$EDITOR_MESSAGE_SAVED", 1, (const char*[]){ file });
     }
@@ -4012,6 +4459,11 @@ v2d_t editor_world2screen(v2d_t world_position)
 const char *editor_entity_class(enum editor_entity_type objtype)
 {
     switch(objtype) {
+        case EDT_EVENTS:
+            return "EVENTS";
+        case EDT_INSPECT:
+            return "INSPECT";
+
         case EDT_BRICK:
             return "BRICK";
 
@@ -4040,6 +4492,8 @@ const char *editor_entity_info(enum editor_entity_type objtype, int objid)
     *buf = 0;
 
     switch(objtype) {
+        case EDT_EVENTS: break;
+        case EDT_INSPECT: break;
         case EDT_BRICK:
             if(brick_exists(objid)) {
                 static char tmp[3][128];
@@ -4120,10 +4574,12 @@ void editor_next_class()
     (editor_selected_entity_type == EDT_SSOBJ) ? EDT_ITEM  :
     (editor_selected_entity_type == EDT_ITEM)  ? EDT_ENEMY :
     (editor_selected_entity_type == EDT_ENEMY) ? EDT_GROUP :
-    (editor_selected_entity_type == EDT_GROUP) ? EDT_BRICK :
+    (editor_selected_entity_type == EDT_GROUP) ? EDT_EVENTS :
+    (editor_selected_entity_type == EDT_EVENTS) ? EDT_INSPECT :
+    (editor_selected_entity_type == EDT_INSPECT) ? EDT_BRICK :
     editor_selected_entity_type;
 
-    editor_selected_entity_id = 0;
+    editor_selected_entity_id = editor_selected_entity_type == EDT_EVENTS ? editor_ssobj_index("BSL Event Anchor") : 0;
     editor_selected_item_index = 0;
 
     if(editor_selected_entity_type == EDT_GROUP && editorgrp_group_count() == 0)
@@ -4147,14 +4603,16 @@ void editor_next_class()
 void editor_previous_class()
 {
     editor_selected_entity_type =
-    (editor_selected_entity_type == EDT_BRICK) ? EDT_GROUP :
+    (editor_selected_entity_type == EDT_BRICK) ? EDT_INSPECT :
+    (editor_selected_entity_type == EDT_INSPECT) ? EDT_EVENTS :
+    (editor_selected_entity_type == EDT_EVENTS) ? EDT_GROUP :
     (editor_selected_entity_type == EDT_SSOBJ) ? EDT_BRICK :
     (editor_selected_entity_type == EDT_ITEM)  ? EDT_SSOBJ :
     (editor_selected_entity_type == EDT_ENEMY) ? EDT_ITEM  :
     (editor_selected_entity_type == EDT_GROUP) ? EDT_ENEMY :
     editor_selected_entity_type;
 
-    editor_selected_entity_id = 0;
+    editor_selected_entity_id = editor_selected_entity_type == EDT_EVENTS ? editor_ssobj_index("BSL Event Anchor") : 0;
     editor_selected_item_index = 0;
 
     if(editor_selected_entity_type == EDT_GROUP && editorgrp_group_count() == 0)
@@ -4178,6 +4636,8 @@ void editor_previous_class()
 void editor_next_entity()
 {
     switch(editor_selected_entity_type) {
+        case EDT_EVENTS: editor_selected_entity_id = editor_ssobj_index("BSL Event Anchor"); break;
+        case EDT_INSPECT: break;
         /* brick */
         case EDT_BRICK: {
             editor_selected_entity_id = editor_brick_id(
@@ -4232,6 +4692,8 @@ void editor_next_entity()
 void editor_previous_entity()
 {
     switch(editor_selected_entity_type) {
+        case EDT_EVENTS: editor_selected_entity_id = editor_ssobj_index("BSL Event Anchor"); break;
+        case EDT_INSPECT: break;
         /* brick */
         case EDT_BRICK: {
             editor_selected_entity_id = editor_brick_id(
@@ -4319,6 +4781,8 @@ void editor_draw_object(enum editor_entity_type obj_type, int obj_id, v2d_t posi
 
     /* getting the image of the current object */
     switch(obj_type) {
+        case EDT_EVENTS: bsl_event_draw_cursor(position); break;
+        case EDT_INSPECT: break;
         case EDT_BRICK: {
             if(brick_exists(obj_id)) {
                 cursor = brick_image_preview(obj_id);
@@ -4527,30 +4991,38 @@ const char* editor_ssobj_name(int entity_index)
 /* level editor: bricks */
 void editor_brick_init()
 {
-    /* layer & flip flags */
-    editor_layer = BRL_DEFAULT;
-    editor_flip = BRF_NOFLIP;
-
-    /* which are the valid bricks? */
-    if(brickset_loaded()) {
-        int i, j;
-
-        /* count valid bricks */
-        editor_brick_count = 0;
-        for(i = 0; i < brickset_size(); i++)
-            editor_brick_count += brick_exists(i) ? 1 : 0;
-
-        /* read valid bricks */
-        editor_brick = mallocx(editor_brick_count * sizeof(*editor_brick));
-        for(i = j = 0; i < brickset_size(); i++) {
-            if(brick_exists(i))
-                editor_brick[j++] = i;
+    editor_stamp_brightness=15;editor_stamp_z=-1;editor_stamp_texture[0]=0;editor_texture_pending=false;editor_texture_target=0;editor_texture_release=false;
+    editor_layer=BRL_DEFAULT;editor_flip=BRF_NOFLIP;
+    editor_brick_filter_count=0;editor_brick_filter=0;
+    editor_brick=brickset_loaded()?mallocx(brickset_size()*sizeof(*editor_brick)):NULL;
+    editor_brick_filter_roles=brickset_loaded()?mallocx(brickset_size()*sizeof(*editor_brick_filter_roles)):NULL;
+    editor_brick_filter_categories=brickset_loaded()?mallocx(brickset_size()*sizeof(*editor_brick_filter_categories)):NULL;
+    for(int i=0;i<brickset_size();i++)if(brick_exists(i)){
+        brickrole_t role=brick_role_preview(i);const char* category=brick_category_preview(i);int f=0;
+        for(;f<editor_brick_filter_count;f++)if(editor_brick_filter_roles[f]==role&&!strcmp(editor_brick_filter_categories[f],category))break;
+        if(f==editor_brick_filter_count){
+            editor_brick_filter_roles[f]=role;str_cpy(editor_brick_filter_categories[f],category,sizeof editor_brick_filter_categories[f]);editor_brick_filter_count++;
         }
     }
-    else {
-        editor_brick = NULL;
-        editor_brick_count = 0;
-    }
+    editor_brick_refresh_filter(0);
+}
+static int bsl_brick_palette_compare(const void* a,const void* b){int x=*(const int*)a,y=*(const int*)b;int delta=brick_palette_order(x)-brick_palette_order(y);return delta?delta:x-y;}
+static void editor_brick_refresh_filter(int filter)
+{
+    editor_brick_count=0;if(!editor_brick_filter_count)return;
+    editor_brick_filter=(filter+editor_brick_filter_count)%editor_brick_filter_count;
+    for(int i=0;i<brickset_size();i++)if(brick_exists(i)&&brick_role_preview(i)==editor_brick_filter_roles[editor_brick_filter]&&!strcmp(brick_category_preview(i),editor_brick_filter_categories[editor_brick_filter]))editor_brick[editor_brick_count++]=i;
+    qsort(editor_brick,editor_brick_count,sizeof(*editor_brick),bsl_brick_palette_compare);
+    if(editor_brick_count)editor_selected_entity_id=editor_brick[0];
+    editor_brush_reset();
+}
+static void editor_brick_cycle_filter(int delta){
+    if(editor_brick_filter_count)editor_brick_refresh_filter(editor_brick_filter+delta);
+}
+static bool editor_brick_matches_filter(const brick_t* brick){
+    if(!editor_brick_filter_count||!brick_is_alive(brick))return false;
+    int id=brick_id(brick);brickrole_t role=brick_role_preview(id);
+    return role==editor_brick_filter_roles[editor_brick_filter]&&!strcmp(brick_category_preview(id),editor_brick_filter_categories[editor_brick_filter])&&(brick_role_visible(role,true)||(role==BRR_COLLISION&&brick_has_surface(brick)&&brick_role_visible(BRR_DECORATION,true)))&&(role!=BRR_COLLISION||brick_layer(brick)==editor_layer);
 }
 
 void editor_brick_release()
@@ -4559,6 +5031,9 @@ void editor_brick_release()
         free(editor_brick);
 
     editor_brick = NULL;
+    free(editor_brick_filter_roles); editor_brick_filter_roles=NULL;
+    free(editor_brick_filter_categories); editor_brick_filter_categories=NULL;
+    editor_brick_filter_count=0;
     editor_brick_count = 0;
 }
 
@@ -4603,12 +5078,16 @@ int editor_brick_id(int index)
 void editor_grid_init()
 {
     editor_grid_size = EDITOR_GRID_INITIAL_SIZE;
+    darray_init(editor_brush_cells);
+    editor_brush_reset();
     editor_grid_cache = vertexcache_create();
 }
 
 /* releases the grid module */
 void editor_grid_release()
 {
+    editor_brush_reset();
+    darray_release(editor_brush_cells);
     vertexcache_destroy(editor_grid_cache);
 }
 
@@ -4781,10 +5260,11 @@ void editor_cursor_update()
 /* renders the mouse cursor */
 void editor_cursor_render()
 {
-    if(!editor_is_eraser_enabled()) {
+    if(editor_selected_entity_type == EDT_INSPECT || !editor_is_eraser_enabled()) {
 
         /* drawing the object */
-        editor_draw_object(editor_selected_entity_type, editor_selected_entity_id, editor_cursor.screen_grid_position);
+        if(editor_selected_entity_type != EDT_INSPECT)
+            editor_draw_object(editor_selected_entity_type, editor_selected_entity_id, editor_cursor.screen_grid_position);
 
         /* drawing the cursor arrow */
         const image_t* cursor = animation_image(sprite_get_animation("Mouse Cursor", 0), 0);
@@ -4831,6 +5311,29 @@ void editor_topbar_update()
     const char* info_text = editor_entity_info(editor_selected_entity_type, editor_selected_entity_id);
     char buffer[32];
 
+    if(editor_selected_entity_type == EDT_INSPECT) {
+        font_set_position(editor_topbar_info_font, v2d_new(8, 8));
+        font_set_text(editor_topbar_info_font, "Tool: INSPECT | click object | Shift+wheel changes tool");
+        font_set_visible(editor_topbar_help_font, false);
+        return;
+    }
+
+    if(editor_selected_entity_type == EDT_EVENTS) {
+        font_set_position(editor_topbar_info_font, v2d_new(8, 8));
+        font_set_text(editor_topbar_info_font, "Tool: EVENTS | click place | Ctrl+2 Inspect to bind | E interacts in play");
+        font_set_visible(editor_topbar_help_font, false);
+        return;
+    }
+
+    if(editor_selected_entity_type==EDT_BRICK&&editor_brick_filter_count){
+        brickrole_t role=editor_brick_filter_roles[editor_brick_filter];
+        const char* label=*editor_brick_filter_categories[editor_brick_filter]?editor_brick_filter_categories[editor_brick_filter]:"Legacy bricks";
+        font_set_position(editor_topbar_info_font,v2d_new(8,8));
+        char grouped_info[512];snprintf(grouped_info,sizeof grouped_info,"%s | %s",brick_shape_group(editor_selected_entity_id),info_text);
+        font_set_text(editor_topbar_info_font,"%s / %s | %s | Ctrl+wheel category | Ctrl+M colliders %s | Ctrl+G scenery %s | T texture | [ ] brightness",role==BRR_COLLISION?"Collision":role==BRR_DECORATION?"Decoration":"Legacy",label,grouped_info,brick_role_visible(BRR_COLLISION,true)?"ON":"OFF",brick_role_visible(BRR_DECORATION,true)?"ON":"OFF");
+        font_set_visible(editor_topbar_help_font,false);return;
+    }
+
     /* object properties */
     snprintf(buffer, sizeof(buffer), "$EDITOR_UI_%s ", editor_entity_class(editor_selected_entity_type));
     font_set_position(editor_topbar_info_font, v2d_new(8, 8));
@@ -4848,7 +5351,7 @@ void editor_topbar_update()
 void editor_topbar_render()
 {
     v2d_t no_camera = editor_world2screen(editor_camera); /* half screen */
-    image_rectfill(0, 0, VIDEO_SCREEN_W, 32, EDITOR_UI_COLOR_TRANS(160));
+    image_rectfill(0, 0, VIDEO_SCREEN_W, (int)font_get_textsize(editor_topbar_info_font).y + 16, EDITOR_UI_COLOR_TRANS(160));
     font_render(editor_topbar_info_font, no_camera);
     font_render(editor_topbar_help_font, no_camera);
 }
@@ -5071,7 +5574,7 @@ void editor_status_render()
         int h = (int)(font_get_textsize(editor_status_font).y);
         const int padding = 8;
 
-        image_rectfill(0, VIDEO_SCREEN_H - 32, VIDEO_SCREEN_W, VIDEO_SCREEN_H, EDITOR_UI_COLOR_TRANS(160));
+        image_rectfill(0, VIDEO_SCREEN_H - h - 2*padding, VIDEO_SCREEN_W, VIDEO_SCREEN_H, EDITOR_UI_COLOR_TRANS(160));
         font_set_position(editor_status_font, v2d_new(padding, VIDEO_SCREEN_H - h - padding));
         font_render(editor_status_font, cam);
     }
@@ -5082,6 +5585,8 @@ void editor_status_display(const char* message, int argc, const char** argv)
 {
     font_set_textargumentsv(editor_status_font, argc, argv);
     font_set_text(editor_status_font, "%s", message);
+    bsl_shell_note("editor",message[0]=='$'?lang_getstring(message+1,(char[1024]){0},1024):message,0);
+    bsl_shell_note("editor",message[0]=='$'?lang_getstring(message+1,(char[1024]){0},1024):message,0);
     editor_status_timer = EDITOR_STATUS_TIMEOUT;
 }
 
@@ -5092,7 +5597,7 @@ void editor_status_display(const char* message, int argc, const char** argv)
 /* action: constructor (entity) */
 editor_action_t editor_action_entity_new(int is_new_object, enum editor_entity_type obj_type, int obj_id, v2d_t obj_position)
 {
-    editor_action_t o;
+    editor_action_t o = {0};
     o.type = is_new_object ? EDA_NEWOBJECT : EDA_DELETEOBJECT;
     o.obj_type = obj_type;
     o.obj_id = obj_id;
@@ -5100,35 +5605,27 @@ editor_action_t editor_action_entity_new(int is_new_object, enum editor_entity_t
     o.obj_old_position = obj_position;
     o.layer = editor_layer;
     o.flip = editor_flip;
+    o.brightness=obj_type==EDT_BRICK&&brick_role_preview(obj_id)==BRR_DECORATION?editor_stamp_brightness:15;
+    o.z_override=obj_type==EDT_BRICK&&brick_role_preview(obj_id)==BRR_DECORATION?editor_stamp_z:-1;
+    if(obj_type==EDT_BRICK&&brick_role_preview(obj_id)==BRR_COLLISION)str_cpy(o.texture_id,editor_stamp_texture,sizeof o.texture_id);
     o.ssobj_id = 0;
 
-    /* are we removing a brick? Store its layer & flip flags */
-    if(!is_new_object && obj_type == EDT_BRICK) {
-        iterator_t* it = brickmanager_retrieve_all_bricks(brick_manager);
-        while(iterator_has_next(it)) {
-            brick_t* brick = iterator_next(it);
-
-            if(brick_id(brick) == o.obj_id) {
-                v2d_t delta = v2d_subtract(brick_position(brick), o.obj_position);
-                float dist = v2d_magnitude(delta);
-
-                if(nearly_zero(dist)) {
-                    o.layer = brick_layer(brick);
-                    o.flip = brick_flip(brick);
-                    brick_kill(brick);
-                }
-            }
-        }
-        iterator_destroy(it);
-    }
+    /* Brick deletion needs an explicit selected identity, never coordinates alone. */
+    if(!is_new_object && obj_type==EDT_BRICK)o.rejected=true;
 
     return o;
+}
+
+static editor_action_t editor_action_brick_delete(const brick_t* brick){
+    editor_action_t action=editor_action_entity_new(FALSE,EDT_BRICK,brick_id(brick),brick_spawnpoint(brick));
+    if(!editor_brick_matches_filter(brick))return action;
+    action.rejected=false;action.brick_uid=brick_placement_id(brick);action.layer=brick_layer(brick);action.flip=brick_flip(brick);action.brightness=brick_brightness(brick);action.z_override=brick_z_override(brick);str_cpy(action.texture_id,brick_texture(brick),sizeof action.texture_id);return action;
 }
 
 /* action: constructor (spawn point) */
 editor_action_t editor_action_spawnpoint_new(int is_changing, v2d_t obj_position, v2d_t obj_old_position)
 {
-    editor_action_t o;
+    editor_action_t o = {0};
     o.type = is_changing ? EDA_CHANGESPAWN : EDA_RESTORESPAWN;
     o.obj_id = 0;
     o.obj_position = obj_position;
@@ -5143,7 +5640,7 @@ editor_action_t editor_action_spawnpoint_new(int is_changing, v2d_t obj_position
 /* action: constructor (waterlevel) */
 editor_action_t editor_action_waterlevel_new(int is_changing, int new_waterlevel, int old_waterlevel)
 {
-    editor_action_t o;
+    editor_action_t o = {0};
     o.type = is_changing ? EDA_CHANGEWATER : EDA_RESTOREWATER;
     o.obj_id = 0;
     o.obj_position = v2d_new(0, new_waterlevel);
@@ -5179,6 +5676,8 @@ void editor_action_release()
 /* registers a new editor_action */
 void editor_action_register(editor_action_t action)
 {
+    if(action.rejected) return;
+    shell_mark_dirty();
     /* ugly, but these fancy group stuff
      * shouldn't be availiable on the interface */
     static int registering_group = FALSE;
@@ -5222,8 +5721,11 @@ void editor_action_register(editor_action_t action)
             editor_action_t a;
             editorgrp_entity_t e = it->entity;
             enum editor_entity_type my_type = EDITORGRP_ENTITY_TO_EDT(e.type);
+            bricklayer_t old_layer=editor_layer;brickflip_t old_flip=editor_flip;
+            editor_layer=e.layer!=BRL_DEFAULT?e.layer:editor_layer;editor_flip=e.flip!=BRF_NOFLIP?e.flip:editor_flip;
             a = editor_action_entity_new(TRUE, my_type, e.id, v2d_add(e.position, action.obj_position));
-            editor_action_register(a);
+            a=editor_action_commit(a);editor_action_register(a);
+            editor_layer=old_layer;editor_flip=old_flip;
         }
         registering_group = FALSE;
     }
@@ -5268,6 +5770,14 @@ void editor_action_undo()
         (a.type == EDA_RESTORESPAWN) ? EDA_CHANGESPAWN :
         (a.type == EDA_CHANGEWATER) ? EDA_RESTOREWATER :
         (a.type == EDA_RESTOREWATER) ? EDA_CHANGEWATER :
+        (a.type == EDA_MOVEINSTANCE) ? EDA_RESTOREMOVEINSTANCE :
+        (a.type == EDA_RESTOREMOVEINSTANCE) ? EDA_MOVEINSTANCE :
+        (a.type == EDA_INSTANCEPARAM) ? EDA_RESTOREINSTANCEPARAM :
+        (a.type == EDA_RESTOREINSTANCEPARAM) ? EDA_INSTANCEPARAM :
+        (a.type == EDA_EVENTBIND) ? EDA_RESTOREEVENTBIND :
+        (a.type == EDA_RESTOREEVENTBIND) ? EDA_EVENTBIND :
+        (a.type == EDA_BRICKSTYLE) ? EDA_RESTOREBRICKSTYLE :
+        (a.type == EDA_RESTOREBRICKSTYLE) ? EDA_BRICKSTYLE :
         a.type;
         editor_action_commit(a);
     }
@@ -5302,12 +5812,35 @@ void editor_action_redo()
 /* commit action */
 editor_action_t editor_action_commit(editor_action_t action)
 {
+    if(action.type == EDA_MOVEINSTANCE || action.type == EDA_RESTOREMOVEINSTANCE) {
+        bsl_inspect_move_commit(action, action.type == EDA_RESTOREMOVEINSTANCE);
+        return action;
+    }
+    if(action.rejected)return action;
+    if(action.type==EDA_BRICKSTYLE||action.type==EDA_RESTOREBRICKSTYLE){
+        brick_t* brick=bsl_brick_by_uid(action.brick_uid);bool restore=action.type==EDA_RESTOREBRICKSTYLE;
+        if(!brick||!brick_set_texture(brick,restore?action.texture_before:action.texture_id)){action.rejected=true;return action;}
+        brick_set_brightness(brick,restore?action.brightness_before:action.brightness);brick_set_z_override(brick,restore?action.z_before:action.z_override);return action;
+    }
+    if(action.type == EDA_EVENTBIND || action.type == EDA_RESTOREEVENTBIND) {
+        bsl_event_commit(action, action.type == EDA_RESTOREEVENTBIND);
+        return action;
+    }
+    if(action.type == EDA_INSTANCEPARAM || action.type == EDA_RESTOREINSTANCEPARAM) {
+        bsl_instance_commit(action, action.type == EDA_RESTOREINSTANCEPARAM);
+        return action;
+    }
     if(action.type == EDA_NEWOBJECT) {
         /* new object */
         switch(action.obj_type) {
+        case EDT_EVENTS: break;
+        case EDT_INSPECT: break;
             case EDT_BRICK: {
                 /* new brick */
-                level_create_brick(action.obj_id, action.obj_position, action.layer, action.flip);
+                if(action.brick_uid&&bsl_brick_by_uid(action.brick_uid)){action.rejected=true;break;}
+                brick_t* created=bsl_brick_create(action.obj_id, action.obj_position, action.layer, action.flip,action.brick_uid);
+                action.brick_uid=brick_placement_id(created);brick_set_brightness(created,action.brightness);brick_set_z_override(created,action.z_override);
+                if(!brick_set_texture(created,action.texture_id)){brick_kill(created);action.rejected=true;}
                 break;
             }
 
@@ -5324,56 +5857,40 @@ editor_action_t editor_action_commit(editor_action_t action)
             }
 
             case EDT_SSOBJ: {
-                /* new SurgeScript object */
-                surgescript_object_t* ssobj = level_create_object(editor_ssobj_name(action.obj_id), action.obj_position);
-
-                /* recover entity ID */
-                if(entity_info_exists(ssobj)) {
-                    uint64_t recovered_id;
-
-                    /* what is the ID to recover? */
-                    if(action.ssobj_id != 0)
-                        recovered_id = action.ssobj_id; /* undo? */
-                    else if(editor_ssobj_picked_entity.id != 0 && strcmp(surgescript_object_name(ssobj), editor_ssobj_picked_entity.name) == 0)
-                        recovered_id = editor_ssobj_picked_entity.id; /* picked entity? */
-                    else
-                        recovered_id = 0; /* give a new ID */
-
-                    /* enforce uniqueness */
-                    if(recovered_id != 0) {
-                        if(level_get_entity_by_id(x64_to_str(recovered_id, NULL, 0)) == NULL)
-                            entity_info_set_id(ssobj, recovered_id);
-                    }
+                const char* name = editor_ssobj_name(action.obj_id);
+                uint64_t picked = !strcmp(name, editor_ssobj_picked_entity.name) ? editor_ssobj_picked_entity.id : 0;
+                uint64_t desired = action.ssobj_id ? action.ssobj_id : picked;
+                bool copying = !action.ssobj_id && picked && level_get_entity_by_id(x64_to_str(picked, NULL, 0));
+                if(copying && !bsl_instance_copy_has_capacity(picked)) {
+                    action.rejected = true;
+                    editor_status_display("Instance capacity reached; placement not applied", 0, NULL);
+                    return action;
                 }
+                if(!desired || level_get_entity_by_id(x64_to_str(desired, NULL, 0))) {
+                    if(bsl_loaded_count == 16384) {
+                        action.rejected = true;
+                        editor_status_display("Placement ID capacity reached; placement not applied", 0, NULL);
+                        return action;
+                    }
+                    desired = bsl_instance_fresh_id();
+                    bsl_loaded_ids[bsl_loaded_count++] = desired;
+                }
+                surgescript_object_t* ssobj = level_create_object(name, action.obj_position);
+                if(!ssobj || !entity_info_exists(ssobj)) {
+                    action.rejected = true;
+                    return action;
+                }
+                entity_info_set_id(ssobj, desired);
+                if(copying) bsl_instance_copy(picked, desired);
+                bsl_instance_apply_all(ssobj);
                 editor_ssobj_picked_entity.id = 0;
                 editor_ssobj_picked_entity.name[0] = '\0';
-
-                /* change action.ssobj_id */
-                action.ssobj_id = entity_info_id(ssobj);
+                action.ssobj_id = desired;
                 break;
             }
 
             case EDT_GROUP: {
-                /* new group of objects */
-                editorgrp_entity_list_t *list, *it;
-                list = editorgrp_get_group(action.obj_id);
-                for(it=list; it; it=it->next) {
-                    editor_action_t a;
-                    editorgrp_entity_t e = it->entity;
-                    enum editor_entity_type my_type = EDITORGRP_ENTITY_TO_EDT(e.type);
-
-                    /* e.layer (flip) has higher precedence than editor_layer (flip) */
-                    bricklayer_t old_layer = editor_layer;
-                    brickflip_t old_flip = editor_flip;
-
-                    editor_layer = (e.layer != BRL_DEFAULT) ? e.layer : editor_layer;
-                    editor_flip = (e.flip != BRF_NOFLIP) ? e.flip : editor_flip;
-                    a = editor_action_entity_new(TRUE, my_type, e.id, v2d_add(e.position, action.obj_position));
-                    editor_action_commit(a);
-
-                    editor_flip = old_flip;
-                    editor_layer = old_layer;
-                }
+                /* Registration commits children and retains their actual placement IDs. */
                 break;
             }
         }
@@ -5381,22 +5898,12 @@ editor_action_t editor_action_commit(editor_action_t action)
     else if(action.type == EDA_DELETEOBJECT) {
         /* delete object */
         switch(action.obj_type) {
+        case EDT_EVENTS: break;
+        case EDT_INSPECT: break;
             case EDT_BRICK: {
-                /* delete brick */
-                iterator_t* it = brickmanager_retrieve_all_bricks(brick_manager);
-                while(iterator_has_next(it)) {
-                    brick_t* brick = iterator_next(it);
-
-                    if(brick_id(brick) == action.obj_id) {
-                        v2d_t delta = v2d_subtract(brick_position(brick), action.obj_position);
-                        float dist = v2d_magnitude(delta);
-
-                        if(nearly_zero(dist))
-                            brick_kill(brick);
-                    }
-                }
-                iterator_destroy(it);
-                break;
+                brick_t* brick=bsl_brick_by_uid(action.brick_uid);
+                if(!brick||brick_id(brick)!=action.obj_id){action.rejected=true;break;}
+                brick_kill(brick);break;
             }
 
             case EDT_ITEM: {
@@ -5471,6 +5978,7 @@ void editor_remove_entity(uint64_t entity_id)
     if(surgescript_objectmanager_exists(manager, entity_handle)) {
         surgescript_object_t* entity = surgescript_objectmanager_get(manager, entity_handle);
 
+        bsl_host_anchor_cancel(entity_id);
         surgescript_object_kill(entity);
         entity_info_remove(entity);
     }
@@ -5508,3 +6016,80 @@ void editor_pick_entity(surgescript_object_t* object, surgescript_object_t** bes
 
     }
 }
+
+#include "../bor/level_instance_test.inc"
+
+#include "../bor/level_event_test.inc"
+
+#include "../bor/terrain_test.inc"
+
+static editor_action_t bsl_brick_style_action(brick_t* brick,int brightness,const char* texture){
+ editor_action_t action={0};action.type=EDA_BRICKSTYLE;action.obj_type=EDT_BRICK;action.brick_uid=brick_placement_id(brick);action.brightness_before=brick_brightness(brick);action.brightness=brightness;action.z_before=action.z_override=brick_z_override(brick);str_cpy(action.texture_before,brick_texture(brick),sizeof action.texture_before);str_cpy(action.texture_id,texture,sizeof action.texture_id);return action;
+}
+typedef struct bsl_door_nav_t { uint64_t last, next_id, first_id; int direction; v2d_t next_pos, first_pos; } bsl_door_nav_t;
+static bool bsl_door_nav_visit(surgescript_object_t* object,void* arg){
+ bsl_door_nav_t* n=arg;if(surgescript_object_is_killed(object))return false;
+ if(strcmp(surgescript_object_name(object),"BSL Teleporter")||!entity_info_exists(object)||!entity_info_is_persistent(object))return true;
+ uint64_t id=entity_info_id(object);if(!id)return true;v2d_t pos=entity_info_spawnpoint(object);
+ if(!n->first_id||(n->direction>0?id<n->first_id:id>n->first_id)){n->first_id=id;n->first_pos=pos;}
+ if((n->direction>0?id>n->last:id<n->last)&&(!n->next_id||(n->direction>0?id<n->next_id:id>n->next_id))){n->next_id=id;n->next_pos=pos;}
+ return true;
+}
+static void bsl_door_navigate(int direction){
+ static uint64_t last=0;bsl_door_nav_t n={0};n.last=last;n.direction=direction;
+ surgescript_object_traverse_tree_ex(level_ssobject(),&n,bsl_door_nav_visit);
+ if(!n.first_id){last=0;editor_status_display("No teleporters in this level",0,NULL);return;}
+ last=n.next_id?n.next_id:n.first_id;editor_camera=n.next_id?n.next_pos:n.first_pos;camera_set_position(editor_camera);
+ char msg[128];snprintf(msg,sizeof msg,"Teleporter %016llx",(unsigned long long)last);editor_status_display(msg,0,NULL);
+}
+static bool bsl_workflow_input(void){
+ static const int codes[]={ALLEGRO_KEY_PAD_PLUS,ALLEGRO_KEY_PAD_MINUS,ALLEGRO_KEY_PAD_ASTERISK,ALLEGRO_KEY_PAD_SLASH,ALLEGRO_KEY_HOME,ALLEGRO_KEY_INSERT,ALLEGRO_KEY_1,ALLEGRO_KEY_2,ALLEGRO_KEY_3,ALLEGRO_KEY_4,ALLEGRO_KEY_5,ALLEGRO_KEY_6,ALLEGRO_KEY_7,ALLEGRO_KEY_8,ALLEGRO_KEY_9,ALLEGRO_KEY_0,ALLEGRO_KEY_PGUP,ALLEGRO_KEY_PGDN,ALLEGRO_KEY_END};
+ static bool previous[sizeof codes/sizeof codes[0]];bool pressed[sizeof codes/sizeof codes[0]];ALLEGRO_KEYBOARD_STATE keys;al_get_keyboard_state(&keys);
+ for(size_t i=0;i<sizeof codes/sizeof codes[0];i++){bool held=al_key_down(&keys,codes[i]);pressed[i]=held&&!previous[i];previous[i]=held;}
+ if(al_key_down(&keys,ALLEGRO_KEY_LCTRL)||al_key_down(&keys,ALLEGRO_KEY_RCTRL)||al_key_down(&keys,ALLEGRO_KEY_LSHIFT)||al_key_down(&keys,ALLEGRO_KEY_RSHIFT)||al_key_down(&keys,ALLEGRO_KEY_ALT))return false;
+ if(pressed[18]){BslLevelProbe level={0};bsl_host_level_probe(&level);if(level.enabled&&level.registered&&*level.id){bsl_editor_launch(NULL,level.id);editor_status_display(bsl_editor_status,0,NULL);}else editor_status_display("This level has no registered local definitions",0,NULL);return true;}
+ if(pressed[16]||pressed[17]){bsl_door_navigate(pressed[16]?1:-1);return true;}
+ if(pressed[4]){editor_camera=spawn_point;camera_set_position(editor_camera);editor_status_display("Camera moved to level spawn",0,NULL);return true;}
+ if(pressed[5]){if(editor_ssobj_count>0){editorpal_config_t config={.type=EDITORPAL_SSOBJ,.ssobj={.name=(const char**)editor_ssobj,.count=editor_ssobj_count}};scenestack_push(storyboard_get_scene(SCENE_EDITORPAL),&config);editor_selected_entity_type=EDT_SSOBJ;editor_next_entity();}else sound_play(SFX_DENY);return true;}
+ for(int i=0;i<10;i++)if(pressed[6+i]){if(i<editor_brick_filter_count){editor_brick_refresh_filter(i);if(editor_brick_count>0){editorpal_config_t config={.type=EDITORPAL_BRICK,.brick={.id=(const int*)editor_brick,.count=editor_brick_count}};scenestack_push(storyboard_get_scene(SCENE_EDITORPAL),&config);editor_selected_entity_type=EDT_BRICK;editor_next_entity();}}else editor_status_display("No brick category assigned to this number",0,NULL);return true;}
+ if(editor_selected_entity_type==EDT_BRICK&&brick_role_preview(editor_selected_entity_id)==BRR_DECORATION){
+  if(pressed[0]||pressed[1]){if(editor_stamp_z<0)editor_stamp_z=(int)(brick_zindex_preview(editor_selected_entity_id)*100.0f+0.5f);editor_stamp_z=clip(editor_stamp_z+(pressed[0]?1:-1),0,100);char msg[96];snprintf(msg,sizeof msg,"Stamp Z: %.2f",editor_stamp_z/100.0);editor_status_display(msg,0,NULL);return true;}
+  if(pressed[2]||pressed[3]){editor_stamp_brightness=clip(editor_stamp_brightness+(pressed[2]?1:-1),0,15);char msg[96];snprintf(msg,sizeof msg,"Stamp brightness: %d / 15",editor_stamp_brightness);editor_status_display(msg,0,NULL);return true;}
+ }
+ return false;
+}
+static bool bsl_brick_style_input(void){
+ static bool previous[3];ALLEGRO_KEYBOARD_STATE keys;al_get_keyboard_state(&keys);
+ int codes[3]={ALLEGRO_KEY_T,ALLEGRO_KEY_OPENBRACE,ALLEGRO_KEY_CLOSEBRACE};bool pressed[3];
+ for(int i=0;i<3;i++){bool held=al_key_down(&keys,codes[i]);pressed[i]=held&&!previous[i];previous[i]=held;}
+ if(editor_selected_entity_type!=EDT_BRICK||al_key_down(&keys,ALLEGRO_KEY_LCTRL)||al_key_down(&keys,ALLEGRO_KEY_RCTRL))return false;
+ if(!pressed[0]&&!pressed[1]&&!pressed[2])return false;
+ brick_t* selected=NULL;iterator_t* it=brickmanager_retrieve_all_bricks(brick_manager);
+ while(iterator_has_next(it)){brick_t* brick=iterator_next(it);if(!editor_brick_matches_filter(brick))continue;v2d_t p=brick_position(brick),size=brick_size(brick);if(editor_cursor.world_position.x>=p.x&&editor_cursor.world_position.x<p.x+size.x&&editor_cursor.world_position.y>=p.y&&editor_cursor.world_position.y<p.y+size.y&&(!selected||brick_zindex(brick)>=brick_zindex(selected)))selected=brick;}
+ iterator_destroy(it);
+ brickrole_t role=selected?brick_role_preview(brick_id(selected)):brick_role_preview(editor_selected_entity_id);
+ if(pressed[0]&&role==BRR_COLLISION){
+  if(!brick_texture_count()){editor_status_display("No terrain textures are registered for this level",0,NULL);return true;}
+  editor_texture_target=selected?brick_placement_id(selected):0;editor_texture_pending=true;
+  editorpal_config_t config={.type=EDITORPAL_TEXTURE};scenestack_push(storyboard_get_scene(SCENE_EDITORPAL),&config);return true;
+ }
+ if((pressed[1]||pressed[2])&&role==BRR_DECORATION){int brightness=clip((selected?brick_brightness(selected):editor_stamp_brightness)+(pressed[2]?1:-1),0,15);if(selected){editor_action_t action=bsl_brick_style_action(selected,brightness,brick_texture(selected));action=editor_action_commit(action);editor_action_register(action);}else editor_stamp_brightness=brightness;char message[96];snprintf(message,sizeof message,"Decoration brightness %d / 15",brightness);editor_status_display(message,0,NULL);return true;}
+ return false;
+}
+
+/* Terrain editor adapter. Signed: President. */
+void bsl_cell_editor_open(void){editor_enable();}
+bool bsl_cell_editor_active(void){return editor_is_enabled();}
+
+/* Owned connected-test diagnostic; no input or terrain mutation. Signed: President. */
+void bsl_cell_native_brick_probe(void){
+ int all=0,active=0;brick_t* first=NULL;iterator_t* it=brickmanager_retrieve_all_bricks(brick_manager);
+ while(iterator_has_next(it)){iterator_next(it);all++;}iterator_destroy(it);
+ it=brickmanager_retrieve_active_bricks(brick_manager);while(iterator_has_next(it)){brick_t* b=iterator_next(it);if(!first)first=b;active++;}iterator_destroy(it);
+ v2d_t camera=camera_get_position();
+ fprintf(stderr,"CELL NATIVE BRICKS all=%d active=%d camera=%.1f,%.1f\n",all,active,camera.x,camera.y);
+ if(first){v2d_t p=brick_position(first);const image_t* image=brick_image(first);unsigned char r,g,b,a;image_lock((image_t*)image,"r");color_unmap(image_getpixel(image,0,0),&r,&g,&b,&a);image_unlock((image_t*)image);
+ fprintf(stderr,"CELL NATIVE FIRST position=%.1f,%.1f size=%d,%d brightness=%d rgba=%u,%u,%u,%u role=%d visible=%d\n",p.x,p.y,image_width(image),image_height(image),brick_brightness(first),r,g,b,a,brick_role_preview(brick_id(first)),brick_role_visible(brick_role_preview(brick_id(first)),false));}
+}
+
+#include "../editor_shell/level_adapter.inc"

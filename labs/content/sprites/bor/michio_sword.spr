@@ -1,0 +1,2325 @@
+sprite "BOR michio_sword"
+{
+ source_file "images/bor/michio_sword.png"
+ source_rect 0 0 2048 3072
+ frame_size 128 128
+ hot_spot 0 0
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+ animation 1
+ {
+  repeat FALSE
+  fps 1
+  data 1
+ }
+ animation 2
+ {
+  repeat FALSE
+  fps 1
+  data 2
+ }
+ animation 3
+ {
+  repeat FALSE
+  fps 1
+  data 3
+ }
+ animation 4
+ {
+  repeat FALSE
+  fps 1
+  data 4
+ }
+ animation 5
+ {
+  repeat FALSE
+  fps 1
+  data 5
+ }
+ animation 6
+ {
+  repeat FALSE
+  fps 1
+  data 6
+ }
+ animation 7
+ {
+  repeat FALSE
+  fps 1
+  data 7
+ }
+ animation 8
+ {
+  repeat FALSE
+  fps 1
+  data 8
+ }
+ animation 9
+ {
+  repeat FALSE
+  fps 1
+  data 9
+ }
+ animation 10
+ {
+  repeat FALSE
+  fps 1
+  data 10
+ }
+ animation 11
+ {
+  repeat FALSE
+  fps 1
+  data 11
+ }
+ animation 12
+ {
+  repeat FALSE
+  fps 1
+  data 12
+ }
+ animation 13
+ {
+  repeat FALSE
+  fps 1
+  data 13
+ }
+ animation 14
+ {
+  repeat FALSE
+  fps 1
+  data 14
+ }
+ animation 15
+ {
+  repeat FALSE
+  fps 1
+  data 15
+ }
+ animation 16
+ {
+  repeat FALSE
+  fps 1
+  data 16
+ }
+ animation 17
+ {
+  repeat FALSE
+  fps 1
+  data 17
+ }
+ animation 18
+ {
+  repeat FALSE
+  fps 1
+  data 18
+ }
+ animation 19
+ {
+  repeat FALSE
+  fps 1
+  data 19
+ }
+ animation 20
+ {
+  repeat FALSE
+  fps 1
+  data 20
+ }
+ animation 21
+ {
+  repeat FALSE
+  fps 1
+  data 21
+ }
+ animation 22
+ {
+  repeat FALSE
+  fps 1
+  data 22
+ }
+ animation 23
+ {
+  repeat FALSE
+  fps 1
+  data 23
+ }
+ animation 24
+ {
+  repeat FALSE
+  fps 1
+  data 24
+ }
+ animation 25
+ {
+  repeat FALSE
+  fps 1
+  data 25
+ }
+ animation 26
+ {
+  repeat FALSE
+  fps 1
+  data 26
+ }
+ animation 27
+ {
+  repeat FALSE
+  fps 1
+  data 27
+ }
+ animation 28
+ {
+  repeat FALSE
+  fps 1
+  data 28
+ }
+ animation 29
+ {
+  repeat FALSE
+  fps 1
+  data 29
+ }
+ animation 30
+ {
+  repeat FALSE
+  fps 1
+  data 30
+ }
+ animation 31
+ {
+  repeat FALSE
+  fps 1
+  data 31
+ }
+ animation 32
+ {
+  repeat FALSE
+  fps 1
+  data 32
+ }
+ animation 33
+ {
+  repeat FALSE
+  fps 1
+  data 33
+ }
+ animation 34
+ {
+  repeat FALSE
+  fps 1
+  data 34
+ }
+ animation 35
+ {
+  repeat FALSE
+  fps 1
+  data 35
+ }
+ animation 36
+ {
+  repeat FALSE
+  fps 1
+  data 36
+ }
+ animation 37
+ {
+  repeat FALSE
+  fps 1
+  data 37
+ }
+ animation 38
+ {
+  repeat FALSE
+  fps 1
+  data 38
+ }
+ animation 39
+ {
+  repeat FALSE
+  fps 1
+  data 39
+ }
+ animation 40
+ {
+  repeat FALSE
+  fps 1
+  data 40
+ }
+ animation 41
+ {
+  repeat FALSE
+  fps 1
+  data 41
+ }
+ animation 42
+ {
+  repeat FALSE
+  fps 1
+  data 42
+ }
+ animation 43
+ {
+  repeat FALSE
+  fps 1
+  data 43
+ }
+ animation 44
+ {
+  repeat FALSE
+  fps 1
+  data 44
+ }
+ animation 45
+ {
+  repeat FALSE
+  fps 1
+  data 45
+ }
+ animation 46
+ {
+  repeat FALSE
+  fps 1
+  data 46
+ }
+ animation 47
+ {
+  repeat FALSE
+  fps 1
+  data 47
+ }
+ animation 48
+ {
+  repeat FALSE
+  fps 1
+  data 48
+ }
+ animation 49
+ {
+  repeat FALSE
+  fps 1
+  data 49
+ }
+ animation 50
+ {
+  repeat FALSE
+  fps 1
+  data 50
+ }
+ animation 51
+ {
+  repeat FALSE
+  fps 1
+  data 51
+ }
+ animation 52
+ {
+  repeat FALSE
+  fps 1
+  data 52
+ }
+ animation 53
+ {
+  repeat FALSE
+  fps 1
+  data 53
+ }
+ animation 54
+ {
+  repeat FALSE
+  fps 1
+  data 54
+ }
+ animation 55
+ {
+  repeat FALSE
+  fps 1
+  data 55
+ }
+ animation 56
+ {
+  repeat FALSE
+  fps 1
+  data 56
+ }
+ animation 57
+ {
+  repeat FALSE
+  fps 1
+  data 57
+ }
+ animation 58
+ {
+  repeat FALSE
+  fps 1
+  data 58
+ }
+ animation 59
+ {
+  repeat FALSE
+  fps 1
+  data 59
+ }
+ animation 60
+ {
+  repeat FALSE
+  fps 1
+  data 60
+ }
+ animation 61
+ {
+  repeat FALSE
+  fps 1
+  data 61
+ }
+ animation 62
+ {
+  repeat FALSE
+  fps 1
+  data 62
+ }
+ animation 63
+ {
+  repeat FALSE
+  fps 1
+  data 63
+ }
+ animation 64
+ {
+  repeat FALSE
+  fps 1
+  data 64
+ }
+ animation 65
+ {
+  repeat FALSE
+  fps 1
+  data 65
+ }
+ animation 66
+ {
+  repeat FALSE
+  fps 1
+  data 66
+ }
+ animation 67
+ {
+  repeat FALSE
+  fps 1
+  data 67
+ }
+ animation 68
+ {
+  repeat FALSE
+  fps 1
+  data 68
+ }
+ animation 69
+ {
+  repeat FALSE
+  fps 1
+  data 69
+ }
+ animation 70
+ {
+  repeat FALSE
+  fps 1
+  data 70
+ }
+ animation 71
+ {
+  repeat FALSE
+  fps 1
+  data 71
+ }
+ animation 72
+ {
+  repeat FALSE
+  fps 1
+  data 72
+ }
+ animation 73
+ {
+  repeat FALSE
+  fps 1
+  data 73
+ }
+ animation 74
+ {
+  repeat FALSE
+  fps 1
+  data 74
+ }
+ animation 75
+ {
+  repeat FALSE
+  fps 1
+  data 75
+ }
+ animation 76
+ {
+  repeat FALSE
+  fps 1
+  data 76
+ }
+ animation 77
+ {
+  repeat FALSE
+  fps 1
+  data 77
+ }
+ animation 78
+ {
+  repeat FALSE
+  fps 1
+  data 78
+ }
+ animation 79
+ {
+  repeat FALSE
+  fps 1
+  data 79
+ }
+ animation 80
+ {
+  repeat FALSE
+  fps 1
+  data 80
+ }
+ animation 81
+ {
+  repeat FALSE
+  fps 1
+  data 81
+ }
+ animation 82
+ {
+  repeat FALSE
+  fps 1
+  data 82
+ }
+ animation 83
+ {
+  repeat FALSE
+  fps 1
+  data 83
+ }
+ animation 84
+ {
+  repeat FALSE
+  fps 1
+  data 84
+ }
+ animation 85
+ {
+  repeat FALSE
+  fps 1
+  data 85
+ }
+ animation 86
+ {
+  repeat FALSE
+  fps 1
+  data 86
+ }
+ animation 87
+ {
+  repeat FALSE
+  fps 1
+  data 87
+ }
+ animation 88
+ {
+  repeat FALSE
+  fps 1
+  data 88
+ }
+ animation 89
+ {
+  repeat FALSE
+  fps 1
+  data 89
+ }
+ animation 90
+ {
+  repeat FALSE
+  fps 1
+  data 90
+ }
+ animation 91
+ {
+  repeat FALSE
+  fps 1
+  data 91
+ }
+ animation 92
+ {
+  repeat FALSE
+  fps 1
+  data 92
+ }
+ animation 93
+ {
+  repeat FALSE
+  fps 1
+  data 93
+ }
+ animation 94
+ {
+  repeat FALSE
+  fps 1
+  data 94
+ }
+ animation 95
+ {
+  repeat FALSE
+  fps 1
+  data 95
+ }
+ animation 96
+ {
+  repeat FALSE
+  fps 1
+  data 96
+ }
+ animation 97
+ {
+  repeat FALSE
+  fps 1
+  data 97
+ }
+ animation 98
+ {
+  repeat FALSE
+  fps 1
+  data 98
+ }
+ animation 99
+ {
+  repeat FALSE
+  fps 1
+  data 99
+ }
+ animation 100
+ {
+  repeat FALSE
+  fps 1
+  data 100
+ }
+ animation 101
+ {
+  repeat FALSE
+  fps 1
+  data 101
+ }
+ animation 102
+ {
+  repeat FALSE
+  fps 1
+  data 102
+ }
+ animation 103
+ {
+  repeat FALSE
+  fps 1
+  data 103
+ }
+ animation 104
+ {
+  repeat FALSE
+  fps 1
+  data 104
+ }
+ animation 105
+ {
+  repeat FALSE
+  fps 1
+  data 105
+ }
+ animation 106
+ {
+  repeat FALSE
+  fps 1
+  data 106
+ }
+ animation 107
+ {
+  repeat FALSE
+  fps 1
+  data 107
+ }
+ animation 108
+ {
+  repeat FALSE
+  fps 1
+  data 108
+ }
+ animation 109
+ {
+  repeat FALSE
+  fps 1
+  data 109
+ }
+ animation 110
+ {
+  repeat FALSE
+  fps 1
+  data 110
+ }
+ animation 111
+ {
+  repeat FALSE
+  fps 1
+  data 111
+ }
+ animation 112
+ {
+  repeat FALSE
+  fps 1
+  data 112
+ }
+ animation 113
+ {
+  repeat FALSE
+  fps 1
+  data 113
+ }
+ animation 114
+ {
+  repeat FALSE
+  fps 1
+  data 114
+ }
+ animation 115
+ {
+  repeat FALSE
+  fps 1
+  data 115
+ }
+ animation 116
+ {
+  repeat FALSE
+  fps 1
+  data 116
+ }
+ animation 117
+ {
+  repeat FALSE
+  fps 1
+  data 117
+ }
+ animation 118
+ {
+  repeat FALSE
+  fps 1
+  data 118
+ }
+ animation 119
+ {
+  repeat FALSE
+  fps 1
+  data 119
+ }
+ animation 120
+ {
+  repeat FALSE
+  fps 1
+  data 120
+ }
+ animation 121
+ {
+  repeat FALSE
+  fps 1
+  data 121
+ }
+ animation 122
+ {
+  repeat FALSE
+  fps 1
+  data 122
+ }
+ animation 123
+ {
+  repeat FALSE
+  fps 1
+  data 123
+ }
+ animation 124
+ {
+  repeat FALSE
+  fps 1
+  data 124
+ }
+ animation 125
+ {
+  repeat FALSE
+  fps 1
+  data 125
+ }
+ animation 126
+ {
+  repeat FALSE
+  fps 1
+  data 126
+ }
+ animation 127
+ {
+  repeat FALSE
+  fps 1
+  data 127
+ }
+ animation 128
+ {
+  repeat FALSE
+  fps 1
+  data 128
+ }
+ animation 129
+ {
+  repeat FALSE
+  fps 1
+  data 129
+ }
+ animation 130
+ {
+  repeat FALSE
+  fps 1
+  data 130
+ }
+ animation 131
+ {
+  repeat FALSE
+  fps 1
+  data 131
+ }
+ animation 132
+ {
+  repeat FALSE
+  fps 1
+  data 132
+ }
+ animation 133
+ {
+  repeat FALSE
+  fps 1
+  data 133
+ }
+ animation 134
+ {
+  repeat FALSE
+  fps 1
+  data 134
+ }
+ animation 135
+ {
+  repeat FALSE
+  fps 1
+  data 135
+ }
+ animation 136
+ {
+  repeat FALSE
+  fps 1
+  data 136
+ }
+ animation 137
+ {
+  repeat FALSE
+  fps 1
+  data 137
+ }
+ animation 138
+ {
+  repeat FALSE
+  fps 1
+  data 138
+ }
+ animation 139
+ {
+  repeat FALSE
+  fps 1
+  data 139
+ }
+ animation 140
+ {
+  repeat FALSE
+  fps 1
+  data 140
+ }
+ animation 141
+ {
+  repeat FALSE
+  fps 1
+  data 141
+ }
+ animation 142
+ {
+  repeat FALSE
+  fps 1
+  data 142
+ }
+ animation 143
+ {
+  repeat FALSE
+  fps 1
+  data 143
+ }
+ animation 144
+ {
+  repeat FALSE
+  fps 1
+  data 144
+ }
+ animation 145
+ {
+  repeat FALSE
+  fps 1
+  data 145
+ }
+ animation 146
+ {
+  repeat FALSE
+  fps 1
+  data 146
+ }
+ animation 147
+ {
+  repeat FALSE
+  fps 1
+  data 147
+ }
+ animation 148
+ {
+  repeat FALSE
+  fps 1
+  data 148
+ }
+ animation 149
+ {
+  repeat FALSE
+  fps 1
+  data 149
+ }
+ animation 150
+ {
+  repeat FALSE
+  fps 1
+  data 150
+ }
+ animation 151
+ {
+  repeat FALSE
+  fps 1
+  data 151
+ }
+ animation 152
+ {
+  repeat FALSE
+  fps 1
+  data 152
+ }
+ animation 153
+ {
+  repeat FALSE
+  fps 1
+  data 153
+ }
+ animation 154
+ {
+  repeat FALSE
+  fps 1
+  data 154
+ }
+ animation 155
+ {
+  repeat FALSE
+  fps 1
+  data 155
+ }
+ animation 156
+ {
+  repeat FALSE
+  fps 1
+  data 156
+ }
+ animation 157
+ {
+  repeat FALSE
+  fps 1
+  data 157
+ }
+ animation 158
+ {
+  repeat FALSE
+  fps 1
+  data 158
+ }
+ animation 159
+ {
+  repeat FALSE
+  fps 1
+  data 159
+ }
+ animation 160
+ {
+  repeat FALSE
+  fps 1
+  data 160
+ }
+ animation 161
+ {
+  repeat FALSE
+  fps 1
+  data 161
+ }
+ animation 162
+ {
+  repeat FALSE
+  fps 1
+  data 162
+ }
+ animation 163
+ {
+  repeat FALSE
+  fps 1
+  data 163
+ }
+ animation 164
+ {
+  repeat FALSE
+  fps 1
+  data 164
+ }
+ animation 165
+ {
+  repeat FALSE
+  fps 1
+  data 165
+ }
+ animation 166
+ {
+  repeat FALSE
+  fps 1
+  data 166
+ }
+ animation 167
+ {
+  repeat FALSE
+  fps 1
+  data 167
+ }
+ animation 168
+ {
+  repeat FALSE
+  fps 1
+  data 168
+ }
+ animation 169
+ {
+  repeat FALSE
+  fps 1
+  data 169
+ }
+ animation 170
+ {
+  repeat FALSE
+  fps 1
+  data 170
+ }
+ animation 171
+ {
+  repeat FALSE
+  fps 1
+  data 171
+ }
+ animation 172
+ {
+  repeat FALSE
+  fps 1
+  data 172
+ }
+ animation 173
+ {
+  repeat FALSE
+  fps 1
+  data 173
+ }
+ animation 174
+ {
+  repeat FALSE
+  fps 1
+  data 174
+ }
+ animation 175
+ {
+  repeat FALSE
+  fps 1
+  data 175
+ }
+ animation 176
+ {
+  repeat FALSE
+  fps 1
+  data 176
+ }
+ animation 177
+ {
+  repeat FALSE
+  fps 1
+  data 177
+ }
+ animation 178
+ {
+  repeat FALSE
+  fps 1
+  data 178
+ }
+ animation 179
+ {
+  repeat FALSE
+  fps 1
+  data 179
+ }
+ animation 180
+ {
+  repeat FALSE
+  fps 1
+  data 180
+ }
+ animation 181
+ {
+  repeat FALSE
+  fps 1
+  data 181
+ }
+ animation 182
+ {
+  repeat FALSE
+  fps 1
+  data 182
+ }
+ animation 183
+ {
+  repeat FALSE
+  fps 1
+  data 183
+ }
+ animation 184
+ {
+  repeat FALSE
+  fps 1
+  data 184
+ }
+ animation 185
+ {
+  repeat FALSE
+  fps 1
+  data 185
+ }
+ animation 186
+ {
+  repeat FALSE
+  fps 1
+  data 186
+ }
+ animation 187
+ {
+  repeat FALSE
+  fps 1
+  data 187
+ }
+ animation 188
+ {
+  repeat FALSE
+  fps 1
+  data 188
+ }
+ animation 189
+ {
+  repeat FALSE
+  fps 1
+  data 189
+ }
+ animation 190
+ {
+  repeat FALSE
+  fps 1
+  data 190
+ }
+ animation 191
+ {
+  repeat FALSE
+  fps 1
+  data 191
+ }
+ animation 192
+ {
+  repeat FALSE
+  fps 1
+  data 192
+ }
+ animation 193
+ {
+  repeat FALSE
+  fps 1
+  data 193
+ }
+ animation 194
+ {
+  repeat FALSE
+  fps 1
+  data 194
+ }
+ animation 195
+ {
+  repeat FALSE
+  fps 1
+  data 195
+ }
+ animation 196
+ {
+  repeat FALSE
+  fps 1
+  data 196
+ }
+ animation 197
+ {
+  repeat FALSE
+  fps 1
+  data 197
+ }
+ animation 198
+ {
+  repeat FALSE
+  fps 1
+  data 198
+ }
+ animation 199
+ {
+  repeat FALSE
+  fps 1
+  data 199
+ }
+ animation 200
+ {
+  repeat FALSE
+  fps 1
+  data 200
+ }
+ animation 201
+ {
+  repeat FALSE
+  fps 1
+  data 201
+ }
+ animation 202
+ {
+  repeat FALSE
+  fps 1
+  data 202
+ }
+ animation 203
+ {
+  repeat FALSE
+  fps 1
+  data 203
+ }
+ animation 204
+ {
+  repeat FALSE
+  fps 1
+  data 204
+ }
+ animation 205
+ {
+  repeat FALSE
+  fps 1
+  data 205
+ }
+ animation 206
+ {
+  repeat FALSE
+  fps 1
+  data 206
+ }
+ animation 207
+ {
+  repeat FALSE
+  fps 1
+  data 207
+ }
+ animation 208
+ {
+  repeat FALSE
+  fps 1
+  data 208
+ }
+ animation 209
+ {
+  repeat FALSE
+  fps 1
+  data 209
+ }
+ animation 210
+ {
+  repeat FALSE
+  fps 1
+  data 210
+ }
+ animation 211
+ {
+  repeat FALSE
+  fps 1
+  data 211
+ }
+ animation 212
+ {
+  repeat FALSE
+  fps 1
+  data 212
+ }
+ animation 213
+ {
+  repeat FALSE
+  fps 1
+  data 213
+ }
+ animation 214
+ {
+  repeat FALSE
+  fps 1
+  data 214
+ }
+ animation 215
+ {
+  repeat FALSE
+  fps 1
+  data 215
+ }
+ animation 216
+ {
+  repeat FALSE
+  fps 1
+  data 216
+ }
+ animation 217
+ {
+  repeat FALSE
+  fps 1
+  data 217
+ }
+ animation 218
+ {
+  repeat FALSE
+  fps 1
+  data 218
+ }
+ animation 219
+ {
+  repeat FALSE
+  fps 1
+  data 219
+ }
+ animation 220
+ {
+  repeat FALSE
+  fps 1
+  data 220
+ }
+ animation 221
+ {
+  repeat FALSE
+  fps 1
+  data 221
+ }
+ animation 222
+ {
+  repeat FALSE
+  fps 1
+  data 222
+ }
+ animation 223
+ {
+  repeat FALSE
+  fps 1
+  data 223
+ }
+ animation 224
+ {
+  repeat FALSE
+  fps 1
+  data 224
+ }
+ animation 225
+ {
+  repeat FALSE
+  fps 1
+  data 225
+ }
+ animation 226
+ {
+  repeat FALSE
+  fps 1
+  data 226
+ }
+ animation 227
+ {
+  repeat FALSE
+  fps 1
+  data 227
+ }
+ animation 228
+ {
+  repeat FALSE
+  fps 1
+  data 228
+ }
+ animation 229
+ {
+  repeat FALSE
+  fps 1
+  data 229
+ }
+ animation 230
+ {
+  repeat FALSE
+  fps 1
+  data 230
+ }
+ animation 231
+ {
+  repeat FALSE
+  fps 1
+  data 231
+ }
+ animation 232
+ {
+  repeat FALSE
+  fps 1
+  data 232
+ }
+ animation 233
+ {
+  repeat FALSE
+  fps 1
+  data 233
+ }
+ animation 234
+ {
+  repeat FALSE
+  fps 1
+  data 234
+ }
+ animation 235
+ {
+  repeat FALSE
+  fps 1
+  data 235
+ }
+ animation 236
+ {
+  repeat FALSE
+  fps 1
+  data 236
+ }
+ animation 237
+ {
+  repeat FALSE
+  fps 1
+  data 237
+ }
+ animation 238
+ {
+  repeat FALSE
+  fps 1
+  data 238
+ }
+ animation 239
+ {
+  repeat FALSE
+  fps 1
+  data 239
+ }
+ animation 240
+ {
+  repeat FALSE
+  fps 1
+  data 240
+ }
+ animation 241
+ {
+  repeat FALSE
+  fps 1
+  data 241
+ }
+ animation 242
+ {
+  repeat FALSE
+  fps 1
+  data 242
+ }
+ animation 243
+ {
+  repeat FALSE
+  fps 1
+  data 243
+ }
+ animation 244
+ {
+  repeat FALSE
+  fps 1
+  data 244
+ }
+ animation 245
+ {
+  repeat FALSE
+  fps 1
+  data 245
+ }
+ animation 246
+ {
+  repeat FALSE
+  fps 1
+  data 246
+ }
+ animation 247
+ {
+  repeat FALSE
+  fps 1
+  data 247
+ }
+ animation 248
+ {
+  repeat FALSE
+  fps 1
+  data 248
+ }
+ animation 249
+ {
+  repeat FALSE
+  fps 1
+  data 249
+ }
+ animation 250
+ {
+  repeat FALSE
+  fps 1
+  data 250
+ }
+ animation 251
+ {
+  repeat FALSE
+  fps 1
+  data 251
+ }
+ animation 252
+ {
+  repeat FALSE
+  fps 1
+  data 252
+ }
+ animation 253
+ {
+  repeat FALSE
+  fps 1
+  data 253
+ }
+ animation 254
+ {
+  repeat FALSE
+  fps 1
+  data 254
+ }
+ animation 255
+ {
+  repeat FALSE
+  fps 1
+  data 255
+ }
+}
+sprite "BOR michio_sword@1"
+{
+ source_file "images/bor/michio_sword.png"
+ source_rect 0 0 2048 3072
+ frame_size 128 128
+ hot_spot 0 0
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 256
+ }
+ animation 1
+ {
+  repeat FALSE
+  fps 1
+  data 257
+ }
+ animation 2
+ {
+  repeat FALSE
+  fps 1
+  data 258
+ }
+ animation 3
+ {
+  repeat FALSE
+  fps 1
+  data 259
+ }
+ animation 4
+ {
+  repeat FALSE
+  fps 1
+  data 260
+ }
+ animation 5
+ {
+  repeat FALSE
+  fps 1
+  data 261
+ }
+ animation 6
+ {
+  repeat FALSE
+  fps 1
+  data 262
+ }
+ animation 7
+ {
+  repeat FALSE
+  fps 1
+  data 263
+ }
+ animation 8
+ {
+  repeat FALSE
+  fps 1
+  data 264
+ }
+ animation 9
+ {
+  repeat FALSE
+  fps 1
+  data 265
+ }
+ animation 10
+ {
+  repeat FALSE
+  fps 1
+  data 266
+ }
+ animation 11
+ {
+  repeat FALSE
+  fps 1
+  data 267
+ }
+ animation 12
+ {
+  repeat FALSE
+  fps 1
+  data 268
+ }
+ animation 13
+ {
+  repeat FALSE
+  fps 1
+  data 269
+ }
+ animation 14
+ {
+  repeat FALSE
+  fps 1
+  data 270
+ }
+ animation 15
+ {
+  repeat FALSE
+  fps 1
+  data 271
+ }
+ animation 16
+ {
+  repeat FALSE
+  fps 1
+  data 272
+ }
+ animation 17
+ {
+  repeat FALSE
+  fps 1
+  data 273
+ }
+ animation 18
+ {
+  repeat FALSE
+  fps 1
+  data 274
+ }
+ animation 19
+ {
+  repeat FALSE
+  fps 1
+  data 275
+ }
+ animation 20
+ {
+  repeat FALSE
+  fps 1
+  data 276
+ }
+ animation 21
+ {
+  repeat FALSE
+  fps 1
+  data 277
+ }
+ animation 22
+ {
+  repeat FALSE
+  fps 1
+  data 278
+ }
+ animation 23
+ {
+  repeat FALSE
+  fps 1
+  data 279
+ }
+ animation 24
+ {
+  repeat FALSE
+  fps 1
+  data 280
+ }
+ animation 25
+ {
+  repeat FALSE
+  fps 1
+  data 281
+ }
+ animation 26
+ {
+  repeat FALSE
+  fps 1
+  data 282
+ }
+ animation 27
+ {
+  repeat FALSE
+  fps 1
+  data 283
+ }
+ animation 28
+ {
+  repeat FALSE
+  fps 1
+  data 284
+ }
+ animation 29
+ {
+  repeat FALSE
+  fps 1
+  data 285
+ }
+ animation 30
+ {
+  repeat FALSE
+  fps 1
+  data 286
+ }
+ animation 31
+ {
+  repeat FALSE
+  fps 1
+  data 287
+ }
+ animation 32
+ {
+  repeat FALSE
+  fps 1
+  data 288
+ }
+ animation 33
+ {
+  repeat FALSE
+  fps 1
+  data 289
+ }
+ animation 34
+ {
+  repeat FALSE
+  fps 1
+  data 290
+ }
+ animation 35
+ {
+  repeat FALSE
+  fps 1
+  data 291
+ }
+ animation 36
+ {
+  repeat FALSE
+  fps 1
+  data 292
+ }
+ animation 37
+ {
+  repeat FALSE
+  fps 1
+  data 293
+ }
+ animation 38
+ {
+  repeat FALSE
+  fps 1
+  data 294
+ }
+ animation 39
+ {
+  repeat FALSE
+  fps 1
+  data 295
+ }
+ animation 40
+ {
+  repeat FALSE
+  fps 1
+  data 296
+ }
+ animation 41
+ {
+  repeat FALSE
+  fps 1
+  data 297
+ }
+ animation 42
+ {
+  repeat FALSE
+  fps 1
+  data 298
+ }
+ animation 43
+ {
+  repeat FALSE
+  fps 1
+  data 299
+ }
+ animation 44
+ {
+  repeat FALSE
+  fps 1
+  data 300
+ }
+ animation 45
+ {
+  repeat FALSE
+  fps 1
+  data 301
+ }
+ animation 46
+ {
+  repeat FALSE
+  fps 1
+  data 302
+ }
+ animation 47
+ {
+  repeat FALSE
+  fps 1
+  data 303
+ }
+ animation 48
+ {
+  repeat FALSE
+  fps 1
+  data 304
+ }
+ animation 49
+ {
+  repeat FALSE
+  fps 1
+  data 305
+ }
+ animation 50
+ {
+  repeat FALSE
+  fps 1
+  data 306
+ }
+ animation 51
+ {
+  repeat FALSE
+  fps 1
+  data 307
+ }
+ animation 52
+ {
+  repeat FALSE
+  fps 1
+  data 308
+ }
+ animation 53
+ {
+  repeat FALSE
+  fps 1
+  data 309
+ }
+ animation 54
+ {
+  repeat FALSE
+  fps 1
+  data 310
+ }
+ animation 55
+ {
+  repeat FALSE
+  fps 1
+  data 311
+ }
+ animation 56
+ {
+  repeat FALSE
+  fps 1
+  data 312
+ }
+ animation 57
+ {
+  repeat FALSE
+  fps 1
+  data 313
+ }
+ animation 58
+ {
+  repeat FALSE
+  fps 1
+  data 314
+ }
+ animation 59
+ {
+  repeat FALSE
+  fps 1
+  data 315
+ }
+ animation 60
+ {
+  repeat FALSE
+  fps 1
+  data 316
+ }
+ animation 61
+ {
+  repeat FALSE
+  fps 1
+  data 317
+ }
+ animation 62
+ {
+  repeat FALSE
+  fps 1
+  data 318
+ }
+ animation 63
+ {
+  repeat FALSE
+  fps 1
+  data 319
+ }
+ animation 64
+ {
+  repeat FALSE
+  fps 1
+  data 320
+ }
+ animation 65
+ {
+  repeat FALSE
+  fps 1
+  data 321
+ }
+ animation 66
+ {
+  repeat FALSE
+  fps 1
+  data 322
+ }
+ animation 67
+ {
+  repeat FALSE
+  fps 1
+  data 323
+ }
+ animation 68
+ {
+  repeat FALSE
+  fps 1
+  data 324
+ }
+ animation 69
+ {
+  repeat FALSE
+  fps 1
+  data 325
+ }
+ animation 70
+ {
+  repeat FALSE
+  fps 1
+  data 326
+ }
+ animation 71
+ {
+  repeat FALSE
+  fps 1
+  data 327
+ }
+ animation 72
+ {
+  repeat FALSE
+  fps 1
+  data 328
+ }
+ animation 73
+ {
+  repeat FALSE
+  fps 1
+  data 329
+ }
+ animation 74
+ {
+  repeat FALSE
+  fps 1
+  data 330
+ }
+ animation 75
+ {
+  repeat FALSE
+  fps 1
+  data 331
+ }
+ animation 76
+ {
+  repeat FALSE
+  fps 1
+  data 332
+ }
+ animation 77
+ {
+  repeat FALSE
+  fps 1
+  data 333
+ }
+ animation 78
+ {
+  repeat FALSE
+  fps 1
+  data 334
+ }
+ animation 79
+ {
+  repeat FALSE
+  fps 1
+  data 335
+ }
+ animation 80
+ {
+  repeat FALSE
+  fps 1
+  data 336
+ }
+ animation 81
+ {
+  repeat FALSE
+  fps 1
+  data 337
+ }
+ animation 82
+ {
+  repeat FALSE
+  fps 1
+  data 338
+ }
+ animation 83
+ {
+  repeat FALSE
+  fps 1
+  data 339
+ }
+ animation 84
+ {
+  repeat FALSE
+  fps 1
+  data 340
+ }
+ animation 85
+ {
+  repeat FALSE
+  fps 1
+  data 341
+ }
+ animation 86
+ {
+  repeat FALSE
+  fps 1
+  data 342
+ }
+ animation 87
+ {
+  repeat FALSE
+  fps 1
+  data 343
+ }
+ animation 88
+ {
+  repeat FALSE
+  fps 1
+  data 344
+ }
+ animation 89
+ {
+  repeat FALSE
+  fps 1
+  data 345
+ }
+ animation 90
+ {
+  repeat FALSE
+  fps 1
+  data 346
+ }
+ animation 91
+ {
+  repeat FALSE
+  fps 1
+  data 347
+ }
+ animation 92
+ {
+  repeat FALSE
+  fps 1
+  data 348
+ }
+ animation 93
+ {
+  repeat FALSE
+  fps 1
+  data 349
+ }
+ animation 94
+ {
+  repeat FALSE
+  fps 1
+  data 350
+ }
+ animation 95
+ {
+  repeat FALSE
+  fps 1
+  data 351
+ }
+ animation 96
+ {
+  repeat FALSE
+  fps 1
+  data 352
+ }
+ animation 97
+ {
+  repeat FALSE
+  fps 1
+  data 353
+ }
+ animation 98
+ {
+  repeat FALSE
+  fps 1
+  data 354
+ }
+ animation 99
+ {
+  repeat FALSE
+  fps 1
+  data 355
+ }
+ animation 100
+ {
+  repeat FALSE
+  fps 1
+  data 356
+ }
+ animation 101
+ {
+  repeat FALSE
+  fps 1
+  data 357
+ }
+ animation 102
+ {
+  repeat FALSE
+  fps 1
+  data 358
+ }
+ animation 103
+ {
+  repeat FALSE
+  fps 1
+  data 359
+ }
+ animation 104
+ {
+  repeat FALSE
+  fps 1
+  data 360
+ }
+ animation 105
+ {
+  repeat FALSE
+  fps 1
+  data 361
+ }
+ animation 106
+ {
+  repeat FALSE
+  fps 1
+  data 362
+ }
+ animation 107
+ {
+  repeat FALSE
+  fps 1
+  data 363
+ }
+ animation 108
+ {
+  repeat FALSE
+  fps 1
+  data 364
+ }
+ animation 109
+ {
+  repeat FALSE
+  fps 1
+  data 365
+ }
+ animation 110
+ {
+  repeat FALSE
+  fps 1
+  data 366
+ }
+ animation 111
+ {
+  repeat FALSE
+  fps 1
+  data 367
+ }
+ animation 112
+ {
+  repeat FALSE
+  fps 1
+  data 368
+ }
+ animation 113
+ {
+  repeat FALSE
+  fps 1
+  data 369
+ }
+ animation 114
+ {
+  repeat FALSE
+  fps 1
+  data 370
+ }
+ animation 115
+ {
+  repeat FALSE
+  fps 1
+  data 371
+ }
+ animation 116
+ {
+  repeat FALSE
+  fps 1
+  data 372
+ }
+ animation 117
+ {
+  repeat FALSE
+  fps 1
+  data 373
+ }
+ animation 118
+ {
+  repeat FALSE
+  fps 1
+  data 374
+ }
+ animation 119
+ {
+  repeat FALSE
+  fps 1
+  data 375
+ }
+ animation 120
+ {
+  repeat FALSE
+  fps 1
+  data 376
+ }
+ animation 121
+ {
+  repeat FALSE
+  fps 1
+  data 377
+ }
+ animation 122
+ {
+  repeat FALSE
+  fps 1
+  data 378
+ }
+ animation 123
+ {
+  repeat FALSE
+  fps 1
+  data 379
+ }
+ animation 124
+ {
+  repeat FALSE
+  fps 1
+  data 380
+ }
+ animation 125
+ {
+  repeat FALSE
+  fps 1
+  data 381
+ }
+ animation 126
+ {
+  repeat FALSE
+  fps 1
+  data 382
+ }
+}
+sprite "BOR michio_sword#202"
+{
+ source_file "images/bor/michio_sword.png"
+ source_rect 1333 1585 32 32
+ frame_size 32 32
+ hot_spot 0 0
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}

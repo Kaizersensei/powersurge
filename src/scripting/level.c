@@ -20,6 +20,9 @@
 
 #include <surgescript.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "../core/asset.h"
 #include "scripting.h"
 #include "../core/logfile.h"
 #include "../core/audio.h"
@@ -32,6 +35,34 @@
 #include "../scenes/quest.h"
 #include "../entities/player.h"
 #include "../entities/background.h"
+
+/* Project service defaults are evaluated before level entities bind. */
+static void bsl_runtime_default(const char* name,const char* value){
+ if(getenv(name))return;
+#ifdef _WIN32
+ _putenv_s(name,value);
+#else
+ setenv(name,value,0);
+#endif
+}
+/* Called by the native loader after header parse, before actors bind. Signed: President. */
+void scripting_prepare_bsl_level(void){
+ if(level_is_setup_object("BSL Presentation Only"))return;
+ if(!asset_exists("borsurgelab.runtime"))return;
+ const char* names[]={"BSL_GAMEPLAY","BSL_PROGRESSION","BSL_LEARNING","BSL_CHECKPOINT","BSL_PROGRESS_SAVE","BSL_PROGRESS_BOOT","BSL_PICKUPS","BSL_LOOT","BSL_EQUIPMENT","BSL_TELEPORT","BSL_CALENDAR"};
+ for(unsigned i=0;i<sizeof names/sizeof names[0];i++)bsl_runtime_default(names[i],"1");
+ const char* local=getenv("LOCALAPPDATA");
+ if(local){char path[4096];snprintf(path,sizeof path,"%s/BORSurgeLab/progress/static-lab/slot1.bsp",local);bsl_runtime_default("BSL_PROGRESS_PATH",path);
+  snprintf(path,sizeof path,"%s/BORSurgeLab/session-data/static-lab/slot1.bsl",local);bsl_runtime_default("BOR_SESSION_DATA_PATH",path);}
+ logfile_message("BSL runtime save paths: progress=%s data=%s",getenv("BSL_PROGRESS_PATH")?getenv("BSL_PROGRESS_PATH"):"unset",getenv("BOR_SESSION_DATA_PATH")?getenv("BOR_SESSION_DATA_PATH"):"unset");
+ logfile_message("BSL runtime: project service defaults prepared for level entry");
+}
+static const char* bsl_runtime_setup_alias(const char* name){
+ if(!asset_exists("borsurgelab.runtime"))return name;
+ if(!strcmp(name,"BOR Setup")||!strcmp(name,"Foundation Lab Setup")||!strcmp(name,"Default Setup")||!strcmp(name,"Debug Setup"))return "BSL Runtime Setup";
+ if(!strcmp(name,"Default Pause and Quit")||!strcmp(name,"Foundation Pause and Quit"))return "BSL Pause and Quit";
+ return name;
+}
 
 /* private */
 static surgescript_var_t* fun_constructor(surgescript_object_t* object, const surgescript_var_t** param, int num_params);
@@ -947,7 +978,7 @@ surgescript_var_t* fun_getplayermanager(surgescript_object_t* object, const surg
 /* register the name of a Level setup object */
 surgescript_var_t* fun_registersetupobjectname(surgescript_object_t* object, const surgescript_var_t** param, int num_params)
 {
-    const char* object_name = surgescript_var_fast_get_string(param[0]);
+    const char* object_name = bsl_runtime_setup_alias(surgescript_var_fast_get_string(param[0]));
     levelinfo_t* level_info = get_level_info(object);
 
     /* skip if locked */
@@ -974,6 +1005,19 @@ surgescript_var_t* fun_spawnsetupobjects(surgescript_object_t* object, const sur
     levelinfo_t* level_info = get_level_info(object);
     surgescript_var_t* arg = surgescript_var_create();
     const surgescript_var_t* args[] = { arg };
+
+    if(asset_exists("borsurgelab.runtime") && !level_is_setup_object("BSL Presentation Only")){
+        if(darray_length(level_info->setup_object_name)==0){
+            surgescript_var_set_string(arg,"Default Camera");fun_registersetupobjectname(object,args,1);
+        }
+        const char* core[]={"BSL Runtime Setup","BSL Pause and Quit"};
+        for(unsigned i=0;i<sizeof core/sizeof core[0];i++){
+            surgescript_var_set_string(arg,core[i]);
+            fun_registersetupobjectname(object,args,1);
+        }
+        for(int i=0;i<darray_length(level_info->setup_object_name);i++)
+            logfile_message("BSL runtime setup: %s",level_info->setup_object_name[i]);
+    }
 
     /* if there are no registered setup objects, register the
        default setup objects for backwards compatibility */

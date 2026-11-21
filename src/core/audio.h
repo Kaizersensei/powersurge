@@ -75,7 +75,6 @@ void sound_stop_all();
 void sound_swap_mixers();
 
 /* underwater muffler */
-typedef enum mufflerprofile_t mufflerprofile_t;
 enum mufflerprofile_t
 {
     MUFFLER_OFF = 0,    /* disabled */
@@ -83,6 +82,7 @@ enum mufflerprofile_t
     MUFFLER_MEDIUM,     /* moderate */
     MUFFLER_HIGH        /* intense */
 };
+typedef enum mufflerprofile_t mufflerprofile_t;
 
 void audio_muffler_set_profile(mufflerprofile_t profile);
 mufflerprofile_t audio_muffler_profile();
@@ -96,5 +96,12 @@ enum /* muffler flags */
     MUFFLE_MUSICS = 2,
     MUFFLE_EVERYTHING = MUFFLE_SOUNDS | MUFFLE_MUSICS
 };
+
+/* Original BORSurgeLab owned-loop adapter; independent of the transient SFX pool. Signed: Atlas. */
+typedef struct bsl_audio_loop_t bsl_audio_loop_t;
+bsl_audio_loop_t* bsl_audio_loop_create(const sound_t* sound);
+void bsl_audio_loop_destroy(bsl_audio_loop_t* loop);
+bool bsl_audio_loop_set(bsl_audio_loop_t* loop,float gain,bool playing);
+bool bsl_audio_loop_probe(const bsl_audio_loop_t* loop,unsigned* position,float* gain);
 
 #endif

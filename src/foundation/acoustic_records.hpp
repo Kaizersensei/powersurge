@@ -1,0 +1,8 @@
+// Generated audio settings/recipes. Signed: Atlas.
+#pragma once
+#include "acoustics.hpp"
+struct BslSpatialRecipe {const char* id;const char* path;bool loop,spatial,noise;unsigned category;bsl::acoustic::Bands bands;double range,gain,rate;bool airflow;};
+inline bsl::acoustic::Settings compiled_acoustics(){bsl::acoustic::Settings s;s.cell_size=16;s.expansions=4096;s.max_sources=24;s.max_nodes=65536;s.schedule=0.1;s.max_range=1600;s.bend_low=0.97;s.bend_mid=0.88;s.bend_high=0.68;s.distance_scale=400;s.minimum_cutoff=350;s.maximum_cutoff=20000;s.vertical_loss=0.8;s.smoothing=0.045;s.materials={{},{{0.85,0.65,0.35},{0.96,0.88,0.72}},{{0.65,0.38,0.12},{0.88,0.65,0.35}},{{0.92,0.8,0.6},{0.98,0.94,0.84}}};return s;}
+inline std::vector<BslSpatialRecipe> compiled_spatial_recipes(){return {{"\141\165\144\151\157\072\163\164\145\162\145\157","\163\141\155\160\154\145\163\057\141\165\144\151\157\055\144\145\155\157\057\163\164\145\162\145\157\056\167\141\166",true,true,false,1,{1,1,1},1500,0.5,1,false},{"\141\165\144\151\157\072\160\165\154\163\145","\163\141\155\160\154\145\163\057\141\165\144\151\157\055\144\145\155\157\057\160\165\154\163\145\056\167\141\166",false,true,true,1,{1,1,1},1500,0.65,1,false},{"\141\165\144\151\157\072\161\165\151\145\164","\163\141\155\160\154\145\163\057\141\165\144\151\157\055\144\145\155\157\057\160\165\154\163\145\056\167\141\166",false,true,true,1,{0.12,0.12,0.12},800,0.12,1,false},{"\141\165\144\151\157\072\141\151\162\146\154\157\167","\163\141\155\160\154\145\163\057\141\155\142\151\145\156\143\145\057\143\062\057\141\151\162\137\146\154\157\167\056\157\147\147",true,true,false,2,{1,1,1},1200,0.32,1,true}};}
+inline double compiled_limiter_ceiling(){return 0.95;}
+inline double compiled_limiter_release(){return 0.12;}

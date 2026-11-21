@@ -83,6 +83,10 @@ void editorpal_init(void *config_ptr)
                 item[i] = animation_image(sprite_get_animation(NULL, 0), 0);
         }
     }
+    else if(config.type == EDITORPAL_TEXTURE){
+        item_count=brick_texture_count();item=mallocx(item_count*sizeof(*item));
+        for(i=0;i<item_count;i++)item[i]=brick_texture_preview(i);
+    }
     else if(config.type == EDITORPAL_BRICK) {
         item_count = config.brick.count;
         item = mallocx(item_count * sizeof(*item));
@@ -111,6 +115,7 @@ void editorpal_init(void *config_ptr)
     selected_item = NO_ITEM;
     is_scrolling = false;
     scroll_max = (int)((item_count - 1) / (int)((VIDEO_SCREEN_W - SCROLLBAR_WIDTH) / ITEM_BOX_SIZE)) * ITEM_BOX_SIZE - (int)(VIDEO_SCREEN_H / ITEM_BOX_SIZE) * ITEM_BOX_SIZE + ITEM_BOX_SIZE;
+    scroll_max=max(0,scroll_max);
     scroll_y = clip(scroll_y, 0, scroll_max); /* preserve previous value */
     pal_input = input_create_user("editorpal");
     error_font = font_create("EditorUI");
@@ -152,6 +157,7 @@ void editorpal_update()
         font_set_text(error_font, "%s", "$EDITOR_PALETTE_EMPTY");
         font_set_visible(error_font, TRUE);
     }
+    else if(config.type==EDITORPAL_TEXTURE){font_set_text(error_font,"Terrain textures | click a preview to select | wheel: scroll | Esc: cancel");font_set_visible(error_font,TRUE);}
     else
         font_set_visible(error_font, FALSE);
 
@@ -170,11 +176,14 @@ void editorpal_update()
             int brick_id = config.brick.id[item_at(cursor_position)];
             snprintf(tmp[0], sizeof(tmp[0]), "EDITOR_BRICK_TYPE_%s", brick_util_typename(brick_type_preview(brick_id)));
             snprintf(tmp[1], sizeof(tmp[1]), "EDITOR_BRICK_BEHAVIOR_%s", brick_util_behaviorname(brick_behavior_preview(brick_id)));
-            font_set_text(cursor_font, "<color=$COLOR_HIGHLIGHT>$EDITOR_PALETTE_BRICK %d</color>\n%s\n%s", brick_id,
+            font_set_text(cursor_font, "<color=$COLOR_HIGHLIGHT>$EDITOR_PALETTE_BRICK %d</color>\n%s\n%s\n%s", brick_id,
                 lang_getstring(tmp[0], tmp[0], sizeof(tmp[0])),
-                brick_behavior_preview(brick_id) != BRB_DEFAULT ? lang_getstring(tmp[1], tmp[1], sizeof(tmp[1])) : ""
+                brick_behavior_preview(brick_id) != BRB_DEFAULT ? lang_getstring(tmp[1], tmp[1], sizeof(tmp[1])) : "",
+                brick_shape_group(brick_id)
             );
         }
+        else if(config.type == EDITORPAL_TEXTURE)
+            font_set_text(cursor_font,"%s (%dx%d)",brick_texture_label(item_at(cursor_position)),image_width(item[item_at(cursor_position)]),image_height(item[item_at(cursor_position)]));
         else if(config.type == EDITORPAL_SSOBJ)
             font_set_text(cursor_font, "%s", config.ssobj.name[item_at(cursor_position)]);
         else

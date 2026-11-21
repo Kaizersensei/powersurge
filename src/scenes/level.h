@@ -75,6 +75,11 @@ const char* level_get_entity_id(const surgescript_object_t* entity);
 surgescript_object_t* level_child_object(const char* object_name);
 bool level_is_setup_object(const char* object_name);
 const struct obstaclemap_t* level_obstaclemap();
+struct checkpoint_terrain_t;
+struct checkpoint_terrain_t* level_checkpoint_terrain_create(v2d_t center);
+const struct obstaclemap_t* level_checkpoint_terrain_map(const struct checkpoint_terrain_t* query);
+void level_checkpoint_terrain_destroy(struct checkpoint_terrain_t* query);
+void level_checkpoint_rebase(v2d_t center);
 void level_set_obstaclemap_dirty();
 
 /* camera */

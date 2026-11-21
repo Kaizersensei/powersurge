@@ -1,0 +1,2126 @@
+// Generated from canonical terrain records. Signed: Atlas.
+brick 0
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:full_square"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 1
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 2
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 3
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 4
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 5
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 6
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 7
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 8
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 9
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 10
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 11
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 12
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 13
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 14
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 15
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 16
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 17
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 18
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 19
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 20
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 21
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 22
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 23
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 24
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 25
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 26
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 27
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 28
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 29
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 30
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 31
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 32
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 33
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 34
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 35
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 36
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 37
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 38
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 39
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 40
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 41
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 42
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 43
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 44
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 45
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 46
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 47
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 48
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c07"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 49
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 50
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 51
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 52
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 53
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 54
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 55
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 56
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c07"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 57
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 58
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 59
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 60
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 61
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 62
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 63
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 64
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 65
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 66
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 67
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 68
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 69
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 70
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 71
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 72
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 73
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 74
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 75
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 76
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 77
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 78
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 79
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 80
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 81
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c07"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 82
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 83
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 84
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 256
+{
+ type PASSABLE
+ role decoration
+ category "Terrain details"
+ definition "decoration:snakegrass"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/snakegrass.png"
+  source_rect 0 0 96 64
+  frame_size 96 64
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 257
+{
+ type PASSABLE
+ role decoration
+ category "Terrain details"
+ definition "decoration:fern"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/fern.png"
+  source_rect 0 0 128 96
+  frame_size 128 96
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 258
+{
+ type PASSABLE
+ role decoration
+ category "Terrain details"
+ definition "decoration:grasspatch"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/grasspatch.png"
+  source_rect 0 0 161 65
+  frame_size 161 65
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 259
+{
+ type PASSABLE
+ role decoration
+ category "Trees"
+ definition "decoration:cherry"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/cherry.png"
+  source_rect 0 0 220 221
+  frame_size 220 221
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 260
+{
+ type PASSABLE
+ role decoration
+ category "Buildings"
+ definition "decoration:dojo"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/dojo.png"
+  source_rect 0 0 625 625
+  frame_size 625 625
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 512
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_0_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_0_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 513
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_1_3"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_1_3.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 514
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_1_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_1_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 515
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_2_3"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_2_3.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 516
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_2_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_2_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 517
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_3_2"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_3_2.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 518
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_3_3"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_3_3.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 519
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_3_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_3_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 520
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_4_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_4_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 521
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_5_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_5_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 522
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_6_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_6_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 523
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_default_7_4"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/f2fbd364f74e6539775093c2/default_7_4.png"
+  source_rect 0 0 256 256
+  frame_size 256 256
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}

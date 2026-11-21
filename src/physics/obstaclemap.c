@@ -628,6 +628,28 @@ const obstacle_t* pick_tallest_ground(const obstacle_t* a, const obstacle_t* b, 
     return *out_gnd == ha ? a : b;
 }
 
+/* BOR adapter queries. No changes to the stock terrain solver. Signed: Atlas. */
+const obstacle_t* obstaclemap_find_by_id(const obstaclemap_t* map, uint64_t identity, obstaclelayer_t layer)
+{
+    if(!identity) return NULL;
+    for(int i = 0; i < darray_length(map->obstacle); i++) {
+        const obstacle_t* obstacle = map->obstacle[i];
+        if(obstacle_get_id(obstacle) == identity && !ignore_obstacle(obstacle, layer)) return obstacle;
+    }
+    return NULL;
+}
+bool obstaclemap_solid_rect_except(const obstaclemap_t* map, int left, int top, int right, int bottom, obstaclelayer_t layer, uint64_t ignored_identity)
+{
+    for(int i = 0; i < darray_length(map->obstacle); i++) {
+        const obstacle_t* obstacle = map->obstacle[i];
+        if(obstacle_get_id(obstacle) == ignored_identity || !obstacle_is_solid(obstacle) || ignore_obstacle(obstacle, layer)) continue;
+        /* Stock obstacle sensors are axis-aligned lines; cover every rectangle column. */
+        for(int x = left; x <= right; x++)
+            if(obstacle_got_collision(obstacle, x, top, x, bottom)) return true;
+    }
+    return false;
+}
+
 /* whether or not the given obstacle should be ignored, given a layer filter */
 bool ignore_obstacle(const obstacle_t *obstacle, obstaclelayer_t layer_filter)
 {

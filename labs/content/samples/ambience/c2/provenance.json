@@ -1,0 +1,7 @@
+{
+  "signed": "Atlas",
+  "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Files\\air_flow.ogg",
+  "sha256": "92fb641c3deabbbcc7f6eb6e4a3054ad8ca1c544ebbae3eebe9ae7e8e13d1c07",
+  "basis": "Author-provided original C2 assets; reused from actor airflow as an initial wind placeholder, not an original C2 regional-weather mapping.",
+  "pending": "Dedicated rain/thunder and wider environment ambience remain later; unverified legacy sample attribution excluded."
+}

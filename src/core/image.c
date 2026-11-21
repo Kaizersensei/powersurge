@@ -27,6 +27,7 @@
 #include <string.h>
 #include <stdint.h>
 #include "image.h"
+#include "../presentation/video_presentation.h"
 #include "video.h"
 #include "logfile.h"
 #include "asset.h"
@@ -71,6 +72,7 @@ static const int MAX_IMAGE_SIZE = 4096; /* maximum image size for broad compatib
  */
 image_t* image_load(const char* path)
 {
+    bsl_presentation_loading_pump(); /* Keep texture-catalog loads responsive. Signed: President. */
     image_t* img;
 
     if(NULL == (img = resourcemanager_find_image(path))) {

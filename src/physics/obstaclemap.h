@@ -22,6 +22,7 @@
 #define _OBSTACLEMAP_H
 
 #include <stdbool.h>
+#include <stdint.h>
 #include "../util/v2d.h"
 
 /*
@@ -43,6 +44,10 @@ obstaclemap_t* obstaclemap_destroy(obstaclemap_t *obstaclemap);
 void obstaclemap_add(obstaclemap_t *obstaclemap, const struct obstacle_t *obstacle); /* adds an obstacle to the map (you have to release it) */
 void obstaclemap_build(obstaclemap_t* obstaclemap); /* builds the internal data structure after adding all obstacles */
 void obstaclemap_clear(obstaclemap_t* obstaclemap); /* removes all obstacles from the obstacle map */
+
+/* Attachment queries; safe across per-frame mock obstacle replacement. */
+const struct obstacle_t* obstaclemap_find_by_id(const obstaclemap_t* map, uint64_t identity, enum obstaclelayer_t layer);
+bool obstaclemap_solid_rect_except(const obstaclemap_t* map, int left, int top, int right, int bottom, enum obstaclelayer_t layer, uint64_t ignored_identity);
 
 /* collision detection */
 bool obstaclemap_obstacle_exists(const obstaclemap_t* obstaclemap, int x, int y, enum obstaclelayer_t layer_filter); /* checks if an obstacle exists at (x,y) */

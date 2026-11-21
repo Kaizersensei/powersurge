@@ -1,0 +1,25 @@
+inputmap "bsl_presentation"
+{
+ keyboard
+ {
+  up KEY_W
+  down KEY_S
+  left KEY_A
+  right KEY_D
+  fire1 KEY_L
+  fire2 KEY_J
+  fire3 KEY_ENTER
+  fire4 KEY_ESC
+ }
+ joystick 1
+ {
+  up BUTTON_14
+  down BUTTON_13
+  left BUTTON_12
+  right BUTTON_11
+  fire1 BUTTON_1
+  fire2 BUTTON_2
+  fire3 BUTTON_10
+  fire4 BUTTON_9
+ }
+}

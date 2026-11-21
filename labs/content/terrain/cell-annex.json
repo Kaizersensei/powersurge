@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "base_cell": 32,
+  "sample_step": 2,
+  "shapes": [
+    {
+      "id": 1,
+      "material": "material:moss",
+      "preset": "square",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0
+    }
+  ],
+  "strokes": [
+    {
+      "shape": 1,
+      "erase": false,
+      "x": -384,
+      "y": 96,
+      "u": 384,
+      "v": 96,
+      "size": 128,
+      "mode": 0,
+      "curve": 0.5
+    }
+  ]
+}

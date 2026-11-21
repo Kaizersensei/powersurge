@@ -1,0 +1,7 @@
+// Portable texture registry. Generated locally; keep base/edge/light settings below. Signed: Atlas.
+texture "brick_small_brown" "textures/brick_small_brown.png"
+texture "rock" "textures/rock.png"
+texture "stone" "textures/stone.png"
+base "stone"
+edge "rock" 8 0.25
+light -0.6 -0.8 0.3

@@ -165,6 +165,8 @@ double physicsactor_get_diejmp(const physicsactor_t *pa); /* death jump speed */
 void physicsactor_set_diejmp(physicsactor_t *pa, double value);
 double physicsactor_get_hitjmp(const physicsactor_t *pa); /* get hit jump speed */
 void physicsactor_set_hitjmp(physicsactor_t *pa, double value);
+double physicsactor_get_topyspeed(const physicsactor_t *pa); /* terminal fall speed */
+void physicsactor_set_topyspeed(physicsactor_t *pa, double value);
 double physicsactor_get_grv(const physicsactor_t *pa); /* gravity */
 void physicsactor_set_grv(physicsactor_t *pa, double value);
 double physicsactor_get_slp(const physicsactor_t *pa); /* slope */

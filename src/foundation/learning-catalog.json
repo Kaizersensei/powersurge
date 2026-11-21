@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "abilities": [
+    {
+      "id": "ability:lab_cut",
+      "name": "Training finisher",
+      "animation": "attack5",
+      "tag": "ability.lab_cut",
+      "requires": [
+        {
+          "stat": "stat:experience",
+          "minimum": 2
+        }
+      ]
+    }
+  ],
+  "rewards": [
+    {
+      "id": "reward:grunt",
+      "name": "Enemy defeat",
+      "grants": [
+        {
+          "stat": "stat:experience",
+          "measure": "growth",
+          "amount": 2500
+        }
+      ]
+    },
+    {
+      "id": "reward:exploration",
+      "name": "Exploration objective",
+      "grants": [
+        {
+          "stat": "stat:experience",
+          "measure": "growth",
+          "amount": 2500
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "source:lab_exploration",
+      "reward": "reward:exploration",
+      "model": ""
+    },
+    {
+      "id": "source:enemy_red_grunt",
+      "reward": "reward:grunt",
+      "model": "red_grunt"
+    },
+    {
+      "id": "source:enemy_green_grunt",
+      "reward": "reward:grunt",
+      "model": "Green_Grunt"
+    },
+    {
+      "id": "source:enemy_rat_big",
+      "reward": "reward:grunt",
+      "model": "Rat_Big"
+    },
+    {
+      "id": "source:enemy_hedgehog_brown",
+      "reward": "reward:grunt",
+      "model": "Hedgehog_Brown"
+    },
+    {
+      "id": "source:quest_supplies",
+      "reward": "reward:exploration",
+      "model": ""
+    }
+  ],
+  "profiles": [
+    {
+      "definition": "character:michio",
+      "abilities": [
+        "ability:lab_cut"
+      ],
+      "rewards": [
+        "reward:grunt",
+        "reward:exploration"
+      ]
+    },
+    {
+      "definition": "character:michio_alternate",
+      "abilities": [
+        "ability:lab_cut"
+      ],
+      "rewards": [
+        "reward:grunt",
+        "reward:exploration"
+      ]
+    },
+    {
+      "definition": "character:michio_arcade",
+      "abilities": [],
+      "rewards": []
+    }
+  ],
+  "provenance": "Original quest source over existing generic reward/character profiles. Signed: Atlas."
+}

@@ -1,0 +1,1062 @@
+{
+  "signed": "Atlas",
+  "reuse": "Original C2 UI/HUD artwork and supplied Caveat Brush TTF copied byte-for-byte. Font notice is fonts/c2/OFL-CaveatBrush.txt.",
+  "border_order": [
+    "left",
+    "top",
+    "right",
+    "bottom"
+  ],
+  "reference": "Source menu properties and runtime font-size overrides retained in ui_catalog.json.",
+  "assets": [
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Textures\\UI_ScrollBig.png",
+      "destination": "surge-poc/content/images/ui/c2/scroll.png",
+      "sha256": "0e33edfc5ed64173568ec89bb9d46d29a0e551ead6256267e97b900762033d17",
+      "size": [
+        192,
+        192
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Textures\\MENUBG_wood_lightthin.png",
+      "destination": "surge-poc/content/images/ui/c2/wood.png",
+      "sha256": "4357def2960414899cd7ebc8a3365bd1d7aba14cf287992d1785cae9087ad482",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_MenuCursor\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/cursor.png",
+      "sha256": "ab48413a8ac4d15ee2daced403c3f5ef665e8525f543b20eb23e853d829e5b98",
+      "size": [
+        64,
+        16
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_SubSlot\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/slot.png",
+      "sha256": "528c482fb75042d9852094c5934497c41910f3d598651bc140b20b35a8b1525d",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\BAR_Container\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/BAR_Container/Default/000.png",
+      "sha256": "9e1262bb5cd9a8ff528e48a8a7d4b2220c3d05b64c32fb40b581e9d58f174c76",
+      "size": [
+        64,
+        11
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\BAR_HP\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/BAR_HP/Default/000.png",
+      "sha256": "f2e2bb5c7bc7fe8189b8461701a6d2ca64e22a670022be93c0243bdddc168e33",
+      "size": [
+        60,
+        7
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\BAR_HP2\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/BAR_HP2/Default/000.png",
+      "sha256": "f2e2bb5c7bc7fe8189b8461701a6d2ca64e22a670022be93c0243bdddc168e33",
+      "size": [
+        60,
+        7
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\BAR_Level\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/BAR_Level/Default/000.png",
+      "sha256": "f2e2bb5c7bc7fe8189b8461701a6d2ca64e22a670022be93c0243bdddc168e33",
+      "size": [
+        60,
+        7
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_crosshair\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_crosshair/Default/000.png",
+      "sha256": "aa99ccb903bc352833e4e131408c4b5947555fcb7d0171bb5e86f6e7cb318641",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_crosshair\\Default\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_crosshair/Default/001.png",
+      "sha256": "b4483a93e7a1003a4bbe761758be64e43466210fdd4b6675da9190d69d705e2c",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_crosshair\\Default\\002.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_crosshair/Default/002.png",
+      "sha256": "46025ce5b4403efff3420e5aa366d1d9c6b5700c926ad6224aebc2b6d2808899",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/000.png",
+      "sha256": "b40c073b0177e982761e3d7e314b89634fc3180fe2dc5866e89bbe2386df35c6",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/001.png",
+      "sha256": "6e29d231ab3dedebe6ca21373e14c84d88319d1865dc6ec733ec2d0178c47aa5",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\002.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/002.png",
+      "sha256": "491ab5b4ea6bb8edc96d678c9e40aca02d0203e58f9ea9b86f2d3e8cb1b2b603",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\003.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/003.png",
+      "sha256": "0b80a4471f84bf3d20f889ec0a6e1f6e00e710ef4f4b228312bb344f2078dd37",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\004.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/004.png",
+      "sha256": "71f8790e6af7d6dba7b52e4a4979576245d1ac15c2e5617ee7e64cdc4b1f67b1",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\005.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/005.png",
+      "sha256": "124c3c469b212a68194ddbcc547086bb23d9819920ce7661465530df3ea7b0d4",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\006.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/006.png",
+      "sha256": "f1a7eb5e58bd1e8c30a2d29768ac4c0910ebb87e163a8d9c2edd08b59d10e2b7",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\007.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/007.png",
+      "sha256": "082d564970b73daefb26eac939bf2d2f46082655478a0c7d202cd58c94f3d8c5",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\008.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/008.png",
+      "sha256": "6ce92b3b59e5c7b4e3004b893cce47900e29af8443b3889f40c4045bef4bc736",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\009.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/009.png",
+      "sha256": "8e71267febe35515c3a3c5c40409e2c127c4060b1b58092aa69b8c73242ee7ce",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\010.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/010.png",
+      "sha256": "3304521efd8973faec55d27ddfc6824b9f4c88956f3203aa49c9cec3d066f5d6",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\011.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/011.png",
+      "sha256": "857726d78cbab9be29f8a05d9d8fd8ee219b5592f00bec9b01e37333b99e7862",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\012.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/012.png",
+      "sha256": "2c8c894fb40f7e93b5539cced40f7728609a68e97f8c82d8926000780cba8cb7",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\013.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/013.png",
+      "sha256": "edeb74e2e5c00785f4180d84afc9bbc70de92ed7d065c52c9f31af1187bda598",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\014.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/014.png",
+      "sha256": "190505f88d94e378b0cef2b2b176ad9c17c9963c973af86a668f16d3300d438a",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\015.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/015.png",
+      "sha256": "31ce1966dca0d5a86b5b8a6487b448af78b147b52c1fbc03ad1c8f32f07df279",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\016.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/016.png",
+      "sha256": "816828eff92b6b501713d7a39d086fe8e81b45cff2e3b34c4c3b5bcdcec7db9f",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\017.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/017.png",
+      "sha256": "b7d98b55b6eb21ed523360136414f50aa2d74431261cbc938c288194dc53a39f",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\018.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/018.png",
+      "sha256": "e538c3e7852274a851e55d1f7902299118301c52f8d8996f9c432955e9a4d829",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\019.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/019.png",
+      "sha256": "076f03e4d9b25c582d817d68bedc55c98b323f77cdf7adcc465b2537fbb0cbbc",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\020.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/020.png",
+      "sha256": "8991454f949acef761516f1102de9f115d0f9cc5da84821aec79f15e29e48962",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\021.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/021.png",
+      "sha256": "6c6095f16aa786aea5a8f32bbac57985f2b3fc8166910b93e5c7736a03d2deb0",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\022.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/022.png",
+      "sha256": "1233d899e3314f981e115d6f0d4599f9baeeed104151ae00f7993bf94d853b7f",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\023.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/023.png",
+      "sha256": "01c2bff6276b89e0fbdf53b4c687ca530b458192b939744833586298d4d4e8ed",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\024.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/024.png",
+      "sha256": "bbe486e2f7d93f3add44dac5b0d67023f76491b112b1c80cc5de8eda2fb2d42c",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_HPBar\\Default\\025.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_HPBar/Default/025.png",
+      "sha256": "3e09fd361a4f934dba39f36add06cb97869ded8aed9f04797943b2ead2e82b7a",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ItemWheel\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ItemWheel/Default/000.png",
+      "sha256": "72ecdb5e110a3b7630e48b451332c7bb982a30e932523a39a9113d303aae248b",
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ItemWheel\\Circle1\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ItemWheel/Circle1/000.png",
+      "sha256": "e0cbbd11f3c44a03cf9c3ecbbcc1cd9b912ea5dd75963ed6d8d01e0694e43682",
+      "size": [
+        608,
+        608
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ItemWheel\\Circle2\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ItemWheel/Circle2/000.png",
+      "sha256": "93a473ed70ffaf5d223ac2c006f2566525993b009270a137329d61ad78a230a2",
+      "size": [
+        320,
+        320
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ItemWheel\\Circle3\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ItemWheel/Circle3/000.png",
+      "sha256": "1e31491dccee8e24ded817942220c6e7ecb3746af5cb106431fe8dc41926b4e6",
+      "size": [
+        128,
+        128
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ItemWheelPetal\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ItemWheelPetal/Default/000.png",
+      "sha256": "8ea253efa18abd35eddfb54f9ff7ccd9f1605216f0b828683b6fcc2e763e9946",
+      "size": [
+        112,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_L\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_L/Default/000.png",
+      "sha256": "ed1477bd59b7830948033471fb9bb368423e6f15bfb7f65036b7155abb8d882b",
+      "size": [
+        16,
+        7
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_L\\Default\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_L/Default/001.png",
+      "sha256": "277d0b3363a733ff711689bccea82bd6b3fb690d45c1019f0e2f59934fb3f68d",
+      "size": [
+        15,
+        15
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_L\\Default\\002.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_L/Default/002.png",
+      "sha256": "bb5a62151243288d9ad95c574582fa137ca404b670a02d49ab59292741fa172a",
+      "size": [
+        14,
+        5
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_L\\Default\\003.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_L/Default/003.png",
+      "sha256": "6a396c3a74c627207cde703a24eab18d9e01135c02b729f7b49b9a6039f839af",
+      "size": [
+        11,
+        11
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/000.png",
+      "sha256": "a4598b8da18a16209146be6db505ec7d2486bad491873b9e0f729c9f528f9bb0",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/001.png",
+      "sha256": "b6104dba27d8ce807dd7d304cfdc32c136c00cfa05c628a1ac5ff7787cf8069e",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\002.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/002.png",
+      "sha256": "a10e6396ac1ac3214f8fd4912c7bedeeeabe8135b897db2df82aea76572d1531",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\003.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/003.png",
+      "sha256": "d12e739f28f51afe04ecdc56f3969e3b182caf854f0d95c9a45094452e5a775f",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\004.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/004.png",
+      "sha256": "4fcd858787770d8c470738a61c90804eb3a25643d4bbdda3b6f6cd1d0cca91b4",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\005.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/005.png",
+      "sha256": "e00e5ac4aac2ac1977a1322332579fde63490dd0c90d0f02181645a58bda8e8c",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\006.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/006.png",
+      "sha256": "adf3d3bc6fda63b1f415325eaed86e83e33d025460215d496bd3905ae8cea702",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\007.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/007.png",
+      "sha256": "825803bfade56f80d646da88c96d953e6aa1ef37ceb2bcbc26a048deeb6c8593",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\008.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/008.png",
+      "sha256": "9999f95e36af82446b106fe6c79e474442bbc27d57dbcfc8a11be248d7fa72cd",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\009.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/009.png",
+      "sha256": "352757a6f382d26582b1a55974b7cce85d07435f33932e67e45bbd42f565bf98",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\010.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/010.png",
+      "sha256": "8a058788f457812c6261cbade3ae2b98cfff21b5e2f419bd62f3f38accd0deea",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\011.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/011.png",
+      "sha256": "bad1c0d7aa5e511ac57d20db91d338e6b918b4cc33b5225d52ea22d381b05c1e",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\012.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/012.png",
+      "sha256": "77122fe7f84ee8481976f29b59657e4957f848a1587b3d284e002a33ff3f7a7f",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\013.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/013.png",
+      "sha256": "77e9604e51496b60ff2b820fbc0af6af9c93992039964c77571c90dfc7ccf06b",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\014.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/014.png",
+      "sha256": "168e79c3e570d934e57d8b237c6c804bb4be7df702369a2c19359f889a6a336a",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\015.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/015.png",
+      "sha256": "95a9788d0f82096f9716f1aca2b87a18e1afe78eb307f18dd930c402106652ae",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\016.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/016.png",
+      "sha256": "a00cae3574a26f172ec2152ec98cb3a5067eb24e8ebb92c524737d1986fe8503",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\017.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/017.png",
+      "sha256": "e1a50cb8289b1c64e098b09d59bfc36e81df9b6d5ee47ce9e90d5718f2b224e0",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\018.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/018.png",
+      "sha256": "f3e7f78ae753afd468bc41ebd056fb5df5d3253f80657e3aec50084e862a9718",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\019.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/019.png",
+      "sha256": "72088a39dd58eb631688462e3cb613a986b75537f43dc9973c424f6e005fbdbf",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\020.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/020.png",
+      "sha256": "b78da241c3be5274d6116a9ad13c660b9e5fb91061d7a75b57ac9a8ef987622f",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\021.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/021.png",
+      "sha256": "f6347a041b90667944fab25b08249f76dc13fda629ba6b4607cff2bf6db47006",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\022.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/022.png",
+      "sha256": "6dd856231110635c017090cf2724280f85b9f0ddca6c604e4f8bad07caf5b163",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\023.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/023.png",
+      "sha256": "ad6242b122ae411c68bcdbff79fd0c29ec248a06d7cec2f19f73ebf25b0f8931",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\024.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/024.png",
+      "sha256": "68d8e87e652e0db186e0efd0a9c416c5f97320133ba6ed71b2862996d7644682",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_MPBar\\Default\\025.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_MPBar/Default/025.png",
+      "sha256": "0cfce8392c2a0d93962ca7d7509af9f6260135032eed625c8dc681ec361b6614",
+      "size": [
+        48,
+        64
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_PortraitBG\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_PortraitBG/Default/000.png",
+      "sha256": "5084078321f01605312a5f92a67852cacd0e6e08e130c17b1e2062fb2170e9ff",
+      "size": [
+        16,
+        16
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Portraits\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Portraits/Default/000.png",
+      "sha256": "7774ac5ae4deffa399519ec42644d7396650d5788056492eaf708efc6ace96ab",
+      "size": [
+        256,
+        257
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_R\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_R/Default/000.png",
+      "sha256": "ed1477bd59b7830948033471fb9bb368423e6f15bfb7f65036b7155abb8d882b",
+      "size": [
+        16,
+        7
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_R\\Default\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_R/Default/001.png",
+      "sha256": "277d0b3363a733ff711689bccea82bd6b3fb690d45c1019f0e2f59934fb3f68d",
+      "size": [
+        15,
+        15
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_R\\Default\\002.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_R/Default/002.png",
+      "sha256": "bb5a62151243288d9ad95c574582fa137ca404b670a02d49ab59292741fa172a",
+      "size": [
+        14,
+        5
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_Dayphase_R\\Default\\003.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_Dayphase_R/Default/003.png",
+      "sha256": "6a396c3a74c627207cde703a24eab18d9e01135c02b729f7b49b9a6039f839af",
+      "size": [
+        11,
+        11
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ShotType\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ShotType/Default/000.png",
+      "sha256": "ed1477bd59b7830948033471fb9bb368423e6f15bfb7f65036b7155abb8d882b",
+      "size": [
+        16,
+        7
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ShotType\\Default\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ShotType/Default/001.png",
+      "sha256": "277d0b3363a733ff711689bccea82bd6b3fb690d45c1019f0e2f59934fb3f68d",
+      "size": [
+        15,
+        15
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ShotType\\Default\\002.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ShotType/Default/002.png",
+      "sha256": "bb5a62151243288d9ad95c574582fa137ca404b670a02d49ab59292741fa172a",
+      "size": [
+        14,
+        5
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\HUD_ShotType\\Default\\003.png",
+      "destination": "surge-poc/content/images/ui/c2/library/HUD_ShotType/Default/003.png",
+      "sha256": "6a396c3a74c627207cde703a24eab18d9e01135c02b729f7b49b9a6039f839af",
+      "size": [
+        11,
+        11
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Textures\\MENUBG_wood_lightthin.png",
+      "destination": "surge-poc/content/images/ui/c2/library/MENUBG_wood_lightthin.png",
+      "sha256": "4357def2960414899cd7ebc8a3365bd1d7aba14cf287992d1785cae9087ad482",
+      "size": [
+        256,
+        256
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_bar\\default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_bar/default/000.png",
+      "sha256": "a07863bce3d3f7a35ff9accc7bd98da1d0b1a02a871ac3046f78fe96ec9492e7",
+      "size": [
+        96,
+        16
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Daytime\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Daytime/Default/000.png",
+      "sha256": "cbd066c65aa6fd9c3b856483ca93259cf03886a1bd06576cb73f5e258405f33a",
+      "size": [
+        49,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Daytime\\Default\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Daytime/Default/001.png",
+      "sha256": "e2d075c65ae393260da5941339526217d200851c50df4f2ad17ff2b8d93eae14",
+      "size": [
+        50,
+        50
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Gauge\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Gauge/Default/000.png",
+      "sha256": "860827b73d78f3d9fff2e5429bc511b21c6a90b6573457c3e57351f7fa6db9fc",
+      "size": [
+        96,
+        16
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Line\\default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Line/default/000.png",
+      "sha256": "137bcdaba7e74b0bf79614ad19e632b86cdf6d82704298b09e6f74252791f195",
+      "size": [
+        96,
+        4
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Location_Pin\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Location_Pin/Default/000.png",
+      "sha256": "de217f97cd704398cca95bab54b02d1cd0121169cc9b68b1a5ab7ff9904f823c",
+      "size": [
+        32,
+        50
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_MenuCursor\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_MenuCursor/Default/000.png",
+      "sha256": "ab48413a8ac4d15ee2daced403c3f5ef665e8525f543b20eb23e853d829e5b98",
+      "size": [
+        64,
+        16
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_MenuCursor2\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_MenuCursor2/Default/000.png",
+      "sha256": "2135e2101737c9b4fc98f600b42cbf0e179d2ab8f5b0da20ddb49603c06a0289",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_PauseBlock\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_PauseBlock/Default/000.png",
+      "sha256": "41098d523b611c963140f25b1ceb30d5365bd47ce2ea1877ccd3641c1d971183",
+      "size": [
+        480,
+        96
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Textures\\UI_ScrollBig.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_ScrollBig.png",
+      "sha256": "0e33edfc5ed64173568ec89bb9d46d29a0e551ead6256267e97b900762033d17",
+      "size": [
+        192,
+        192
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_stats_bg\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_stats_bg/Default/000.png",
+      "sha256": "ed7f688f91de2f0e673d27882bb3a403a11179db22afe9ea670f1833a3c13859",
+      "size": [
+        640,
+        480
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_SubSlot\\Default\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_SubSlot/Default/000.png",
+      "sha256": "528c482fb75042d9852094c5934497c41910f3d598651bc140b20b35a8b1525d",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\000.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/000.png",
+      "sha256": "c4af8aab903c9b5f8f50c0777e0489b97c629ecff15cfebdd12faba1429d8ab4",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\001.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/001.png",
+      "sha256": "c12e7b57dbcf4aec05d32afd7902668c23b4f06c9d8bc88ba653d4bdeed5312b",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\002.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/002.png",
+      "sha256": "e854d7c828b78f8c61577037a5bae7970457dc73c483691d76a6969fe1bd2024",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\003.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/003.png",
+      "sha256": "ddf6387aea8d1f6e7542e62391762b94b460966787659f0437a892cec0b8139f",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\004.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/004.png",
+      "sha256": "e04ded1448caa55037167d9d2acca39fcca25f316805777d30eee0c18355868e",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\005.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/005.png",
+      "sha256": "00648fc0968a90f3812dd94e96bda38fd1b514adb4fac35732346483857d4fd1",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\006.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/006.png",
+      "sha256": "4feb98ebf354d5d43bf01dd2dec8cc7e67e5375b4e0afb6c62336ed40f286c5c",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\007.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/007.png",
+      "sha256": "566f2299ce113ad394e6dd1c115fc8c61f6d6593e3dbc7c5ef9ae502efe46cdf",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\008.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/008.png",
+      "sha256": "24dcce0ab64c50392015cf90012da81eb00b5d91c7f97394eaee3f312746a4d2",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\009.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/009.png",
+      "sha256": "ad21a18f5a477451b1a21a6742902015edf7336220e6d7b209a1615abd279ae6",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\010.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/010.png",
+      "sha256": "16b6ccb5d331c289e3b135fbde41848b874201b1e35400f7efec43ccdbd0e7ae",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\011.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/011.png",
+      "sha256": "1b1194b87cfce6dbfe416eabd2588bfe0942324ab83469b79fddec3b922f07e2",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\012.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/012.png",
+      "sha256": "6573d93867269f0526cedf0e05007269c05d25f96bfe43ba6c7c86f47b089e06",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\013.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/013.png",
+      "sha256": "1a5a0cb8a507010c6a8b5c18f0c968f991ce4c4083820b211b9d752d54bb384f",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\014.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/014.png",
+      "sha256": "acfdc9e12bcb6b6c3ab4c76edfe9801ec6198928e4060e3b48ce550e3e69575e",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\015.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/015.png",
+      "sha256": "8a87055b6815bd8acd95162ca4b11ed64be9ba46509d6c3dd214d26315d41e9f",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\016.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/016.png",
+      "sha256": "a055670cb89f62ce267e2ff4c6496331fe6946fdd20e09cb9c1ffa8ea398e710",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\017.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/017.png",
+      "sha256": "39837bd012109d2a8485d0a89173b2059de25687a0f11b13b7d3bb84c976ee74",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\018.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/018.png",
+      "sha256": "d9e5dd92d24fedba6c9847e657b919401e305ea62c7b7d65728122b97b26f3ef",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\019.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/019.png",
+      "sha256": "4fec5fa9a6f55e8fba5e3612704429246dac6209b48d4cdf0f073116c723c103",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Animations\\UI_Weather\\Weather\\020.png",
+      "destination": "surge-poc/content/images/ui/c2/library/UI_Weather/Weather/020.png",
+      "sha256": "f6c7ce755ef09b3088ef015c331152f3c571f8931ad6007d5fa505fb7c125f30",
+      "size": [
+        96,
+        48
+      ]
+    },
+    {
+      "source": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Files\\CaveatBrush-Regular.ttf",
+      "destination": "surge-poc/content/fonts/c2/CaveatBrush-Regular.ttf",
+      "sha256": "2758f1df8777d08e87167eca22734c0e7da3d5e41bdb99449c18615f995a1d47"
+    }
+  ]
+}

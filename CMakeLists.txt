@@ -179,6 +179,13 @@ endif()
 # Find the dependencies
 # ------------------------------------------
 
+# BSL audio selection. Signed: Mech.
+set(BSL_AUDIO_BACKEND "SOLOUD" CACHE STRING "SOLOUD or ALLEGRO (legacy)")
+set_property(CACHE BSL_AUDIO_BACKEND PROPERTY STRINGS SOLOUD ALLEGRO)
+if(NOT BSL_AUDIO_BACKEND MATCHES "^(SOLOUD|ALLEGRO)$")
+ message(FATAL_ERROR "Unsupported BSL_AUDIO_BACKEND")
+endif()
+
 include(libs)
 
 # Allegro
@@ -300,7 +307,7 @@ target_compile_definitions(${GAME_UNIXNAME} PUBLIC ${DEFS})
 # Target properties
 set_target_properties(${GAME_UNIXNAME} PROPERTIES PROJECT_LABEL "${GAME_NAME}")
 if(GAME_RUNINPLACE)
-  set_target_properties(${GAME_UNIXNAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
+  set_target_properties(${GAME_UNIXNAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 endif()
 
 # Deterministic builds
@@ -349,3 +356,28 @@ elseif(GAME_RUNINPLACE)
   )
 
 endif()
+
+include(bsl/foundation/audio/surge.cmake)
+
+include(bsl/foundation/presentation/presentation.cmake)
+
+target_sources(${GAME_UNIXNAME} PRIVATE src/cell_terrain/terrain.cpp src/cell_terrain/native.cpp src/cell_terrain/native_c.c)
+
+# BSL unified editor shell; pinned MIT toolkit. Signed: President.
+target_sources(${GAME_UNIXNAME} PRIVATE src/editor_shell/shell.cpp
+ bsl/third_party/imgui/imgui.cpp bsl/third_party/imgui/imgui_draw.cpp
+ bsl/third_party/imgui/imgui_tables.cpp bsl/third_party/imgui/imgui_widgets.cpp
+ bsl/third_party/imgui/backends/imgui_impl_allegro5.cpp)
+target_include_directories(${GAME_UNIXNAME} PRIVATE bsl/third_party/imgui)
+
+# Native laboratories; ordinary source ownership, no staging scripts. Signed: President.
+target_sources(${GAME_UNIXNAME} PRIVATE src/labs/lab.cpp)
+
+# Portable testing package; build inputs stay in the repository. Signed: President.
+get_filename_component(PS_COMPILER_BIN "${CMAKE_C_COMPILER}" DIRECTORY)
+add_custom_target(powersurge_portable
+ COMMAND "${CMAKE_COMMAND}" "-DPS_EXE=$<TARGET_FILE:${GAME_UNIXNAME}>"
+ "-DPS_SOURCE=${CMAKE_SOURCE_DIR}" "-DPS_OUTPUT=${CMAKE_BINARY_DIR}/../portable"
+ "-DPS_DLLDIR=${PS_COMPILER_BIN}" "-DPS_OBJDUMP=${CMAKE_OBJDUMP}"
+ -P "${CMAKE_SOURCE_DIR}/cmake/Portable.cmake"
+ DEPENDS ${GAME_UNIXNAME} VERBATIM)

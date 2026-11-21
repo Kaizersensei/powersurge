@@ -1,0 +1,76 @@
+// Distinct keyboard and gamepad lobby ownership. Signed: Mech.
+inputmap "bsl_select_keyboard"
+{
+ keyboard
+ {
+  left KEY_A
+  right KEY_D
+  fire1 KEY_L
+  fire2 KEY_J
+  fire3 KEY_ENTER
+  fire4 KEY_ESC
+ }
+}
+inputmap "bsl_select_arrows"
+{
+ keyboard
+ {
+  left KEY_LEFT
+  right KEY_RIGHT
+  fire1 KEY_SPACE
+  fire2 KEY_J
+  fire3 KEY_ENTER
+  fire4 KEY_ESC
+ }
+}
+inputmap "bsl_select_pad1"
+{
+ joystick 1
+ {
+  left BUTTON_12
+  right BUTTON_11
+  fire1 BUTTON_1
+  fire2 BUTTON_2
+  fire3 BUTTON_10
+  fire4 BUTTON_9
+ }
+}
+
+inputmap "bsl_select_pad2"
+{
+ joystick 2
+ {
+  left BUTTON_12
+  right BUTTON_11
+  fire1 BUTTON_1
+  fire2 BUTTON_2
+  fire3 BUTTON_10
+  fire4 BUTTON_9
+ }
+}
+
+inputmap "bsl_select_pad3"
+{
+ joystick 3
+ {
+  left BUTTON_12
+  right BUTTON_11
+  fire1 BUTTON_1
+  fire2 BUTTON_2
+  fire3 BUTTON_10
+  fire4 BUTTON_9
+ }
+}
+
+inputmap "bsl_select_pad4"
+{
+ joystick 4
+ {
+  left BUTTON_12
+  right BUTTON_11
+  fire1 BUTTON_1
+  fire2 BUTTON_2
+  fire3 BUTTON_10
+  fire4 BUTTON_9
+ }
+}

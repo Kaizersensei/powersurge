@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "defaults": {
+    "version": 1,
+    "kind": "level_defaults",
+    "name": "Unregistered Level",
+    "location": {
+      "country": "",
+      "locality": "Unknown location"
+    },
+    "properties": {
+      "editable": true,
+      "weather": {
+        "region": "",
+        "hemisphere": "inherit",
+        "indoor": false,
+        "preset": "",
+        "wind_factor": 1,
+        "precipitation_factor": 1
+      }
+    }
+  },
+  "records": [
+    {
+      "version": 1,
+      "kind": "level",
+      "id": "level:training",
+      "scene": "levels/checkpoint-services.lev",
+      "parent": "",
+      "name": "Training Grounds",
+      "location": {
+        "country": "",
+        "locality": "Training Grounds"
+      },
+      "properties": {
+        "editable": true,
+        "weather": {
+          "region": "region:training",
+          "hemisphere": "inherit",
+          "indoor": false,
+          "preset": "",
+          "wind_factor": 1,
+          "precipitation_factor": 1
+        },
+        "terrain": null
+      }
+    },
+    {
+      "version": 1,
+      "kind": "level",
+      "id": "level:training-annex",
+      "scene": "levels/teleport-annex.lev",
+      "parent": "level:training",
+      "name": "Training Annex",
+      "location": {
+        "country": "",
+        "locality": "Training Annex"
+      },
+      "properties": {
+        "editable": true,
+        "weather": {
+          "region": "region:training",
+          "hemisphere": "inherit",
+          "indoor": true,
+          "preset": "",
+          "wind_factor": 1,
+          "precipitation_factor": 1
+        },
+        "terrain": null
+      }
+    },
+    {
+      "version": 1,
+      "kind": "level",
+      "id": "level:cell-lab",
+      "scene": "levels/cell-terrain.lev",
+      "parent": "",
+      "name": "Cell Terrain Laboratory",
+      "location": {
+        "country": "Terrain Lab",
+        "locality": "Cell Terrain Laboratory"
+      },
+      "properties": {
+        "editable": true,
+        "weather": {
+          "region": "",
+          "hemisphere": "inherit",
+          "indoor": false,
+          "preset": "",
+          "wind_factor": 1,
+          "precipitation_factor": 1
+        },
+        "terrain": {
+          "document": "terrain/cell-lab.json",
+          "materials": "terrain/cell-materials.json"
+        }
+      }
+    },
+    {
+      "version": 1,
+      "kind": "level",
+      "id": "level:cell-annex",
+      "scene": "levels/cell-annex.lev",
+      "parent": "level:cell-lab",
+      "name": "Cell Terrain Annex",
+      "location": {
+        "country": "Terrain Lab",
+        "locality": "Cell Terrain Annex"
+      },
+      "properties": {
+        "editable": true,
+        "weather": {
+          "region": "",
+          "hemisphere": "inherit",
+          "indoor": true,
+          "preset": "",
+          "wind_factor": 1,
+          "precipitation_factor": 1
+        },
+        "terrain": {
+          "document": "terrain/cell-annex.json",
+          "materials": "terrain/cell-annex-materials.json"
+        }
+      }
+    },
+    {
+      "version": 1,
+      "kind": "level",
+      "id": "level:cell-plain",
+      "scene": "levels/cell-plain.lev",
+      "parent": "level:cell-annex",
+      "name": "Native Brick Control",
+      "location": {
+        "country": "Terrain Lab",
+        "locality": "Native Brick Control"
+      },
+      "properties": {
+        "editable": true,
+        "weather": {
+          "region": "",
+          "hemisphere": "inherit",
+          "indoor": false,
+          "preset": "",
+          "wind_factor": 1,
+          "precipitation_factor": 1
+        },
+        "terrain": null
+      }
+    }
+  ]
+}

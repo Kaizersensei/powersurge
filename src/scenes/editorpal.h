@@ -25,6 +25,7 @@
 typedef struct editorpal_config_t {
     /* palette types */
     enum {
+        EDITORPAL_TEXTURE,
         EDITORPAL_BRICK,
         EDITORPAL_SSOBJ
     } type;

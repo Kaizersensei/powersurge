@@ -99,6 +99,7 @@ surgescript_objecthandle_t entitymanager_find_entity_by_id(surgescript_object_t*
 uint64_t entitymanager_get_entity_id(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);
 void entitymanager_set_entity_id(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle, uint64_t entity_id);
 v2d_t entitymanager_get_entity_spawn_point(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);
+void entitymanager_set_entity_spawn_point(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle, v2d_t position);
 bool entitymanager_is_entity_persistent(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);
 void entitymanager_set_entity_persistent(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle, bool is_persistent);
 bool entitymanager_is_entity_sleeping(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);
@@ -407,6 +408,12 @@ surgescript_var_t* fun_spawnentity(surgescript_object_t* object, const surgescri
             scripting_level_issetupobjectname(level, entity_name)
         )
     });
+
+    /* Generated temporary IDs must not shadow saved placement IDs. Signed: Atlas. */
+    extern bool bsl_level_instance_id_reserved(uint64_t id);
+    while(info->id == 0 || bsl_level_instance_id_reserved(info->id) ||
+          fasthash_get(get_db(object)->id_to_handle, info->id) != NULL)
+        info->id = generate_entity_id();
 
     /* store entity info */
     entitydb_t* db = get_db(object);
@@ -926,6 +933,13 @@ v2d_t entitymanager_get_entity_spawn_point(surgescript_object_t* entity_manager,
 {
     entityinfo_t* info = quick_lookup(entity_manager, entity_handle);
     return info != NULL ? info->spawn_point : v2d_new(0, 0);
+}
+
+/* Change an authored origin without replacing the entity or its stable identity. */
+void entitymanager_set_entity_spawn_point(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle, v2d_t position)
+{
+    entityinfo_t* info = quick_lookup(entity_manager, entity_handle);
+    if(info != NULL) info->spawn_point = position;
 }
 
 /* is the entity persistent? */

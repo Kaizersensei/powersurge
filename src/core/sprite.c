@@ -20,6 +20,7 @@
 
 #include <string.h>
 #include "sprite.h"
+#include "../presentation/video_presentation.h"
 #include "animation.h"
 #include "image.h"
 #include "logfile.h"
@@ -426,6 +427,7 @@ collisionmask_t* spriteinfo_to_collisionmask(const spriteinfo_t* info, int frame
 int scanfile(const char *vpath, void *param)
 {
     const char* fullpath = asset_path(vpath);
+    bsl_presentation_loading_pump();
 
     /* read the .spr file */
     parsetree_program_t* p = nanoparser_construct_tree(fullpath);
@@ -991,6 +993,7 @@ void destroy_userproperty(void* element, void* context)
  */
 int traverse(const parsetree_statement_t *stmt, void *vpath)
 {
+    bsl_presentation_loading_pump();
     const char *identifier, *sprite_name;
     const parsetree_parameter_t *param_list;
     const parsetree_parameter_t *p1, *p2;

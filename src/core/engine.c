@@ -1,3 +1,5 @@
+#include "../labs/lab.h"
+#include "../editor_shell/shell.h"
 /*
  * Open Surge Engine
  * engine.c - game engine facade
@@ -23,6 +25,7 @@
 #include <locale.h>
 #include <time.h>
 #include "engine.h"
+#include "../presentation/video_presentation.h"
 #include "global.h"
 #include "scene.h"
 #include "storyboard.h"
@@ -159,10 +162,15 @@ void engine_init(const commandline_t* cmd)
     init_accessories(cmd);
 
     is_initialized = true;
+    if(engine_must_quit())
+        return;
 
     /* initialize game data */
     player_set_lives(PLAYER_INITIAL_LIVES);
     player_set_score(0);
+    if(!ps_lab_active()) bsl_presentation_play_logo();
+    if(engine_must_quit())
+        return;
     push_initial_scene(cmd);
 
     /* initialize in immersive mode */
@@ -182,6 +190,7 @@ void engine_release()
 {
     is_initialized = false;
 
+    bsl_presentation_shutdown();
     release_accessories();
     release_managers();
     release_basic_stuff();
@@ -218,6 +227,8 @@ void engine_mainloop()
 
         /* handle events & update game logic */
         al_wait_for_event(a5_event_queue, &event);
+        if(ps_lab_automatic() && ((event.type >= ALLEGRO_EVENT_JOYSTICK_AXIS && event.type <= ALLEGRO_EVENT_MOUSE_WARPED) || (event.type >= ALLEGRO_EVENT_TOUCH_BEGIN && event.type <= ALLEGRO_EVENT_TOUCH_CANCEL))) continue;
+        bsl_shell_event(&event);
         call_event_listeners(&event);
 
         /* skip rendering if the scene changed */
@@ -626,13 +637,16 @@ void init_accessories(const commandline_t* cmd)
 
     /* load fonts and display a loading screen */
     font_init();
+    bsl_presentation_loading_begin();
     video_display_loading_screen();
 
     /* load sprites & images */
     sprite_init(); /* load images in the same thread of the ALLEGRO_DISPLAY */
+    bsl_presentation_loading_pump();
 
     /* wait for the SurgeScript loading thread & release it */
     surgescriptloaderthread_destroy(surgescript_thread); /* show potential scripting errors before loading the other accessories */
+    bsl_presentation_loading_pump();
 
     /* load various accessories */
     storyboard_init();
@@ -640,6 +654,7 @@ void init_accessories(const commandline_t* cmd)
     screenshot_init();
     fadefx_init();
     audio_preload(); /* preload audio samples */
+    bsl_presentation_loading_pump();
     charactersystem_init();
     objects_init(); /* legacy scripting */
 
@@ -654,6 +669,7 @@ void init_accessories(const commandline_t* cmd)
 
     /* launch the SurgeScript Virtual Machine */
     scripting_launch_vm();
+    bsl_presentation_loading_end();
 }
 
 
@@ -667,6 +683,10 @@ void push_initial_scene(const commandline_t* cmd)
     int custom_level = (commandline_getstring(cmd->custom_level_path, NULL) != NULL);
     int custom_quest = (commandline_getstring(cmd->custom_quest_path, NULL) != NULL);
 
+    if(!custom_level&&!custom_quest&&!scripting_testmode()&&asset_exists("borsurgelab.runtime")){
+        scenestack_push(storyboard_get_scene(SCENE_QUEST),asset_exists("terrain-release.json") && asset_exists("quests/default.qst") ? "quests/default.qst" : asset_exists("quests/initial.qst") ? "quests/initial.qst" : "quests/stage_select.qst");
+        return;
+    }
     if(custom_level) {
         scenestack_push(storyboard_get_scene(SCENE_LEVEL), (void*)(commandline_getstring(cmd->custom_level_path, "")));
     }
@@ -1042,7 +1062,9 @@ void a5_handle_timer_event(const ALLEGRO_EVENT* event, void* data)
 
     /* update the current scene */
     scene_t* current_scene = scenestack_top();
+    bsl_shell_tick(current_scene == storyboard_get_scene(SCENE_LEVEL));
     current_scene->update();
+    ps_lab_tick();
     *is_ready_to_draw = true;
 
     /* prevent locking */

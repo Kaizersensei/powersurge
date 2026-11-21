@@ -311,6 +311,9 @@ surgescript_var_t* fun_render(surgescript_object_t* object, const surgescript_va
 
             /* render the entity */
             renderqueue_enqueue_ssobject_debug(entity);
+            /* Explicit editor gizmos opt into read-only diagnostic rendering. */
+            if(surgescript_object_has_tag(entity, "editor-gizmo"))
+                renderqueue_enqueue_ssobject_gizmo(entity);
         }
         iterator_destroy(it);
 

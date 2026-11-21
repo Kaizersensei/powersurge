@@ -1,0 +1,9 @@
+{
+  "signed": "President",
+  "date": "2026-11-21",
+  "fork_base": "6c6b72c9",
+  "upstream_base": "61975c23e7e877a55dfcab0e10f035907ae4ecb4",
+  "accepted_archive_sha256": "14274864e5d08f8c04a45b15159c0a3a81dca0389d99a97e59affa2bca9440b5",
+  "accepted_binary_sha256": "a72a94ca3a7f8479b109c615f2634291f6baedb940c78e5e81957a727319f569",
+  "scope": "Reusable native engine and selected original lab assets. No historical Python pipelines or generated build caches imported. Text newlines normalized; original copyright/notices retained. Experimental physics remains separate."
+}

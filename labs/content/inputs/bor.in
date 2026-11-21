@@ -1,0 +1,32 @@
+// PoC controls; stock input-map format. Signed: Atlas.
+inputmap "bor"
+{
+ keyboard
+ {
+  left KEY_LEFT
+  right KEY_RIGHT
+  up KEY_UP
+  down KEY_DOWN
+  fire1 KEY_L
+  fire2 KEY_H
+  fire3 KEY_P
+  fire4 KEY_ESC
+  fire5 KEY_K
+  fire6 KEY_J
+  fire7 KEY_LCONTROL
+ }
+ joystick 1
+ {
+  up BUTTON_14
+  right BUTTON_11
+  down BUTTON_13
+  left BUTTON_12
+  fire1 BUTTON_1
+  fire2 BUTTON_3
+  fire3 BUTTON_10
+  fire4 BUTTON_9
+  fire5 BUTTON_2
+  fire6 BUTTON_4
+  fire7 BUTTON_15 // LT
+ }
+}

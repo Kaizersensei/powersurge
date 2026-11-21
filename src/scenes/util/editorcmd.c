@@ -53,6 +53,7 @@ static const command_t command[] = {
     { "save", "Ctrl+S" },
     { "reload", "Ctrl+R" },
     { "put-item", "LeftClick" },
+    { "paint-item", "HoldLeftClick" },
     { "pick-item", "MiddleClick" },
     { "delete-item", "RightClick" },
     { "next-item", "WheelUp" },
@@ -68,13 +69,17 @@ static const command_t command[] = {
     { "redo", "Ctrl+Y" },
     { "help", "F1" },
     { "snap-to-grid", "G" },
-    { "open-brick-palette", "1" },
-    { "open-entity-palette", "2" },
+    /* Number row selects categories. */
+    /* Insert opens the object palette. */
+    { "open-inspect", "Ctrl+2" },
+    { "open-events", "Ctrl+1" },
     { "flip-next", "F" },
     { "flip-previous", "Shift+F" },
     { "layer-next", "L" },
     { "layer-previous", "Shift+L" },
-    { "toggle-masks", "M" }
+    { "toggle-masks", "M" },
+    { "toggle-collision-role", "Ctrl+M" },
+    { "toggle-decoration-role", "Ctrl+G" }
 };
 static const int command_count = sizeof(command) / sizeof(command_t);
 static bool hotkey_is_triggered(const editorcmd_t* cmd, const char* hotkey);
@@ -193,6 +198,8 @@ bool hotkey_is_triggered(const editorcmd_t* cmd, const char* hotkey)
         return input_button_pressed(cmd->mouse, IB_UP);
     else if(0 == strcmp(hotkey, "WheelDown"))
         return input_button_pressed(cmd->mouse, IB_DOWN);
+    else if(0 == strcmp(hotkey, "HoldLeftClick"))
+        return input_button_down(cmd->mouse, IB_FIRE1);
     else if(0 == strcmp(hotkey, "HoldRightClick"))
         return input_button_down(cmd->mouse, IB_FIRE2);
     else switch(*hotkey) {

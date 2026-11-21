@@ -1,0 +1,13 @@
+sprite "BOR Hedgehog"
+{
+ source_file "images/bor/Hedgehog_Brown.png"
+ source_rect 0 0 1536 80
+ frame_size 96 80
+ hot_spot 48 80
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 7
+ }
+}

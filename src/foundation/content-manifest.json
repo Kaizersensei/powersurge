@@ -1,0 +1,748 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "5861c9df6644c399ecff48a0f719ea54f2505db9944e5641016621b6de8fa9fc",
+  "content_hash": "4e856087956719d617152463b666ad0892d8c910a65e5b24bb5e9c2c4591b22a",
+  "records": [
+    {
+      "id": "dialogue:choice_list",
+      "kind": "dialogue",
+      "version": 1,
+      "name": "Scrollable choice fixture",
+      "provenance": "Original diagnostic list; validates raised choice capacity and viewport. Signed: Atlas.",
+      "text": "Long choice-list test. The final choice runs the authored reward event.",
+      "choices": [
+        "Choice 01",
+        "Choice 02",
+        "Choice 03",
+        "Choice 04",
+        "Choice 05",
+        "Choice 06",
+        "Choice 07",
+        "Choice 08",
+        "Choice 09",
+        "Choice 10",
+        "Choice 11",
+        "Choice 12",
+        "Choice 13",
+        "Choice 14",
+        "Choice 15",
+        "Choice 16",
+        "Choice 17",
+        "Choice 18",
+        "Choice 19",
+        "Choice 20",
+        "Choice 21",
+        "Choice 22",
+        "Choice 23",
+        "Choice 24",
+        "Choice 25",
+        "Choice 26",
+        "Choice 27",
+        "Choice 28",
+        "Choice 29",
+        "Choice 30",
+        "Choice 31",
+        "Choice 32",
+        "Choice 33",
+        "Choice 34",
+        "Choice 35",
+        "Choice 36",
+        "Choice 37",
+        "Choice 38",
+        "Choice 39",
+        "Choice 40",
+        "Choice 41",
+        "Choice 42",
+        "Choice 43",
+        "Choice 44",
+        "Choice 45",
+        "Choice 46",
+        "Choice 47",
+        "Choice 48",
+        "Choice 49",
+        "Choice 50",
+        "Choice 51",
+        "Choice 52",
+        "Choice 53",
+        "Choice 54",
+        "Choice 55",
+        "Choice 56",
+        "Choice 57",
+        "Choice 58",
+        "Choice 59",
+        "Choice 60",
+        "Choice 61",
+        "Choice 62",
+        "Choice 63",
+        "Choice 64 - accept reward"
+      ],
+      "outcomes": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "event:training_reward"
+      ],
+      "choice_help": [
+        "Choice 1: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 2: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 3: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 4: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 5: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 6: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 7: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 8: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 9: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 10: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 11: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 12: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 13: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 14: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 15: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 16: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 17: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 18: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 19: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 20: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 21: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 22: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 23: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 24: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 25: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 26: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 27: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 28: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 29: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 30: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 31: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 32: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 33: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 34: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 35: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 36: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 37: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 38: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 39: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 40: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 41: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 42: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 43: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 44: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 45: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 46: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 47: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 48: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 49: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 50: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 51: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 52: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 53: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 54: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 55: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 56: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 57: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 58: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 59: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 60: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 61: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 62: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Choice 63: no gameplay effect. Use Up/Down to browse. F8 switches between the Split and Wide layouts.",
+        "Receive one strawberry and record your acceptance for this player. Your movement stays locked until this conversation closes."
+      ]
+    },
+    {
+      "id": "dialogue:training_choice",
+      "kind": "dialogue",
+      "version": 1,
+      "name": "Training choice",
+      "provenance": "Legacy shop_dialogs.inc demonstrates selectable branches. This dialogue/text/reward example is original fixture content.",
+      "text": "Training supplies and shop. Carry four strawberries and visit the exploration marker. Check Full Status for coins and stock.",
+      "choices": [
+        "Accept quest",
+        "Claim quest reward",
+        "Buy strawberry (3 coins)",
+        "Sell strawberry (1 coin)",
+        "Unlock annex door",
+        "Wait one game hour",
+        "Skip two game days",
+        "Leave"
+      ],
+      "outcomes": [
+        "event:quest_accept",
+        "event:quest_claim",
+        "event:shop_buy",
+        "event:shop_sell",
+        "event:door_unlock",
+        "event:calendar_hour",
+        "event:calendar_days",
+        ""
+      ],
+      "choice_help": [
+        "Accept the one-time supply quest.",
+        "Claim character XP when ready.",
+        "Buy one item into your player-owned bag.",
+        "Sell one owned item; this shelf does not restock from sales.",
+        "Enable travel without altering its activation mode.",
+        "Advance calendar only; actors/physics do not fast-forward.",
+        "Exercise month/year rollover and persistent shared clock.",
+        "Close without changes."
+      ]
+    },
+    {
+      "id": "effect:strawberry_heal",
+      "kind": "effect",
+      "version": 1,
+      "name": "Strawberry healing",
+      "provenance": "Legacy ITEM_strawberries annotation hp +5; executable healing is a new bounded implementation.",
+      "amount": 5
+    },
+    {
+      "id": "event:calendar_days",
+      "kind": "event",
+      "version": 1,
+      "name": "Advance calendar days",
+      "provenance": "Original elapsed-time calendar diagnostic; no actor/physics fast-forward. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "advance_calendar",
+          "value": 172800
+        }
+      ]
+    },
+    {
+      "id": "event:calendar_hour",
+      "kind": "event",
+      "version": 1,
+      "name": "Advance calendar hour",
+      "provenance": "Original elapsed-time calendar diagnostic; no actor/physics fast-forward. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "advance_calendar",
+          "value": 3600
+        }
+      ]
+    },
+    {
+      "id": "event:door_arrival",
+      "kind": "event",
+      "version": 1,
+      "name": "Arrival handoff",
+      "provenance": "Original teleport service fixture. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "add_variable",
+          "target": "variable:arrivals",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "event:door_unlock",
+      "kind": "event",
+      "version": 1,
+      "name": "Unlock annex door",
+      "provenance": "Original teleport service fixture. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "set_switch",
+          "target": "switch:door_open",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "event:gameplay_wait",
+      "kind": "event",
+      "version": 1,
+      "name": "Ownership cancellation fixture",
+      "provenance": "Isolated integration fixture. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "wait_ticks",
+          "ticks": 120
+        }
+      ]
+    },
+    {
+      "id": "event:objective_retry",
+      "kind": "event",
+      "version": 1,
+      "name": "Objective Retry",
+      "provenance": "Original single-player common-event reward fixture. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "grant_reward",
+          "target": "source:lab_exploration",
+          "receipt": "objective/exploration"
+        }
+      ]
+    },
+    {
+      "id": "event:objective_reward",
+      "kind": "event",
+      "version": 1,
+      "name": "Objective Reward",
+      "provenance": "Original single-player common-event reward fixture. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "wait_ticks",
+          "ticks": 30
+        },
+        {
+          "op": "if_switch",
+          "target": "switch:training_reward",
+          "equals": false,
+          "skip": 3
+        },
+        {
+          "op": "grant_reward",
+          "target": "source:lab_exploration",
+          "receipt": "objective/exploration"
+        },
+        {
+          "op": "set_switch",
+          "target": "switch:training_reward",
+          "value": true
+        },
+        {
+          "op": "add_variable",
+          "target": "variable:training_choices",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "event:pickup_fill",
+      "kind": "event",
+      "version": 1,
+      "name": "Pickup capacity test",
+      "provenance": "Isolated pickup capacity fixture. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "grant_item",
+          "target": "item:strawberry",
+          "quantity": 16
+        }
+      ]
+    },
+    {
+      "id": "event:quest_accept",
+      "kind": "event",
+      "version": 1,
+      "name": "Accept training supplies",
+      "provenance": "Original quest conversation outcome. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "accept_quest",
+          "target": "quest:training_supplies"
+        }
+      ]
+    },
+    {
+      "id": "event:quest_claim",
+      "kind": "event",
+      "version": 1,
+      "name": "Claim training supplies",
+      "provenance": "Original quest conversation outcome. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "claim_quest",
+          "target": "quest:training_supplies"
+        }
+      ]
+    },
+    {
+      "id": "event:shop_buy",
+      "kind": "event",
+      "version": 1,
+      "name": "Buy one strawberry",
+      "provenance": "Original shared-event shop consumer. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "buy_shop_item",
+          "target": "shop:training",
+          "offer": "offer:berries",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "event:shop_sell",
+      "kind": "event",
+      "version": 1,
+      "name": "Sell one strawberry",
+      "provenance": "Original shared-event shop consumer. Signed: Atlas.",
+      "commands": [
+        {
+          "op": "sell_shop_item",
+          "target": "shop:training",
+          "offer": "offer:berries",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "event:training_reward",
+      "kind": "event",
+      "version": 1,
+      "name": "Accept training strawberry",
+      "provenance": "Original BORSurgeLab event fixture; EasyRPG workflow reference only. No upstream implementation copied.",
+      "commands": [
+        {
+          "op": "grant_item",
+          "target": "item:strawberry",
+          "quantity": 1
+        },
+        {
+          "op": "set_switch",
+          "target": "switch:training_reward",
+          "value": true
+        },
+        {
+          "op": "add_variable",
+          "target": "variable:training_choices",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "field:wind_lab",
+      "kind": "field",
+      "version": 1,
+      "name": "Laboratory wind",
+      "provenance": "Original active test value in px/s^2; source default is separately preserved. Host movement application is not part of this slice.",
+      "strength": 120,
+      "direction": 1
+    },
+    {
+      "id": "field:wind_source",
+      "kind": "field",
+      "version": 1,
+      "name": "Source wind defaults",
+      "provenance": "C2 Environment.xml WindStrength 0, WindDirection 1; Wind event group is empty.",
+      "strength": 0,
+      "direction": 1
+    },
+    {
+      "id": "item:strawberry",
+      "kind": "item",
+      "version": 1,
+      "name": "Strawberries",
+      "provenance": "objects/items/arcade_items.inc ITEM_strawberries; stack limit 20 is a laboratory rule.",
+      "storage": "stack",
+      "max_stack": 20,
+      "slot": "",
+      "effect": "effect:strawberry_heal",
+      "category": "consumables",
+      "description": "Restores 5 HP. Cannot be used at full health."
+    },
+    {
+      "id": "item:training_sword",
+      "kind": "item",
+      "version": 1,
+      "name": "Training sword",
+      "provenance": "Legacy .sword_box is an unfinished submenu. Unique instance/weapon slot are new laboratory rules, not a claimed legacy implementation.",
+      "storage": "unique",
+      "max_stack": 1,
+      "slot": "weapon",
+      "effect": "",
+      "category": "equipment",
+      "description": "Training equipment: authored stat contributions affect the next action; earned progression stays unchanged."
+    },
+    {
+      "id": "switch:berries_claimed",
+      "kind": "switch",
+      "version": 1,
+      "name": "Training berries collected",
+      "provenance": "Original selected pickup fixture. Signed: Atlas.",
+      "scope": "session",
+      "initial": false
+    },
+    {
+      "id": "switch:door_open",
+      "kind": "switch",
+      "version": 1,
+      "name": "Annex door unlocked",
+      "provenance": "Original teleport service fixture. Signed: Atlas.",
+      "scope": "player",
+      "initial": false
+    },
+    {
+      "id": "switch:quest_supplies_accepted",
+      "kind": "switch",
+      "version": 1,
+      "name": "Training supplies accepted",
+      "provenance": "Quest-owned selected progress; change through quest service. Signed: Atlas.",
+      "scope": "player",
+      "initial": false
+    },
+    {
+      "id": "switch:quest_supplies_completed",
+      "kind": "switch",
+      "version": 1,
+      "name": "Training supplies completed",
+      "provenance": "Quest-owned selected progress; change through quest service. Signed: Atlas.",
+      "scope": "player",
+      "initial": false
+    },
+    {
+      "id": "switch:training_reward",
+      "kind": "switch",
+      "version": 1,
+      "name": "Training reward chosen",
+      "provenance": "Original BORSurgeLab event fixture; EasyRPG workflow reference only. No upstream implementation copied.",
+      "scope": "player",
+      "initial": false
+    },
+    {
+      "id": "variable:arrivals",
+      "kind": "variable",
+      "version": 1,
+      "name": "Completed door events",
+      "provenance": "Original teleport service fixture. Signed: Atlas.",
+      "scope": "player",
+      "initial": 0,
+      "minimum": 0,
+      "maximum": 10000
+    },
+    {
+      "id": "variable:coins",
+      "kind": "variable",
+      "version": 1,
+      "name": "Coins",
+      "provenance": "Original scoped commerce fixture. Signed: Atlas.",
+      "scope": "player",
+      "initial": 12,
+      "minimum": 0,
+      "maximum": 999999
+    },
+    {
+      "id": "variable:shop_berries",
+      "kind": "variable",
+      "version": 1,
+      "name": "Shop Berries",
+      "provenance": "Original scoped commerce fixture. Signed: Atlas.",
+      "scope": "session",
+      "initial": 4,
+      "minimum": 0,
+      "maximum": 20
+    },
+    {
+      "id": "variable:training_choices",
+      "kind": "variable",
+      "version": 1,
+      "name": "Accepted training choices",
+      "provenance": "Original BORSurgeLab event fixture; EasyRPG workflow reference only. No upstream implementation copied.",
+      "scope": "player",
+      "initial": 0,
+      "minimum": 0,
+      "maximum": 1000000
+    }
+  ],
+  "sources": [
+    {
+      "id": "variable:arrivals",
+      "path": "arrivals.json",
+      "sha256": "9b9862a54d8ba579e7ac43defd83de278e3240735119d299994579d58575ddea"
+    },
+    {
+      "id": "variable:coins",
+      "path": "coins.json",
+      "sha256": "4b12e6294fc782cb9ff8c6c4b45beacf55567a5f186c496c5c3a6099df8de959"
+    },
+    {
+      "id": "event:calendar_days",
+      "path": "days.json",
+      "sha256": "7f6c608fda68e23bc359524a256770db6a65afdc7de52001feca8dbf206457ea"
+    },
+    {
+      "id": "dialogue:choice_list",
+      "path": "dialogue_choice_list.json",
+      "sha256": "4a6bb9c8db472c5ad3e8b9593626423196d898e5f76772210b302c21d17053fe"
+    },
+    {
+      "id": "dialogue:training_choice",
+      "path": "dialogue_training_choice.json",
+      "sha256": "1e55d21c0fdee9dc1951482d34512dac11f09bf8f08fac50c1bb9d0631c0dfd7"
+    },
+    {
+      "id": "event:door_arrival",
+      "path": "door_arrival.json",
+      "sha256": "1fba72457594d5c5fd6ec96c4f570974dd5d79ee5c432adf45b8e65c23a99f37"
+    },
+    {
+      "id": "switch:door_open",
+      "path": "door_open.json",
+      "sha256": "80917611ec202d4f42cfc495dcf9097d8b695e3531bbf07a1f10ff10d923fead"
+    },
+    {
+      "id": "event:door_unlock",
+      "path": "door_unlock.json",
+      "sha256": "5eabba9dfed6e049294d4b548b6b597d48e8dc3747702dc8f51c98366e09e676"
+    },
+    {
+      "id": "effect:strawberry_heal",
+      "path": "effect_strawberry_heal.json",
+      "sha256": "48c4852be6dd0cde80735035dc2f5f8c364a66b26d5a60b8bfd506b3b65ec707"
+    },
+    {
+      "id": "event:gameplay_wait",
+      "path": "event_gameplay_wait.json",
+      "sha256": "b9924f48527253f6c044a28858ab2da4e0cd35e5a6b67c4d44879108d08b1ea0"
+    },
+    {
+      "id": "event:training_reward",
+      "path": "event_training_reward.json",
+      "sha256": "5f7969c80c30c1a2a64c2d0d81d664657b99eb9c7c41727155897b30d8b8b27d"
+    },
+    {
+      "id": "field:wind_lab",
+      "path": "field_wind_lab.json",
+      "sha256": "20894f44ba5be350ec51de9d63354c0b7ef6829f4da20e6ed5066acbd9a26295"
+    },
+    {
+      "id": "field:wind_source",
+      "path": "field_wind_source.json",
+      "sha256": "3b346962ffe4dc137c9d803d4f930393fcc6cfa851d53b7a6ffe6323a583da6c"
+    },
+    {
+      "id": "event:calendar_hour",
+      "path": "hour.json",
+      "sha256": "ccf007c941104d531fb2f35f138a535918d0e1e56a81a47b88f2c40d25c87eff"
+    },
+    {
+      "id": "item:strawberry",
+      "path": "item_strawberry.json",
+      "sha256": "0137f7adc9cc037b8a3059c3f121671c066b49f32b49c1744921ac53ba96b6d2"
+    },
+    {
+      "id": "item:training_sword",
+      "path": "item_training_sword.json",
+      "sha256": "622f4cb49730018754cd46ac4bce63303503f4262ee39c494484e2a62206b58a"
+    },
+    {
+      "id": "event:objective_retry",
+      "path": "objective_retry.json",
+      "sha256": "d41c44c200992711beecd6454b49500905f0cbf6e25191ebb8ec9385116c1511"
+    },
+    {
+      "id": "event:objective_reward",
+      "path": "objective_reward.json",
+      "sha256": "3785a415786c63b9ea77dad51cb2168e0c0f793c76eaf18e1049b7926c0638b0"
+    },
+    {
+      "id": "switch:berries_claimed",
+      "path": "pickup_claim_7b109fffe5e2.json",
+      "sha256": "6fd8921abb90d516ebbd894dc306186cbf1abff9a59b1546b2a5697ee4bd35f4"
+    },
+    {
+      "id": "event:pickup_fill",
+      "path": "pickup_fill.json",
+      "sha256": "1faf0c13e7ee7c3d9556a3c3e21fa59b6932c8977c1c430ba405f69304e3a0d6"
+    },
+    {
+      "id": "event:quest_accept",
+      "path": "quest_accept.json",
+      "sha256": "1969f0f0ace3736e9474832fc6484047bf733747488bb4f622596999156c0c57"
+    },
+    {
+      "id": "switch:quest_supplies_accepted",
+      "path": "quest_accepted.json",
+      "sha256": "bb3b95ef43115e798b851ff7f7dad2f8d42fac6a7f0256eb0c06a7adc8c9d928"
+    },
+    {
+      "id": "event:quest_claim",
+      "path": "quest_claim.json",
+      "sha256": "c8fd72d235fa126ef2e253a2f92c8b60e2481712a85f516c47124c8db64e4ebb"
+    },
+    {
+      "id": "switch:quest_supplies_completed",
+      "path": "quest_completed.json",
+      "sha256": "e83694527657112bf737f598b4ba19c8092292e636bc4f87cea82623e6049dfb"
+    },
+    {
+      "id": "variable:shop_berries",
+      "path": "shop_berries.json",
+      "sha256": "f5a5cd7061c6e007a553cf449fe8f9c5cf56e19e19bb4c5fae4d81e2d858067c"
+    },
+    {
+      "id": "event:shop_buy",
+      "path": "shop_buy.json",
+      "sha256": "337f716af407ae02daf1b64cc56bc77db6d9428f26c148468bc009427d389c26"
+    },
+    {
+      "id": "event:shop_sell",
+      "path": "shop_sell.json",
+      "sha256": "09890bb74b4d8ddae77b9b15ca4c3b4324164d45cb54ac8b96c915c553804dce"
+    },
+    {
+      "id": "switch:training_reward",
+      "path": "switch_training_reward.json",
+      "sha256": "a22be6ba3dd7adbc25d05c9164a590abe865d2fb91fa57228aab4d4b436142a9"
+    },
+    {
+      "id": "variable:training_choices",
+      "path": "variable_training_choices.json",
+      "sha256": "2aea049c9044ad4175fe53eb82d7ecc1a091e20574d58be3545d03abd3ad0af4"
+    }
+  ]
+}

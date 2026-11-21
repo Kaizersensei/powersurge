@@ -1,0 +1,5926 @@
+// Generated from canonical terrain records. Signed: Atlas.
+brick 0
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:full_square"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 1
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 2
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 3
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 4
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 5
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 6
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 7
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 8
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 9
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 10
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r01c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 11
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 12
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 13
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 14
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 15
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 16
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 17
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 18
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 19
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r02c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 20
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 21
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 22
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 23
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 24
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 25
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 26
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r03c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 27
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 28
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 29
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 30
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 31
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 32
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 33
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 34
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r04c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 35
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 36
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 37
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 38
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 39
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 40
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 41
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 42
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 43
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r05c11"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 44
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 45
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 46
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 47
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 48
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c07"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 49
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 50
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r06c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 51
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 52
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 53
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 54
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 55
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 56
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c07"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 57
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 58
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r07c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 59
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 60
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 61
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 62
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r08c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 63
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 64
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 65
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 66
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r09c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 67
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 68
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 69
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 160 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 70
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 192 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 71
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r10c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 224 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 72
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c01"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 256 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 73
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 288 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 74
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 320 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 75
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r11c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 352 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 76
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c02"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 384 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 77
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c03"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 416 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 78
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c04"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 448 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 79
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c05"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 480 128 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 80
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c06"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 0 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 81
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c07"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 32 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 82
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c08"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 64 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 83
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c09"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 96 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 84
+{
+ type SOLID
+ role collision
+ category "Colliders"
+ definition "shape:r12c10"
+ zindex 0.5
+ mask "images/collision-presets/masks.png"
+ sprite
+ {
+  source_file "images/collision-presets/preview.png"
+  source_rect 128 160 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 256
+{
+ type PASSABLE
+ role decoration
+ category "Terrain details"
+ definition "decoration:snakegrass"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/snakegrass.png"
+  source_rect 0 0 96 64
+  frame_size 96 64
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 257
+{
+ type PASSABLE
+ role decoration
+ category "Terrain details"
+ definition "decoration:fern"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/fern.png"
+  source_rect 0 0 128 96
+  frame_size 128 96
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 258
+{
+ type PASSABLE
+ role decoration
+ category "Terrain details"
+ definition "decoration:grasspatch"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/grasspatch.png"
+  source_rect 0 0 161 65
+  frame_size 161 65
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 259
+{
+ type PASSABLE
+ role decoration
+ category "Trees"
+ definition "decoration:cherry"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/cherry.png"
+  source_rect 0 0 220 221
+  frame_size 220 221
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 260
+{
+ type PASSABLE
+ role decoration
+ category "Buildings"
+ definition "decoration:dojo"
+ zindex 0.4
+ sprite
+ {
+  source_file "images/terrain-decoration/dojo.png"
+  source_rect 0 0 625 625
+  frame_size 625 625
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 512
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000000"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 0 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 513
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000001"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 32 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 514
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000002"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 64 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 515
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000003"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 96 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 516
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000004"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 128 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 517
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000005"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 160 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 518
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000006"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 192 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 519
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000007"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 224 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 520
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000008"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 256 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 521
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000009"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 288 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 522
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000010"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 320 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 523
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000011"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 352 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 524
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000012"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 384 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 525
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000013"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 416 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 526
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000014"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 448 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 527
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000015"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 480 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 528
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000016"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 512 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 529
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000017"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 544 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 530
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000018"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 576 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 531
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000019"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 608 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 532
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000020"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 640 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 533
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000021"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 672 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 534
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000022"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 704 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 535
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000023"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 736 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 536
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000024"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 768 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 537
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000025"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 800 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 538
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000026"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 832 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 539
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000027"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 864 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 540
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000028"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 896 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 541
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000029"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 928 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 542
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000030"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 960 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 543
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000031"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 992 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 544
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000032"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1024 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 545
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000033"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1056 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 546
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000034"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1088 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 547
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000035"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1120 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 548
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000036"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1152 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 549
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000037"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1184 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 550
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000038"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1216 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 551
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000039"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1248 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 552
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000040"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1280 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 553
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000041"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1312 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 554
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000042"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1344 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 555
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000043"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1376 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 556
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000044"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1408 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 557
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000045"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1440 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 558
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000046"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1472 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 559
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000047"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1504 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 560
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000048"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1536 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 561
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000049"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1568 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 562
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000050"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1600 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 563
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000051"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1632 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 564
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000052"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1664 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 565
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000053"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1696 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 566
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000054"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1728 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 567
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000055"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1760 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 568
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000056"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1792 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 569
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000057"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1824 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 570
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000058"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1856 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 571
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000059"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1888 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 572
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000060"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1920 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 573
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000061"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1952 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 574
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000062"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1984 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 575
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000063"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 2016 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 576
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000064"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 0 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 577
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000065"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 32 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 578
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000066"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 64 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 579
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000067"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 96 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 580
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000068"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 128 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 581
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000069"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 160 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 582
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000070"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 192 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 583
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000071"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 224 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 584
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000072"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 256 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 585
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000073"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 288 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 586
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000074"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 320 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 587
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000075"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 352 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 588
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000076"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 384 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 589
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000077"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 416 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 590
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000078"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 448 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 591
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000080"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 480 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 592
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000081"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 512 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 593
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000082"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 544 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 594
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000083"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 576 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 595
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000084"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 608 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 596
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000085"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 640 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 597
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000086"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 672 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 598
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000087"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 704 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 599
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000088"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 736 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 600
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000090"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 768 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 601
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000091"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 800 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 602
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000092"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 832 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 603
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000093"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 864 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 604
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000094"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 896 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 605
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000095"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 928 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 606
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000096"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 960 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 607
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000097"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 992 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 608
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000098"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1024 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 609
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000099"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1056 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 610
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000100"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1088 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 611
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000101"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1120 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 612
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000102"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1152 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 613
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000103"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1184 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 614
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000104"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1216 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 615
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000105"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1248 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 616
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000106"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1280 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 617
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000107"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1312 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 618
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000108"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1344 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 619
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000109"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1376 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 620
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000110"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1408 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 621
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000111"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1440 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 622
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000112"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1472 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 623
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000113"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1504 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 624
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000114"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1536 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 625
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000115"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1568 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 626
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000116"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1600 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 627
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000117"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1632 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 628
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000118"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1664 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 629
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000119"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1696 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 630
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000120"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1728 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 631
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000121"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1760 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 632
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000122"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1792 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 633
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000123"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1824 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 634
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000124"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1856 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 635
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000125"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1888 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 636
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000126"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1920 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 637
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000127"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1952 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 638
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000128"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1984 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 639
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000129"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 2016 32 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 640
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000130"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 0 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 641
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000131"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 32 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 642
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000132"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 64 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 643
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000133"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 96 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 644
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000134"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 128 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 645
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000135"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 160 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 646
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000136"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 192 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 647
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000137"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 224 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 648
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000138"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 256 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 649
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000139"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 288 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 650
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000140"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 320 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 651
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000141"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 352 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 652
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000142"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 384 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 653
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000143"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 416 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 654
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000144"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 448 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 655
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000145"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 480 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 656
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000146"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 512 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 657
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000147"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 544 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 658
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000148"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 576 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 659
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000149"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 608 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 660
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000150"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 640 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 661
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000151"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 672 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 662
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000152"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 704 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 663
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000153"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 736 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 664
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000154"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 768 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 665
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000155"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 800 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 666
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000156"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 832 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 667
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000157"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 864 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 668
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000158"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 896 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 669
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000159"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 928 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 670
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000160"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 960 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 671
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000161"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 992 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 672
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000162"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1024 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 673
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000163"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1056 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 674
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000164"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1088 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 675
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000165"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1120 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 676
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000166"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1152 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 677
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000167"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1184 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 678
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000168"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1216 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 679
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000169"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1248 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 680
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000170"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1280 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 681
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000171"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1312 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 682
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000172"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1344 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 683
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000173"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1376 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 684
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000174"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1408 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 685
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000175"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1440 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 686
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000176"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1472 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 687
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000177"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1504 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 688
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000178"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1536 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 689
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000179"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1568 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 690
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000180"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1600 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 691
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000181"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1632 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 692
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000182"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1664 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 693
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000183"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1696 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 694
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000184"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1728 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 695
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000185"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1760 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 696
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000186"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1792 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 697
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000187"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1824 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 698
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000188"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1856 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 699
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000189"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1888 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 700
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000190"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1920 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 701
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000191"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1952 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 702
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000192"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 1984 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 703
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000193"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 2016 64 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 704
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000194"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 0 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 705
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000195"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 32 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 706
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000196"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 64 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 707
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000197"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 96 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 708
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000198"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 128 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 709
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000199"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 160 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 710
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000200"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 192 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 711
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000201"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 224 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 712
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000202"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 256 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}
+brick 713
+{
+ type PASSABLE
+ role decoration
+ category "Generated surfaces"
+ definition "decoration:baked_p000203"
+ zindex 0.49
+ sprite
+ {
+  source_file "images/terrain-baked/d964c44669273bb2f53ecc86/atlas_0.png"
+  source_rect 288 96 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}

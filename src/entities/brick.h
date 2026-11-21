@@ -21,8 +21,40 @@
 #ifndef _BRICK_H
 #define _BRICK_H
 
+#include <stdint.h>
 #include "../util/v2d.h"
 #include "../core/color.h"
+
+/* Logical roles do not change terrain routes or rendering order. Signed: Atlas. */
+struct brick_t;
+typedef enum { BRR_LEGACY, BRR_COLLISION, BRR_DECORATION } brickrole_t;
+brickrole_t brick_role_preview(int id);
+int brick_palette_order(int id);
+const char* brick_shape_group(int id);
+int brick_z_override(const struct brick_t*);
+void brick_set_z_override(struct brick_t*,int);
+int brick_brightness(const struct brick_t*);
+void brick_set_brightness(struct brick_t*,int);
+const char* brick_texture(const struct brick_t*);
+bool brick_set_texture(struct brick_t*,const char*);
+bool brick_surface_set_light(double,double);
+bool brick_has_surface(const struct brick_t*);
+int brick_texture_count(void);
+const char* brick_texture_id(int);
+const char* brick_texture_label(int);
+const struct image_t* brick_texture_preview(int);
+void brick_surface_test_tick(void);
+const char* brick_category_preview(int id);
+const char* brick_definition_preview(int id);
+int brick_resolve_definition(const char* definition);
+bool brick_role_visible(brickrole_t role, bool editor);
+void brick_set_role_visible(brickrole_t role, bool editor, bool visible);
+void brick_toggle_role_visible(brickrole_t role, bool editor);
+uint64_t brick_placement_id(const struct brick_t* brick);
+void brick_reset_placement_ids(void);
+uint64_t brick_fresh_placement_id(void);
+void brick_reserve_placement_id(uint64_t id);
+void brick_set_placement_id(struct brick_t* brick, uint64_t id);
 
 /* brick type */
 enum bricktype_t
@@ -88,6 +120,7 @@ int brickset_size(); /* number of bricks */
 int brickset_loaded(); /* is a brickset loaded? */
 
 /* brick interface */
+brick_t* brick_create_with_placement_id(int id, v2d_t position, bricklayer_t layer, brickflip_t flip, uint64_t uid);
 brick_t* brick_create(int id, v2d_t position, bricklayer_t layer, brickflip_t flip_flags); /* creates a new brick */
 brick_t* brick_destroy(brick_t *brk); /* destroys an existing brick */
 void brick_update(brick_t *brk, struct player_t** team, int team_size); /* updates a brick */

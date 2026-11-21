@@ -1,0 +1,13 @@
+sprite "BOR Michio"
+{
+ source_file "images/bor/michio_sword.png"
+ source_rect 0 0 2048 3072
+ frame_size 128 128
+ hot_spot 64 128
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 97
+ }
+}

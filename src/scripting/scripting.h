@@ -21,6 +21,7 @@
 #ifndef _SCRIPTING_H
 #define _SCRIPTING_H
 
+#include <stdint.h>
 #include <surgescript.h>
 #include "util/iterators.h"
 #include "../util/v2d.h"
@@ -74,6 +75,7 @@ extern struct music_t* scripting_music_ptr(const surgescript_object_t* object);
 extern const struct animation_t* scripting_animation_ptr(const surgescript_object_t* object);
 extern void scripting_animation_overwrite_ptr(surgescript_object_t* object, const struct animation_t* animation);
 
+extern uint64_t scripting_brick_identity(const surgescript_object_t* object);
 extern bool scripting_brick_is_valid(const surgescript_object_t* object);
 extern bricktype_t scripting_brick_type(const surgescript_object_t* object);
 extern bricklayer_t scripting_brick_layer(const surgescript_object_t* object);
@@ -98,6 +100,7 @@ extern surgescript_objecthandle_t entitymanager_find_entity_by_id(surgescript_ob
 extern uint64_t entitymanager_get_entity_id(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);
 extern void entitymanager_set_entity_id(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle, uint64_t entity_id);
 extern v2d_t entitymanager_get_entity_spawn_point(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);
+extern void entitymanager_set_entity_spawn_point(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle, v2d_t position);
 extern bool entitymanager_is_entity_persistent(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);
 extern void entitymanager_set_entity_persistent(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle, bool is_persistent);
 extern bool entitymanager_is_entity_sleeping(surgescript_object_t* entity_manager, surgescript_objecthandle_t entity_handle);

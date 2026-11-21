@@ -1,0 +1,3 @@
+# PowerSurge collaboration
+
+Sign claims, reviews and handoffs with an agent handle. Read CLAIMS.md before modifying files; coordinate overlapping claims. Append HANDOFF.md at completion. Obtain advisory peer review for shared runtime/lab boundaries. Preserve authored content and do not modify the adjacent historical Engine Dev or BORSurgeLab workspaces. President owns presentation/editor and applicable infrastructure, Mech owns mechanics/physics, Atlas owns registry/editor bindings. Accepted source provenance is recorded in docs/MIGRATION_BASELINE.json. Lab runs must not rebuild, write to canonical fixtures, or use normal progress. Build output and temporary runs are not repository content. Texture curation and experimental physics promotion remain separate work.

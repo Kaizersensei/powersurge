@@ -26,6 +26,7 @@
 /* obstacle struct */
 struct obstacle_t
 {
+    uint64_t identity; /* persistent attachment identity */
     point2d_t position; /* position in world space */
 
     uint16_t width;
@@ -39,6 +40,8 @@ struct obstacle_t
     void (*dtor)(void*); /* optional destructor */
     void *dtor_userdata;
 };
+
+static uint64_t next_identity;
 
 /* FLIP macro: x, y are input/output parameters */
 #define FLIP(obstacle, x, y) do { \
@@ -60,6 +63,7 @@ obstacle_t* obstacle_create_ex(const collisionmask_t* mask, point2d_t position, 
 {
     obstacle_t *o = mallocx(sizeof *o);
 
+    o->identity = ++next_identity;
     o->position = position;
 
     o->layer = layer;
@@ -86,6 +90,10 @@ obstacle_t* obstacle_destroy(obstacle_t *obstacle)
     free(obstacle);
     return NULL;
 }
+
+/* BOR adapter attachment metadata. Signed: Atlas. */
+uint64_t obstacle_get_id(const obstacle_t* obstacle) { return obstacle->identity; }
+void obstacle_set_id(obstacle_t* obstacle, uint64_t identity) { if(identity) obstacle->identity = identity; }
 
 point2d_t obstacle_get_position(const obstacle_t *obstacle)
 {

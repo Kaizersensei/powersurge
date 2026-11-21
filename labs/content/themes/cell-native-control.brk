@@ -1,0 +1,19 @@
+// Ordinary visible legacy brick using existing C2 stone. Signed: President.
+brick 0
+{
+ type SOLID
+ behavior DEFAULT
+ angle 0
+ sprite
+ {
+  source_file "textures/stone.png"
+  source_rect 0 0 32 32
+  frame_size 32 32
+  animation
+  {
+   repeat TRUE
+   fps 1
+   data 0
+  }
+ }
+}

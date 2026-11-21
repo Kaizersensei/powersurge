@@ -1,0 +1,31 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "native",
+      "displayName": "PowerSurge native development",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/native",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "BSL_AUDIO_BACKEND": "SOLOUD",
+        "SURGESCRIPT_STATIC": "ON",
+        "GAME_RUNINPLACE": "ON",
+        "CMAKE_POLICY_VERSION_MINIMUM": "3.5"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "native",
+      "configurePreset": "native"
+    },
+    {
+      "name": "portable",
+      "configurePreset": "native",
+      "targets": [
+        "powersurge_portable"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "materials": [
+    {
+      "id": "material:stone",
+      "name": "Stone",
+      "texture": "textures/stone.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": null,
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:wood",
+      "name": "Wood",
+      "texture": "textures/brick_small_brown.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": null,
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "wood",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:moss",
+      "name": "Annex moss",
+      "texture": "textures/rock.png",
+      "tint": [
+        170,
+        160,
+        90
+      ],
+      "shader": null,
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": null,
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    }
+  ]
+}

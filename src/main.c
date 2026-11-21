@@ -19,9 +19,47 @@
  */
 
 #include <allegro5/allegro.h> /* included for cross-platform compatibility; see https://liballeg.org/a5docs/trunk/getting_started.html#the-main-function */
+#include "labs/lab.h"
 #include "core/global.h"
 #include "core/engine.h"
 #include "core/commandline.h"
+
+#if defined(_WIN32)
+#include <windows.h>
+#include <string.h>
+#include <wchar.h>
+#include <stdio.h>
+
+/* Marked portable runtimes keep relative engine/data reads beside the executable.
+ * Explicit game-folder selection retains its existing caller-owned semantics. Signed: President. */
+static bool bsl_portable_directory(int argc, char** argv)
+{
+    for(int i = 1; i < argc; i++)
+        if(strcmp(argv[i], "--game") == 0 || strcmp(argv[i], "--game-folder") == 0)
+            return true;
+
+    wchar_t folder[32768], marker[32768];
+    DWORD length = GetModuleFileNameW(NULL, folder, 32768);
+    if(length == 0 || length >= 32768)
+        return false;
+    wchar_t* separator = wcsrchr(folder, L'\\');
+    if(separator == NULL)
+        return true;
+    *separator = L'\0';
+    if(wcslen(folder) + wcslen(L"\\borsurgelab.runtime") >= 32768)
+        return false;
+    wcscpy(marker, folder);
+    wcscat(marker, L"\\borsurgelab.runtime");
+    DWORD attributes = GetFileAttributesW(marker);
+    if(attributes == INVALID_FILE_ATTRIBUTES || (attributes & FILE_ATTRIBUTE_DIRECTORY))
+        return true;
+    if(!SetCurrentDirectoryW(folder)) {
+        fprintf(stderr, "Cannot enter portable runtime directory (Windows error %lu).\n", (unsigned long)GetLastError());
+        return false;
+    }
+    return true;
+}
+#endif
 
 #if defined(__ANDROID__)
 #include <setjmp.h>
@@ -44,6 +82,12 @@ int main(int argc, char **argv)
         return 1;
 #endif
 
+#if defined(_WIN32)
+    if(!bsl_portable_directory(argc, argv))
+        return 1;
+#endif
+
+    if(ps_lab_prepare(&argc, &argv) < 0) return ps_lab_exit_code();
     commandline_t cmd = commandline_parse(argc, argv);
 
     do {
@@ -52,5 +96,5 @@ int main(int argc, char **argv)
         engine_release();
     } while(engine_must_restart(&cmd));
 
-    return 0;
+    return ps_lab_finish();
 }

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "death_ticks": 45,
+  "definitions": [
+    {
+      "id": "checkpoint:halfway",
+      "level": "levels/checkpoint-services.lev",
+      "placement": "b51c01",
+      "kind": "temporary",
+      "priority": 10,
+      "range": 72
+    },
+    {
+      "id": "checkpoint:rest",
+      "level": "levels/checkpoint-services.lev",
+      "placement": "b51c02",
+      "kind": "permanent",
+      "priority": 20,
+      "range": 72
+    },
+    {
+      "id": "checkpoint:annex",
+      "level": "levels/teleport-annex.lev",
+      "placement": "b51c03",
+      "kind": "permanent",
+      "priority": 20,
+      "range": 72
+    }
+  ],
+  "provenance": "Original checkpoint laboratory: temporary priority10, permanent20 to exercise explicit precedence and lower-priority fallback. Entry is0. Surge Checkpoint artwork is presentation only. Signed: Atlas."
+}

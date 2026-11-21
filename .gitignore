@@ -38,3 +38,9 @@ allegro.log
 *.dll
 *.pdb
 gmon.out
+
+# PowerSurge local outputs; native labs own temporary storage.
+out/
+lab-reports/
+lab-kept/
+CMakeUserPresets.json

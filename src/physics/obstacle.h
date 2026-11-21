@@ -22,6 +22,7 @@
 #define _OBSTACLE_H
 
 #include <stdbool.h>
+#include <stdint.h>
 #include "collisionmask.h"
 #include "../util/point2d.h"
 
@@ -53,6 +54,10 @@ enum obstaclelayer_t {
 obstacle_t* obstacle_create(const collisionmask_t *mask, point2d_t position, obstaclelayer_t layer, int flags);
 obstacle_t* obstacle_create_ex(const collisionmask_t* mask, point2d_t position, obstaclelayer_t layer, int flags, void (*dtor)(void*), void *dtor_userdata);
 obstacle_t* obstacle_destroy(obstacle_t *obstacle);
+
+/* Stable attachment identity; geometry and solving remain unchanged. */
+uint64_t obstacle_get_id(const obstacle_t* obstacle);
+void obstacle_set_id(obstacle_t* obstacle, uint64_t identity);
 
 /* public methods */
 point2d_t obstacle_get_position(const obstacle_t *obstacle); /* get position (in world coordinates) */

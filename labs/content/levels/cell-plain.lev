@@ -1,0 +1,40 @@
+// Registered native-brick control; no cell attachment. Signed: President.
+name "Native Brick Control"
+theme "themes/cell-native-control.brk"
+author "Kaizer / President"
+requires "0.6.1"
+bgtheme "themes/template.bg"
+spawn_point 3936 4096
+setup "BSL Runtime Setup" "Default Camera" "BSL Pause and Quit"
+players "None"
+brick 0 3808 4160
+brick 0 3840 4160
+brick 0 3872 4160
+brick 0 3904 4160
+brick 0 3936 4160
+brick 0 3968 4160
+brick 0 4000 4160
+brick 0 4032 4160
+brick 0 4064 4160
+brick 0 4096 4160
+brick 0 4128 4160
+brick 0 4160 4160
+brick 0 4192 4160
+brick 0 0 0
+brick 0 8192 8192
+entity "BOR Michio" 3936 4096
+entity "BSL Teleporter" 3936 4160 "c3110003"
+// Native camera height is sampled per column; this distant row supplies the lower extent.
+brick 0 3808 8192
+brick 0 3840 8192
+brick 0 3872 8192
+brick 0 3904 8192
+brick 0 3936 8192
+brick 0 3968 8192
+brick 0 4000 8192
+brick 0 4032 8192
+brick 0 4064 8192
+brick 0 4096 8192
+brick 0 4128 8192
+brick 0 4160 8192
+brick 0 4192 8192

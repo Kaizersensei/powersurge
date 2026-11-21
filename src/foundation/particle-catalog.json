@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "capacity": 8192,
+  "weather": {
+    "rain": "effect:weather_rain",
+    "snow": "effect:weather_snow",
+    "ash": "effect:weather_ash"
+  },
+  "effects": [
+    {
+      "id": "effect:weather_rain",
+      "capacity": 2048,
+      "emitters": [
+        {
+          "texture": "images/effects/c2/WEATHER_Rain1.png",
+          "region": [
+            99,
+            114,
+            5,
+            9
+          ],
+          "rate": 80,
+          "burst": 24,
+          "lifetime": [
+            1.2,
+            2
+          ],
+          "velocity_x": [
+            -15,
+            15
+          ],
+          "velocity_y": [
+            650,
+            850
+          ],
+          "acceleration": [
+            0,
+            0
+          ],
+          "wind_response": 1,
+          "size": [
+            4,
+            12
+          ],
+          "end_scale": 0.8,
+          "fade_out": 0.3,
+          "color": [
+            0.7,
+            0.85,
+            1,
+            0.65
+          ]
+        }
+      ]
+    },
+    {
+      "id": "effect:weather_snow",
+      "capacity": 2048,
+      "emitters": [
+        {
+          "texture": "images/effects/c2/WEATHER_Snow1.png",
+          "region": [
+            314,
+            110,
+            11,
+            12
+          ],
+          "rate": 22,
+          "burst": 24,
+          "lifetime": [
+            3,
+            5
+          ],
+          "velocity_x": [
+            -12,
+            12
+          ],
+          "velocity_y": [
+            50,
+            90
+          ],
+          "acceleration": [
+            0,
+            0
+          ],
+          "wind_response": 1,
+          "size": [
+            7,
+            9
+          ],
+          "end_scale": 0.8,
+          "fade_out": 0.3,
+          "color": [
+            1,
+            1,
+            1,
+            0.8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "effect:weather_ash",
+      "capacity": 2048,
+      "emitters": [
+        {
+          "texture": "images/effects/c2/WEATHER_Ashen1.png",
+          "region": [
+            187,
+            131,
+            14,
+            18
+          ],
+          "rate": 15,
+          "burst": 24,
+          "lifetime": [
+            3,
+            5
+          ],
+          "velocity_x": [
+            -20,
+            20
+          ],
+          "velocity_y": [
+            35,
+            65
+          ],
+          "acceleration": [
+            0,
+            0
+          ],
+          "wind_response": 1,
+          "size": [
+            8,
+            7
+          ],
+          "end_scale": 0.8,
+          "fade_out": 0.3,
+          "color": [
+            1,
+            1,
+            1,
+            0.6
+          ]
+        }
+      ]
+    }
+  ],
+  "provenance": "Original bounded cosmetic recipes using unchanged author-owned C2 textures. Initial tuning; cosmetic density does not change weather/gameplay. Signed: Atlas."
+}

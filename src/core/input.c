@@ -1,3 +1,4 @@
+#include "../labs/lab.h"
 /*
  * Open Surge Engine
  * input.c - input management
@@ -22,6 +23,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_memfile.h>
 #include "input.h"
+#include "../bor/input_trigger.h"
 #include "engine.h"
 #include "video.h"
 #include "logfile.h"
@@ -103,6 +105,7 @@ typedef struct joystick_input_t joystick_input_t;
 struct joystick_input_t {
     float axis[REQUIRED_AXES]; /* -1.0 <= axis[i] <= 1.0 */
     uint32_t buttons; /* bit vector of pressed buttons */
+    ALLEGRO_JOYSTICK* trigger_device; /* reset trigger hysteresis on device changes */
 };
 
 static joystick_input_t joy[MAX_JOYS];
@@ -400,14 +403,32 @@ void input_update()
         /* read the current state */
         ALLEGRO_JOYSTICK_STATE state;
         al_get_joystick_state(joystick, &state);
+        if(ps_lab_automatic()) memset(&state, 0, sizeof state);
 
         /* read buttons */
+        uint32_t previous_buttons = joy[j].trigger_device == joystick ? joy[j].buttons : 0u;
+        joy[j].trigger_device = joystick;
         joy[j].buttons = 0u;
         for(int b = 0; b < num_buttons; b++)
             joy[j].buttons |= (uint32_t)(state.button[b] != 0) << b;
 
         /* remap buttons */
         remap_joystick_buttons(&(joy[j].buttons), joystick);
+
+#if HAVE_GAMEPAD_API
+        /* Reserve BUTTON_15/16 for normalized LT/RT, after Xbox/D-pad buttons. */
+        if(al_get_joystick_type(joystick) == ALLEGRO_JOYSTICK_TYPE_GAMEPAD) {
+            for(int t = 0; t < 2; t++) {
+                int stick = t ? ALLEGRO_GAMEPAD_STICK_RIGHT_TRIGGER : ALLEGRO_GAMEPAD_STICK_LEFT_TRIGGER;
+                uint32_t mask = UINT32_C(1) << (14 + t);
+                bool valid = stick < num_sticks && al_get_joystick_num_axes(joystick, stick) >= 1;
+                float pressure = valid ? state.stick[stick].axis[0] : 0.0f;
+                joy[j].buttons &= ~mask;
+                if(bsl_trigger_down(pressure, (previous_buttons & mask) != 0))
+                    joy[j].buttons |= mask;
+            }
+        }
+#endif
 
         /*
 
@@ -504,6 +525,12 @@ void input_update()
         joy[j].axis[AXIS_Y] = clip(joy[j].axis[AXIS_Y], -1.0f, 1.0f);
     }
 
+    /* Disconnected slots must not retain a held trigger at middle pressure. */
+    for(int j = num_joys; j < MAX_JOYS; j++) {
+        joy[j].buttons = 0u;
+        joy[j].trigger_device = NULL;
+    }
+
     /* remap joystick IDs. The first joystick (if any) must be a valid one!
        This is especially important on Android, which reports the first
        joystick as an accelerometer. Also, we ensure that joystick IDs
@@ -537,6 +564,9 @@ void input_update()
         if(!in->blocked)
             in->update(in);
     }
+
+    /* Every mouse consumer sees this update's wheel impulse exactly once. */
+    a5_mouse.dz = 0;
 }
 
 
@@ -858,6 +888,11 @@ int input_number_of_joysticks()
  */
 void input_reconfigure_joysticks()
 {
+    /* Reconfiguration may reuse the same Allegro handle: forget trigger hysteresis. */
+    for(int j = 0; j < MAX_JOYS; j++) {
+        joy[j].buttons &= ~(UINT32_C(3) << 14);
+        joy[j].trigger_device = NULL;
+    }
     logfile_message("Reconfiguring joysticks...");
 
     al_reconfigure_joysticks();
@@ -984,6 +1019,9 @@ void inputmouse_update(input_t* in)
 
     in->state[IB_UP] = (mouse->dz > 0);
     in->state[IB_DOWN] = (mouse->dz < 0);
+    /* Adjacent wheel events are new presses, while neutral frames release. */
+    if(in->state[IB_UP]) in->oldstate[IB_UP] = false;
+    if(in->state[IB_DOWN]) in->oldstate[IB_DOWN] = false;
     in->state[IB_LEFT] = false;
     in->state[IB_RIGHT] = false;
     in->state[IB_FIRE1] = (a5_mouse.b & LEFT_MOUSE_BUTTON);
@@ -1228,7 +1266,7 @@ void a5_handle_mouse_event(const ALLEGRO_EVENT* event, void* data)
     #define update_mouse_position() do { \
         a5_mouse.dx = event->mouse.x - a5_mouse.x; \
         a5_mouse.dy = event->mouse.y - a5_mouse.y; \
-        a5_mouse.dz = event->mouse.z - a5_mouse.z; \
+        a5_mouse.dz += (event->type == ALLEGRO_EVENT_MOUSE_AXES) ? event->mouse.dz : 0; \
         a5_mouse.x = event->mouse.x; \
         a5_mouse.y = event->mouse.y; \
         a5_mouse.z = event->mouse.z; \

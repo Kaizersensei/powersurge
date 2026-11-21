@@ -1,0 +1,301 @@
+{
+  "signed": "President",
+  "packages": [
+    {
+      "name": "mingw-w64-ucrt-x86_64-allegro",
+      "version": "5.2.11.1-3",
+      "base": "mingw-w64-allegro",
+      "homepage": "https://liballeg.org/",
+      "licenses": [
+        "spdx:Zlib"
+      ],
+      "dlls": [
+        "allegro-5.2.dll",
+        "allegro_audio-5.2.dll",
+        "allegro_dialog-5.2.dll",
+        "allegro_font-5.2.dll",
+        "allegro_image-5.2.dll",
+        "allegro_memfile-5.2.dll",
+        "allegro_physfs-5.2.dll",
+        "allegro_primitives-5.2.dll",
+        "allegro_ttf-5.2.dll",
+        "allegro_video-5.2.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-brotli",
+      "version": "1.2.0-1",
+      "base": "mingw-w64-brotli",
+      "homepage": "https://github.com/google/brotli",
+      "licenses": [
+        "spdx:MIT"
+      ],
+      "dlls": [
+        "libbrotlicommon.dll",
+        "libbrotlidec.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-bzip2",
+      "version": "1.0.8-4",
+      "base": "mingw-w64-bzip2",
+      "homepage": "https://sourceware.org/bzip2/",
+      "licenses": [
+        "custom"
+      ],
+      "dlls": [
+        "libbz2-1.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-freetype",
+      "version": "2.15.0-1",
+      "base": "mingw-w64-freetype",
+      "homepage": "https://www.freetype.org/",
+      "licenses": [
+        "spdx:GPL-2.0-or-later OR FTL"
+      ],
+      "dlls": [
+        "libfreetype-6.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-gettext-runtime",
+      "version": "1.0-1",
+      "base": "mingw-w64-gettext",
+      "homepage": "https://www.gnu.org/software/gettext/",
+      "licenses": [
+        "spdx:GPL-3.0-or-later AND LGPL-2.1-or-later"
+      ],
+      "dlls": [
+        "libintl-8.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-glib2",
+      "version": "2.90.1-1",
+      "base": "mingw-w64-glib2",
+      "homepage": "https://gitlab.gnome.org/GNOME/glib",
+      "licenses": [
+        "spdx:LGPL-2.1-or-later"
+      ],
+      "dlls": [
+        "libglib-2.0-0.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-graphite2",
+      "version": "1.3.15-1",
+      "base": "mingw-w64-graphite2",
+      "homepage": "https://github.com/silnrsi/graphite",
+      "licenses": [
+        "spdx:LGPL-2.1-or-later"
+      ],
+      "dlls": [
+        "libgraphite2.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-harfbuzz",
+      "version": "14.6.0-1",
+      "base": "mingw-w64-harfbuzz",
+      "homepage": "https://harfbuzz.github.io/",
+      "licenses": [
+        "spdx:MIT"
+      ],
+      "dlls": [
+        "libharfbuzz-0.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libgcc",
+      "version": "16.2.0-6",
+      "base": "mingw-w64-gcc",
+      "homepage": "https://gcc.gnu.org",
+      "licenses": [
+        "spdx:GPL-3.0-or-later WITH GCC-exception-3.1 AND GFDL-1.3-or-later"
+      ],
+      "dlls": [
+        "libgcc_s_seh-1.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libiconv",
+      "version": "1.19-1",
+      "base": "mingw-w64-libiconv",
+      "homepage": "https://www.gnu.org/software/libiconv/",
+      "licenses": [
+        "spdx:LGPL-2.1-or-later",
+        "documentation:spdx:GPL-3.0-or-later"
+      ],
+      "dlls": [
+        "libiconv-2.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libogg",
+      "version": "1.3.6-1",
+      "base": "mingw-w64-libogg",
+      "homepage": "https://xiph.org/",
+      "licenses": [
+        "spdx:BSD-3-Clause"
+      ],
+      "dlls": [
+        "libogg-0.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libpng",
+      "version": "1.6.59-1",
+      "base": "mingw-w64-libpng",
+      "homepage": "http://www.libpng.org/pub/png/libpng.html",
+      "licenses": [
+        "custom"
+      ],
+      "dlls": [
+        "libpng16-16.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libstdc++",
+      "version": "16.2.0-6",
+      "base": "mingw-w64-gcc",
+      "homepage": "https://gcc.gnu.org",
+      "licenses": [
+        "spdx:GPL-3.0-or-later WITH GCC-exception-3.1 AND GFDL-1.3-or-later"
+      ],
+      "dlls": [
+        "libstdc++-6.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libtheora",
+      "version": "1.2.0-1",
+      "base": "mingw-w64-libtheora",
+      "homepage": "https://www.theora.org",
+      "licenses": [
+        "spdx:BSD-3-Clause"
+      ],
+      "dlls": [
+        "libtheoradec-2.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libvorbis",
+      "version": "1.3.7-3",
+      "base": "mingw-w64-libvorbis",
+      "homepage": "https://xiph.org/",
+      "licenses": [
+        "custom"
+      ],
+      "dlls": [
+        "libvorbis-0.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libwebp",
+      "version": "1.6.0-1",
+      "base": "mingw-w64-libwebp",
+      "homepage": "https://developers.google.com/speed/webp/",
+      "licenses": [
+        "spdx:BSD-3-Clause"
+      ],
+      "dlls": [
+        "libsharpyuv-0.dll",
+        "libwebp-7.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-libwinpthread",
+      "version": "14.0.0.r426.g4564ee4b5-2",
+      "base": "mingw-w64-winpthreads",
+      "homepage": "https://www.mingw-w64.org/",
+      "licenses": [
+        "spdx:MIT AND BSD-3-Clause"
+      ],
+      "dlls": [
+        "libwinpthread-1.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-openal",
+      "version": "1.25.2-1",
+      "base": "mingw-w64-openal",
+      "homepage": "https://github.com/kcat/openal-soft",
+      "licenses": [
+        "spdx:GPL-2.0-or-later"
+      ],
+      "dlls": [
+        "libopenal-1.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-pcre2",
+      "version": "10.49-1",
+      "base": "mingw-w64-pcre2",
+      "homepage": "https://pcre.org/",
+      "licenses": [
+        "spdx:BSD-3-Clause"
+      ],
+      "dlls": [
+        "libpcre2-8-0.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-physfs",
+      "version": "3.2.0-1",
+      "base": "mingw-w64-physfs",
+      "homepage": "https://icculus.org/physfs/",
+      "licenses": [
+        "spdx:Zlib"
+      ],
+      "dlls": [
+        "libphysfs.dll"
+      ]
+    },
+    {
+      "name": "mingw-w64-ucrt-x86_64-zlib",
+      "version": "1.3.2-2",
+      "base": "mingw-w64-zlib",
+      "homepage": "https://www.zlib.net/",
+      "licenses": [
+        "spdx:Zlib"
+      ],
+      "dlls": [
+        "zlib1.dll"
+      ]
+    }
+  ],
+  "windows_system_imports": [
+    "advapi32.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll",
+    "api-ms-win-crt-filesystem-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-process-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "api-ms-win-crt-time-l1-1-0.dll",
+    "api-ms-win-crt-utility-l1-1-0.dll",
+    "avrt.dll",
+    "comdlg32.dll",
+    "dsound.dll",
+    "dwrite.dll",
+    "gdi32.dll",
+    "gdiplus.dll",
+    "kernel32.dll",
+    "ole32.dll",
+    "opengl32.dll",
+    "rpcrt4.dll",
+    "shell32.dll",
+    "shlwapi.dll",
+    "user32.dll",
+    "usp10.dll",
+    "winmm.dll",
+    "ws2_32.dll"
+  ]
+}

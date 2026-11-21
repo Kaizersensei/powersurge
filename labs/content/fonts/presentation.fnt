@@ -1,0 +1,577 @@
+// Source C2 Caveat Brush; SIL OFL1.1. Signed: Mech.
+font "BSL Presentation menu 1"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 4
+  antialias
+ }
+}
+font "BSL Presentation menu 2"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 7
+  antialias
+ }
+}
+font "BSL Presentation menu 3"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 10
+  antialias
+ }
+}
+font "BSL Presentation menu 4"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 14
+  antialias
+ }
+}
+font "BSL Presentation menu 5"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 18
+  antialias
+ }
+}
+font "BSL Presentation menu 6"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 21
+  antialias
+ }
+}
+font "BSL Presentation menu 7"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 24
+  antialias
+ }
+}
+font "BSL Presentation menu 8"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 28
+  antialias
+ }
+}
+font "BSL Presentation menu 9"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 32
+  antialias
+ }
+}
+font "BSL Presentation menu 10"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 35
+  antialias
+ }
+}
+font "BSL Presentation menu 11"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 38
+  antialias
+ }
+}
+font "BSL Presentation menu 12"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 42
+  antialias
+ }
+}
+font "BSL Presentation menu 13"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 46
+  antialias
+ }
+}
+font "BSL Presentation menu 14"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 49
+  antialias
+ }
+}
+font "BSL Presentation menu 15"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 52
+  antialias
+ }
+}
+font "BSL Presentation menu 16"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 56
+  antialias
+ }
+}
+font "BSL Presentation menu 17"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 60
+  antialias
+ }
+}
+font "BSL Presentation menu 18"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 63
+  antialias
+ }
+}
+font "BSL Presentation menu 19"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 66
+  antialias
+ }
+}
+font "BSL Presentation menu 20"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 70
+  antialias
+ }
+}
+font "BSL Presentation menu 21"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 74
+  antialias
+ }
+}
+font "BSL Presentation menu 22"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 77
+  antialias
+ }
+}
+font "BSL Presentation menu 23"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 80
+  antialias
+ }
+}
+font "BSL Presentation menu 24"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 84
+  antialias
+ }
+}
+font "BSL Presentation menu 25"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 88
+  antialias
+ }
+}
+font "BSL Presentation menu 26"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 91
+  antialias
+ }
+}
+font "BSL Presentation menu 27"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 94
+  antialias
+ }
+}
+font "BSL Presentation menu 28"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 98
+  antialias
+ }
+}
+font "BSL Presentation menu 29"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 102
+  antialias
+ }
+}
+font "BSL Presentation menu 30"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 105
+  antialias
+ }
+}
+font "BSL Presentation menu 31"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 108
+  antialias
+ }
+}
+font "BSL Presentation menu 32"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 112
+  antialias
+ }
+}
+font "BSL Presentation hint 1"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 2
+  antialias
+ }
+}
+font "BSL Presentation hint 2"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 4
+  antialias
+ }
+}
+font "BSL Presentation hint 3"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 6
+  antialias
+ }
+}
+font "BSL Presentation hint 4"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 8
+  antialias
+ }
+}
+font "BSL Presentation hint 5"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 10
+  antialias
+ }
+}
+font "BSL Presentation hint 6"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 12
+  antialias
+ }
+}
+font "BSL Presentation hint 7"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 14
+  antialias
+ }
+}
+font "BSL Presentation hint 8"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 16
+  antialias
+ }
+}
+font "BSL Presentation hint 9"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 18
+  antialias
+ }
+}
+font "BSL Presentation hint 10"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 20
+  antialias
+ }
+}
+font "BSL Presentation hint 11"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 22
+  antialias
+ }
+}
+font "BSL Presentation hint 12"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 24
+  antialias
+ }
+}
+font "BSL Presentation hint 13"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 26
+  antialias
+ }
+}
+font "BSL Presentation hint 14"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 28
+  antialias
+ }
+}
+font "BSL Presentation hint 15"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 30
+  antialias
+ }
+}
+font "BSL Presentation hint 16"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 32
+  antialias
+ }
+}
+font "BSL Presentation hint 17"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 34
+  antialias
+ }
+}
+font "BSL Presentation hint 18"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 36
+  antialias
+ }
+}
+font "BSL Presentation hint 19"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 38
+  antialias
+ }
+}
+font "BSL Presentation hint 20"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 40
+  antialias
+ }
+}
+font "BSL Presentation hint 21"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 42
+  antialias
+ }
+}
+font "BSL Presentation hint 22"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 44
+  antialias
+ }
+}
+font "BSL Presentation hint 23"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 46
+  antialias
+ }
+}
+font "BSL Presentation hint 24"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 48
+  antialias
+ }
+}
+font "BSL Presentation hint 25"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 50
+  antialias
+ }
+}
+font "BSL Presentation hint 26"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 52
+  antialias
+ }
+}
+font "BSL Presentation hint 27"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 54
+  antialias
+ }
+}
+font "BSL Presentation hint 28"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 56
+  antialias
+ }
+}
+font "BSL Presentation hint 29"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 58
+  antialias
+ }
+}
+font "BSL Presentation hint 30"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 60
+  antialias
+ }
+}
+font "BSL Presentation hint 31"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 62
+  antialias
+ }
+}
+font "BSL Presentation hint 32"
+{
+ truetype
+ {
+  source_file "fonts/presentation/CaveatBrush-Regular.ttf"
+  size 64
+  antialias
+ }
+}

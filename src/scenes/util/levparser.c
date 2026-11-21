@@ -162,6 +162,12 @@ bool parse_line(const char* filepath, int fileline, char* line, void* data, levp
 /* map a command string to a command enum */
 levparser_command_t find_command(const char* command_name)
 {
+    if(strcmp(command_name, "instance_parameter") == 0)
+        return LEVCOMMAND_INSTANCEPARAM;
+
+    if(strcmp(command_name, "instance_event") == 0)
+        return LEVCOMMAND_EVENTBIND;
+
     /* quickly map the djb2 hash to a command enum */
     switch(djb2(command_name)) {
         case NAME:

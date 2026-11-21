@@ -1,0 +1,13 @@
+sprite "BOR Training Log"
+{
+ source_file "images/bor/Training_Log.png"
+ source_rect 0 0 800 50
+ frame_size 50 50
+ hot_spot 25 50
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}

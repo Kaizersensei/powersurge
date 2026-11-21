@@ -1,0 +1,32 @@
+// Larger native editor roles; existing Roboto family. Signed: President.
+font "EditorUI"
+{
+ truetype
+ {
+  source_file "fonts/Roboto-Bold.ttf"
+  size 24
+  shadow
+  antialias
+ }
+}
+font "EditorCursor"
+{
+ truetype
+ {
+  source_file "fonts/Roboto-Black.ttf"
+  size 22
+  shadow
+  antialias
+ }
+}
+// Compact inspector rows retain a separate readable role.
+font "EditorInspect"
+{
+ truetype
+ {
+  source_file "fonts/Roboto-Bold.ttf"
+  size 20
+  shadow
+  antialias
+ }
+}
