@@ -1,1 +1,0 @@
-Eine Retro-Spielengine mit einem spaßigen Plattformspiel, das von 16-Bit-Sonic-Spielen inspiriert wurde.

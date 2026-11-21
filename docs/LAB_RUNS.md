@@ -4,6 +4,8 @@ Signed: President. Development candidate, not an accepted stable release.
 
 Build PowerSurge normally with CMake and the documented upstream dependencies, a static SurgeScript library and modular Allegro. Select `BSL_AUDIO_BACKEND=SOLOUD`, `SURGESCRIPT_STATIC=ON`, and `GAME_RUNINPLACE=ON`. The accepted SoLoud, DSP and Dear ImGui sources are included in bsl/. No Python, copied developer workspace or test framework is required by the resulting executable. On Windows, build target `powersurge_portable` after compiling. Its output is `out/portable` for the documented `out/native` build directory. DLL dependency discovery uses the compiler toolchain; it is a build operation, never a lab launch operation.
 
+Double-clicking the preview executable starts the current terrain/actor laboratory with disposable state. The package declares this through powersurge-preview.ini; it does not launch the upstream Surge game. Explicit external-project arguments retain their own startup.
+
 From the portable folder:
 
 ```
@@ -21,7 +23,7 @@ Use `--keep-lab` only when deliberately retaining an editable run for diagnosis.
 
 ## Migration boundaries
 
-This is a reusable engine with selected original demonstration assets, not the Densetsu story package. Three terrain textures are selected for these fixtures; the remainder awaits manual curation. Existing upstream sample content is retained during this source migration. The modified RPG editor remains in its previous workspace and is not silently imported. Experimental Box2D remains in the separately verified historical lab until its provider/lifecycle promotion is decided.
+This is a reusable engine with selected original demonstration assets, not the Densetsu story package. Three terrain textures are selected for these fixtures; the remainder awaits manual curation. Upstream sample content remains in the source repository, but the preview package uses the migrated demonstration asset set. The modified RPG editor remains in its previous workspace and is not silently imported. Experimental Box2D remains in the separately verified historical lab until its provider/lifecycle promotion is decided.
 
 The accepted native source baseline is recorded in MIGRATION_BASELINE.json. Existing native service assertions are reused; this first automatic scenario replaces one Python orchestration path. Other legacy scenarios and authoring/compiler/package checks have not yet all migrated. Their old launchers remain only in the historical workspace. No Python test launchers are added here. Turning old per-process static test state into reusable in-process objects is later work; fresh processes deliberately enforce the current boundary.
 

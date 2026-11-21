@@ -1,0 +1,38 @@
+{
+  "signed": "President",
+  "date": "2026-11-21",
+  "base_commit": "b4a7131b",
+  "removed_inherited_paths": [
+    "characters",
+    "fonts",
+    "images",
+    "inputs",
+    "languages",
+    "levels",
+    "musics",
+    "quests",
+    "samples",
+    "screenshots",
+    "scripts",
+    "sprites",
+    "themes",
+    ".github",
+    ".mailmap",
+    "logo.png",
+    "surge.cfg",
+    "surge.png",
+    "surge.rocks",
+    "src/misc/android/metadata",
+    "src/misc/cmake/assets.cmake"
+  ],
+  "backup": "out/inherited-tree-before-cleanup",
+  "user_readme_sha256": "34dcc44b313dfc7293ced8807d9c6c8ee594c4d72576237cf07a002ae13826ff",
+  "preserved": [
+    ".git fork history",
+    "required accepted engine code",
+    "dependency source and notices",
+    "project-owned README",
+    "curated labs/content"
+  ],
+  "scope": "Working-tree replacement with explicit tracked deletions; not a history rewrite or remote push."
+}

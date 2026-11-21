@@ -1,0 +1,60 @@
+{
+  "owner": "PowerSurge lab v1",
+  "lab": "terrain-journey",
+  "status": "passed",
+  "exit_code": 0,
+  "error": "",
+  "retained": null,
+  "native_result": {
+    "passed": true,
+    "checks": 32,
+    "error": "",
+    "observations": [
+      {
+        "scene": "levels/cell-terrain.lev",
+        "id": "level:cell-lab",
+        "document": "terrain/cell-lab.json",
+        "materials": "terrain/cell-materials.json",
+        "actor": 1,
+        "xp": 2500,
+        "hp": 100,
+        "items": 3,
+        "cells": true
+      },
+      {
+        "scene": "levels/cell-annex.lev",
+        "id": "level:cell-annex",
+        "document": "terrain/cell-annex.json",
+        "materials": "terrain/cell-annex-materials.json",
+        "actor": 2,
+        "xp": 2500,
+        "hp": 100,
+        "items": 3,
+        "cells": true
+      },
+      {
+        "scene": "levels/cell-plain.lev",
+        "id": "level:cell-plain",
+        "document": "",
+        "materials": "",
+        "actor": 3,
+        "xp": 2500,
+        "hp": 100,
+        "items": 3,
+        "cells": false
+      },
+      {
+        "scene": "levels/cell-terrain.lev",
+        "id": "level:cell-lab",
+        "document": "terrain/cell-lab.json",
+        "materials": "terrain/cell-materials.json",
+        "actor": 4,
+        "xp": 2500,
+        "hp": 100,
+        "items": 3,
+        "cells": true
+      }
+    ],
+    "signed": "President"
+  }
+}

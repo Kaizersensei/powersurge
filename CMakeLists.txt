@@ -322,39 +322,17 @@ endif()
 # Install the game
 # ------------------------------------------
 
-include(assets)
-
-if(UNIX AND NOT GAME_RUNINPLACE)
-
-  # Executable
-  install(TARGETS "${GAME_UNIXNAME}"
-    RUNTIME DESTINATION "${GAME_BINDIR}"
-    LIBRARY DESTINATION "${GAME_BINDIR}"
-  )
-
-  # Assets
-  install(FILES ${ASSET_FILES} DESTINATION "${GAME_DATADIR}")
-  install(DIRECTORY ${ASSET_FOLDERS} DESTINATION "${GAME_DATADIR}" PATTERN ".git" EXCLUDE)
-
-  # AppStream / freedesktop.org
-  if(DEFINED DESKTOP_ENTRY_PATH)
-    install(FILES src/misc/opensurge.png DESTINATION "${DESKTOP_ICON_PATH}")
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/src/misc/opensurge.appdata.xml" DESTINATION "${DESKTOP_METAINFO_PATH}")
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/src/misc/opensurge.desktop" DESTINATION "${DESKTOP_ENTRY_PATH}")
-  endif()
-
-elseif(GAME_RUNINPLACE)
-
-  # Portable executable & assets
-  install(TARGETS "${GAME_UNIXNAME}" RUNTIME DESTINATION "${GAME_DISTDIR}")
-  install(FILES ${ASSET_FILES} DESTINATION "${GAME_DISTDIR}")
-  install(
-    DIRECTORY ${ASSET_FOLDERS} screenshots
-    DESTINATION "${GAME_DISTDIR}"
-    PATTERN ".git" EXCLUDE
-    PATTERN "screenshots/*.png" EXCLUDE
-  )
-
+# Project-owned installation layout. Upstream sample-game folders are not inputs.
+file(WRITE "${CMAKE_BINARY_DIR}/powersurge-preview.ini" "[preview]\ndefault_lab=terrain\n")
+if(GAME_RUNINPLACE)
+ install(TARGETS "${GAME_UNIXNAME}" RUNTIME DESTINATION "${GAME_DISTDIR}")
+ install(FILES LICENSE README.md CHANGELOG.md CONTRIBUTING.md "${CMAKE_BINARY_DIR}/powersurge-preview.ini" DESTINATION "${GAME_DISTDIR}")
+ install(DIRECTORY "${CMAKE_SOURCE_DIR}/labs/content/" DESTINATION "${GAME_DISTDIR}")
+ install(DIRECTORY labs DESTINATION "${GAME_DISTDIR}")
+else()
+ install(TARGETS "${GAME_UNIXNAME}" RUNTIME DESTINATION "${GAME_BINDIR}")
+ install(FILES LICENSE README.md CHANGELOG.md CONTRIBUTING.md DESTINATION "${GAME_DATADIR}")
+ install(DIRECTORY "${CMAKE_SOURCE_DIR}/labs/content/" DESTINATION "${GAME_DATADIR}")
 endif()
 
 include(bsl/foundation/audio/surge.cmake)

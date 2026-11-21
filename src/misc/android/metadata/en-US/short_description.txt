@@ -1,1 +1,0 @@
-A retro game engine with a fun platformer inspired by 16-bit Sonic games.

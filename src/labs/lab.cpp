@@ -188,6 +188,13 @@ extern "C" int ps_lab_prepare(int* argc,char*** argv){
    else if(a=="--lab-frames"){if(++i==*argc)throw std::runtime_error("--lab-frames requires a count");run.frame_limit=std::stoi((*argv)[i]);if(run.frame_limit<1||run.frame_limit>36000)throw std::runtime_error("Lab frame limit must be1..36000");}
    else arguments.push_back(a);
   }
+  // A preview package declares its entry explicitly; external projects retain their own startup.
+  auto preview=run.exe.parent_path()/"powersurge-preview.ini";
+  if(selected.empty()&&!list&&!check&&arguments.size()==1&&fs::is_regular_file(preview)){
+   std::istringstream config(read(preview,1024));std::string line;
+   while(std::getline(config,line))if(line.rfind("default_lab=",0)==0){selected=line.substr(12);if(!selected.empty()&&selected.back()=='\r')selected.pop_back();}
+   if(selected.empty())throw std::runtime_error("Preview configuration has no default_lab");
+  }
   if(list){for(auto& p:profiles)std::printf("%s : %s [%s]\n",p.id,p.name,p.automatic?"automatic":"interactive");return -1;}
   if(check){run.code=storage_check();return -1;}
   if(selected.empty()){

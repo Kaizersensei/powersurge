@@ -1,0 +1,12 @@
+{
+  "signed": "President",
+  "passed": true,
+  "archive_sha256": "b750872cda3d01c1e59a054d2f77321f84f8a16dc6692e0324791c2640e8099a",
+  "binary_sha256": "ee583817ceb9d34fdc31fccfdeafcc9ea909e75ef56bae7f2419f8f690e9bc5b",
+  "no_arguments": true,
+  "working_directory": "C:\\Windows\\System32",
+  "entry": "levels/cell-terrain.lev",
+  "stayed_running": true,
+  "exit_code": 0,
+  "temporary_run_removed": true
+}

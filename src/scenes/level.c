@@ -3587,7 +3587,7 @@ void editor_init()
 
     /* cursor */
     editor_cursor_init();
-    bsl_inspect_font = font_create("EditorInspect");
+    bsl_inspect_font = font_create(font_exists("EditorInspect") ? "EditorInspect" : "EditorUI");
 
     /* grid */
     editor_grid_init();

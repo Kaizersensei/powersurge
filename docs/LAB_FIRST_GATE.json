@@ -1,7 +1,7 @@
 {
   "signed": "President",
   "date": "2026-11-21",
-  "binary_sha256": "66b1323819b73bab1712ab078855ebc159481c4abe93a305925f00de89568c0b",
+  "binary_sha256": "ee583817ceb9d34fdc31fccfdeafcc9ea909e75ef56bae7f2419f8f690e9bc5b",
   "native_storage_checks": 4,
   "automatic_journey": {
     "passed": true,
@@ -76,5 +76,9 @@
     "Manual texture curation",
     "Hands-on creator acceptance",
     "Broader release validation and GitHub publication"
-  ]
+  ],
+  "supersedes_initial_packaging_claim": true,
+  "default_startup_verification": "PREVIEW_STARTUP_VERIFICATION.json",
+  "repository_layout": "REPOSITORY_CONTENT_MIGRATION.json",
+  "note": "Original explicit-lab tests did not validate no-argument startup. Corrected package now verified after ZIP extraction from unrelated working directory."
 }
