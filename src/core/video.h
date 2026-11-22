@@ -77,6 +77,7 @@ videoquality_t video_get_quality();
 /* fullscreen mode */
 void video_set_fullscreen(bool fullscreen);
 bool video_is_fullscreen();
+int video_fullscreen_check_step(int phase,int* monitors,int* assertions,char* error,int capacity);
 
 /* immersive mode */
 void video_set_immersive(bool immersive);

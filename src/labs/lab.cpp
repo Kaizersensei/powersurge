@@ -39,7 +39,7 @@ namespace fs=std::filesystem;
 const char* storage_magic="PowerSurge lab storage v1\n";
 const char* run_magic="PowerSurge native lab run v1\n";
 struct Profile {const char* id;const char* name;bool automatic;bool frontend=false;};
-const Profile profiles[]={{"frontend","Intro / title / main menu",false,true},{"terrain","Terrain / editor laboratory",false},{"physics","Physics objects laboratory",false},{"presentation-menu-check","Menu artwork and navigation checks",true},{"editor-contract","Editor placement / save checks",true},{"terrain-journey","Connected terrain journey",true}};
+const Profile profiles[]={{"frontend","Intro / title / main menu",false,true},{"terrain","Terrain / editor laboratory",false},{"physics","Physics objects laboratory",false},{"display-check","Fullscreen monitor and window restoration checks",true},{"presentation-menu-check","Menu artwork and navigation checks",true},{"editor-contract","Editor placement / save checks",true},{"terrain-journey","Connected terrain journey",true}};
 struct Run {
  bool active=false,keep=false,automatic=false,completed=false,frontend=false,embedded=false;int code=0,frames=0,frame_limit=0;
  std::string id,result,error;fs::path root,folder,original,exe;std::string preferences;
@@ -52,7 +52,7 @@ struct Run {
 } run;
 std::string pending_lab;unsigned long long generation=0;
 bool switch_check=false;
-void switch_check_tick();void menu_check_tick();
+void switch_check_tick();void menu_check_tick();void display_check_tick();
 std::vector<std::string> arguments;std::vector<char*> pointers;
 std::string read(const fs::path& p,size_t limit=262144){
  std::error_code ec;auto n=fs::file_size(p,ec);if(ec||n>limit)throw std::runtime_error("Missing/oversized lab file: "+p.u8string());
@@ -236,8 +236,8 @@ extern "C" int ps_lab_prepare(int* argc,char*** argv){
   for(auto service:services)env((std::string("BSL_")+service).c_str(),"1");
   env("BSL_COLLIDER_DEBUG","0");
   run.id=selected;run.frontend=profile->frontend;run.automatic=profile->automatic;run.active=true;run.preferences=(run.folder/"user/editor-ui.ini").u8string();run.started=std::chrono::steady_clock::now();++generation;
-  if(run.automatic&&selected!="presentation-menu-check")env(selected=="editor-contract"?"BSL_SHELL_CHECK":"BSL_CELL_LEVEL_JOURNEY",(run.folder/"result.json").u8string());
-  fs::current_path(run.folder/"content");arguments.insert(arguments.end(),{"--game-folder",(run.folder/"content").u8string()});if(run.frontend)arguments.insert(arguments.end(),{"--quest","quests/initial.qst"});else if(selected=="presentation-menu-check")arguments.insert(arguments.end(),{"--level","levels/presentation/mainmenu.lev"});else if(selected=="physics")arguments.insert(arguments.end(),{"--level","levels/physics-lab.lev"});else arguments.insert(arguments.end(),{"--quest","quests/cell-levels.qst"});arguments.insert(arguments.end(),{"--windowed","--resolution","1"});
+  if(run.automatic&&selected!="presentation-menu-check"&&selected!="display-check")env(selected=="editor-contract"?"BSL_SHELL_CHECK":"BSL_CELL_LEVEL_JOURNEY",(run.folder/"result.json").u8string());
+  fs::current_path(run.folder/"content");arguments.insert(arguments.end(),{"--game-folder",(run.folder/"content").u8string()});if(run.frontend)arguments.insert(arguments.end(),{"--quest","quests/initial.qst"});else if(selected=="presentation-menu-check"||selected=="display-check")arguments.insert(arguments.end(),{"--level","levels/presentation/mainmenu.lev"});else if(selected=="physics")arguments.insert(arguments.end(),{"--level","levels/physics-lab.lev"});else arguments.insert(arguments.end(),{"--quest","quests/cell-levels.qst"});arguments.insert(arguments.end(),{"--windowed","--resolution","1"});
   for(auto& a:arguments)pointers.push_back(a.data());pointers.push_back(nullptr);*argc=int(arguments.size());*argv=pointers.data();
   std::printf("PowerSurge session: %s; temporary run %s\n",run.id.c_str(),run.folder.u8string().c_str());return 1;
  }catch(const std::exception& e){run.error=e.what();run.code=1;std::fprintf(stderr,"PowerSurge lab: %s\n",e.what());try{if(!run.folder.empty())remove_run();}catch(...){}return -1;}
@@ -246,6 +246,7 @@ extern "C" void ps_lab_tick(){
  if(run.active&&switch_check)switch_check_tick();
  if(!run.active||run.completed)return;++run.frames;
  if(run.id=="presentation-menu-check"){menu_check_tick();return;}
+ if(run.id=="display-check"){display_check_tick();return;}
  try{
   if(run.automatic&&fs::exists(run.folder/"result.json")){
    run.result=read(run.folder/"result.json");run.code=run.result.find("\"passed\":true")!=std::string::npos?0:1;run.completed=true;if(!run.embedded)engine_quit();else bsl_shell_note("lab",run.code?"Automatic laboratory failed; see its report.":"Automatic laboratory passed; current level remains open.",run.code?2:0);
@@ -372,5 +373,23 @@ void menu_check_tick(){
   run.result="{\"passed\":false,\"checks\":"+std::to_string(checks)+",\"artwork_before\":"+std::to_string(before)+",\"artwork_after\":"+std::to_string(after)+"}";
   std::fprintf(stderr,"Menu navigation check failed: %s\n",e.what());if(!run.embedded)engine_quit();else bsl_shell_note("lab",e.what(),2);
  }
+}
+}
+
+namespace {
+void display_check_tick(){
+ static unsigned long long epoch=0;static int phase=0;
+ if(epoch!=generation){epoch=generation;phase=0;}
+ if(run.frames<30||run.frames%10)return;
+ char error[256]="";int monitors=0,checks=0;
+ int test_phase=std::chrono::steady_clock::now()-run.started>std::chrono::seconds(60)?-1:phase++;
+ int status=video_fullscreen_check_step(test_phase,&monitors,&checks,error,sizeof error);
+ if(status==0&&std::chrono::steady_clock::now()-run.started<std::chrono::seconds(60))return;
+ bool passed=status==1;
+ if(passed){auto menu=menu_probe();passed=menu.menu&&menu.visible==5;if(!passed)snprintf(error,sizeof error,"Menu artwork lost during fullscreen toggles");else checks++;}
+ run.result="{\"passed\":"+std::string(passed?"true":"false")+",\"monitors\":"+std::to_string(monitors)+",\"checks\":"+std::to_string(checks)+"}";
+ run.code=passed?0:1;run.completed=true;if(!passed)run.error=*error?error:"Display checks timed out";
+ std::printf("Fullscreen monitor checks %s: %d monitors, %d assertions.\n",passed?"passed":"FAILED",monitors,checks);
+ if(!run.embedded)engine_quit();else bsl_shell_note("lab",passed?"Monitor checks passed; window restored.":run.error.c_str(),passed?0:2);
 }
 }

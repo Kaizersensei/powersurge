@@ -15,6 +15,7 @@ powersurge.exe --lab physics
 powersurge.exe --lab terrain-journey
 powersurge.exe --lab editor-contract
 powersurge.exe --lab presentation-menu-check
+powersurge.exe --lab display-check
 powersurge.exe --lab-storage-check
 powersurge.exe --lab-switch-check
 ```
@@ -38,3 +39,5 @@ Palette UX: clicking an entity or decoration row, including its thumbnail, prepa
 The presentation-menu-check case navigates the real menu in both directions, waits through normal garbage collection, verifies five visible artwork actors remain, and activates the native Level Select. It uses private progress and no injected desktop input. It is a focused presentation regression check, not full keyboard/gamepad or character-selector acceptance. Signed: President.
 
 For release candidates use the explicit powersurge_public target after public/accepted.json is updated from passing native checks. It writes a separate out/public preview and source archive; private records and experiment sources are excluded. See PUBLICATION.md and EDITOR_VIEW.md. Signed: President.
+
+The display-check case moves only its own window across every attached monitor. It checks borderless fullscreen bounds and windowed restoration from normal, boundary-straddling and maximized windows, plus negative/off-desktop monitor-selection cases. It restores its original window state on success or failure. Run it from Test > Laboratories > Fullscreen monitor checks or the native CLI; raw results remain private. F11 uses the monitor containing the greatest portion of the current window and preserves manual window size/position when returning; monitor coordinates may be negative. Explicit resolution changes still take effect. Signed: President.

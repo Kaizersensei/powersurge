@@ -190,6 +190,7 @@ void menu(){
    if(ImGui::MenuItem("Physics objects")){lab_intent="physics";lab_modal=true;}
    if(ImGui::MenuItem("Connected terrain journey")){lab_intent="terrain-journey";lab_modal=true;}
    if(ImGui::MenuItem("Editor interaction checks")){lab_intent="editor-contract";lab_modal=true;}
+   if(ImGui::MenuItem("Fullscreen monitor checks (moves this window)")){lab_intent="display-check";lab_modal=true;}
    if(ImGui::MenuItem("Menu artwork checks")){lab_intent="presentation-menu-check";lab_modal=true;}
    ImGui::EndMenu();
   }ImGui::EndMenu();

@@ -75,6 +75,15 @@ static void compute_display_transform(ALLEGRO_TRANSFORM* transform);
 static void set_display_icon(ALLEGRO_DISPLAY* display);
 static void a5_handle_video_event(const ALLEGRO_EVENT* event, void* data);
 static int get_display_adapter(ALLEGRO_DISPLAY* display);
+static struct {
+    bool valid;
+    int x,y,width,height;
+    videoresolution_t resolution;
+#if defined(ALLEGRO_WINDOWS)
+    WINDOWPLACEMENT placement;
+#endif
+} windowed_restore;
+
 
 
 /* Backbuffer */
@@ -478,6 +487,10 @@ videoresolution_t video_best_fit_resolution()
  */
 void video_set_fullscreen(bool fullscreen)
 {
+    if(display != NULL && fullscreen == !!(al_get_display_flags(display) & ALLEGRO_FULLSCREEN_WINDOW) && !(windowed_restore.valid&&!fullscreen)) {
+        settings.is_fullscreen=fullscreen;
+        return;
+    }
     LOG("%s fullscreen", fullscreen ? "Enabling" : "Disabling");
     settings.is_fullscreen = fullscreen;
 
@@ -972,6 +985,7 @@ void destroy_display()
 
     al_set_target_bitmap(NULL);
     al_destroy_display(display);
+    windowed_restore.valid=false;
     display = NULL;
 }
 
@@ -985,30 +999,82 @@ void reconfigure_display()
     int delta_width = new_display_width - al_get_display_width(display);
     int delta_height = new_display_height - al_get_display_height(display);
 
-    /* toggle fullscreen */
-    if(!al_set_display_flag(display, ALLEGRO_FULLSCREEN_WINDOW, settings.is_fullscreen))
-        LOG("Can't toggle fullscreen mode");
-
-    /* resize the window */
-    if(!(al_get_display_flags(display) & ALLEGRO_FULLSCREEN_WINDOW)) {
-        if(al_resize_display(display, new_display_width, new_display_height)) {
-
-            /* reposition the window */
-            int x, y;
-            al_get_window_position(display, &x, &y);
-
-            x = max(0, x - delta_width / 2);
-            y = max(0, y - delta_height / 2);
-            al_set_window_position(display, x, y);
-
-            /* restore the default shader */
-            if(!use_default_shader())
-                LOG("Can't set the default shader. %s", get_opengl_error());
-
+    bool was_fullscreen=!!(al_get_display_flags(display)&ALLEGRO_FULLSCREEN_WINDOW);
+    bool entering=settings.is_fullscreen&&!was_fullscreen;
+#if defined(ALLEGRO_WINDOWS)
+    ALLEGRO_MONITOR_INFO target_monitor;
+    bool target_valid=false;
+#endif
+    if(entering) {
+        al_get_window_position(display,&windowed_restore.x,&windowed_restore.y);
+        windowed_restore.width=al_get_display_width(display);
+        windowed_restore.height=al_get_display_height(display);
+        windowed_restore.resolution=settings.resolution;
+        windowed_restore.valid=true;
+#if defined(ALLEGRO_WINDOWS)
+        memset(&windowed_restore.placement,0,sizeof windowed_restore.placement);
+        RECT client;
+        if(GetClientRect(al_get_win_window_handle(display),&client)) {
+            windowed_restore.width=client.right-client.left;
+            windowed_restore.height=client.bottom-client.top;
         }
-        else
-            LOG("Can't resize the display to %dx%d", new_display_width, new_display_height);
+        windowed_restore.placement.length=sizeof(WINDOWPLACEMENT);
+        GetWindowPlacement(al_get_win_window_handle(display),&windowed_restore.placement);
+        /* Allegro selects fullscreen from its top-left point. Put that point safely
+           inside the monitor containing most of the original window before toggling. */
+        int adapter=get_display_adapter(display);
+        target_valid=adapter>=0&&al_get_monitor_info(adapter,&target_monitor);
+        if(target_valid) {
+            if(al_get_display_flags(display)&ALLEGRO_MAXIMIZED)
+                al_set_display_flag(display,ALLEGRO_MAXIMIZED,false);
+            al_set_window_position(display,target_monitor.x1+32,target_monitor.y1+32);
+        }
+#endif
     }
+    if(!al_set_display_flag(display,ALLEGRO_FULLSCREEN_WINDOW,settings.is_fullscreen)) {
+        LOG("Can't toggle fullscreen mode");
+        if(entering&&windowed_restore.valid)
+            al_set_window_position(display,windowed_restore.x,windowed_restore.y);
+    }
+    settings.is_fullscreen=!!(al_get_display_flags(display)&ALLEGRO_FULLSCREEN_WINDOW);
+#if defined(ALLEGRO_WINDOWS)
+    if(entering&&settings.is_fullscreen&&target_valid) {
+        /* Some Windows backends retain the creation adapter. Explicit borderless
+           bounds plus resize acknowledgement keep native and renderer sizes aligned. */
+        HWND window=al_get_win_window_handle(display);
+        if(SetWindowPos(window,NULL,target_monitor.x1,target_monitor.y1,
+            target_monitor.x2-target_monitor.x1,target_monitor.y2-target_monitor.y1,
+            SWP_NOZORDER|SWP_NOACTIVATE|SWP_FRAMECHANGED))
+            al_acknowledge_resize(display);
+        else LOG("Can't apply fullscreen bounds to the selected monitor");
+    }
+#endif
+    if(!settings.is_fullscreen) {
+        bool restoring=windowed_restore.valid;
+        bool original_size=restoring&&windowed_restore.resolution==settings.resolution;
+        int width=original_size?windowed_restore.width:new_display_width;
+        int height=original_size?windowed_restore.height:new_display_height;
+        if(al_resize_display(display,width,height)) {
+            int x,y;
+            if(restoring){x=windowed_restore.x;y=windowed_restore.y;}
+            else {
+                al_get_window_position(display,&x,&y);
+                x-=delta_width/2;y-=delta_height/2;
+            }
+            /* Negative desktop coordinates are valid on monitors left/above primary. */
+            al_set_window_position(display,x,y);
+#if defined(ALLEGRO_WINDOWS)
+            if(original_size&&windowed_restore.placement.showCmd==SW_SHOWMAXIMIZED) {
+                SetWindowPlacement(al_get_win_window_handle(display),&windowed_restore.placement);
+                al_set_display_flag(display,ALLEGRO_MAXIMIZED,true);
+            }
+#endif
+            if(restoring)windowed_restore.valid=false;
+            if(!use_default_shader())LOG("Can't set the default shader. %s",get_opengl_error());
+        }
+        else LOG("Can't resize the display to %dx%d",width,height);
+    }
+
 #else
     /* On Android, we can't change any display flag while the engine is restarting.
        The game will freeze if we try. (see an explanation of this at video_set_immersive()) */
@@ -1288,26 +1354,109 @@ void compute_screen_size(videomode_t mode, int* screen_width, int* screen_height
 }
 
 /* Polyfill for al_get_display_adapter() (since Allegro 5.2.10) */
+/* Largest overlap, then nearest monitor for a temporarily off-desktop window. */
+static int monitor_for_rectangle(int x,int y,int w,int h,const ALLEGRO_MONITOR_INFO* monitors,int count)
+{
+    int best=-1;int64_t best_area=-1;double best_distance=1e300;
+    for(int i=0;i<count;i++) {
+        const ALLEGRO_MONITOR_INFO* m=&monitors[i];
+        if(m->x2<=m->x1||m->y2<=m->y1)continue;
+        int64_t width=max(0,min(x+w,m->x2)-max(x,m->x1));
+        int64_t height=max(0,min(y+h,m->y2)-max(y,m->y1));
+        int64_t area=width*height;
+        double cx=x+w*.5,cy=y+h*.5;
+        double dx=cx< m->x1?m->x1-cx:cx>m->x2?cx-m->x2:0;
+        double dy=cy< m->y1?m->y1-cy:cy>m->y2?cy-m->y2:0;
+        double distance=dx*dx+dy*dy;
+        if(area>best_area||(area==best_area&&distance<best_distance)){best=i;best_area=area;best_distance=distance;}
+    }
+    return best;
+}
 int get_display_adapter(ALLEGRO_DISPLAY* display)
 {
-#if AL_ID(ALLEGRO_VERSION, ALLEGRO_SUB_VERSION, ALLEGRO_WIP_VERSION, 0) < AL_ID(5,2,10,0)
-    int x, y, n = al_get_num_video_adapters();
-    al_get_window_position(display, &x, &y);
+    int x,y,w=al_get_display_width(display),h=al_get_display_height(display);
+    al_get_window_position(display,&x,&y);
+#if defined(ALLEGRO_WINDOWS)
+    RECT rect;
+    if(GetWindowRect(al_get_win_window_handle(display),&rect)){x=rect.left;y=rect.top;w=rect.right-rect.left;h=rect.bottom-rect.top;}
+#endif
+    ALLEGRO_MONITOR_INFO monitors[128]={0};
+    int count=min(128,al_get_num_video_adapters());
+    for(int i=0;i<count;i++)al_get_monitor_info(i,&monitors[i]);
+    return monitor_for_rectangle(x,y,w,h,monitors,count);
+}
 
-    for(int a = 0; a < n; a++) {
-        ALLEGRO_MONITOR_INFO mi;
-
-        if(al_get_monitor_info(a, &mi)) {
-            if(x >= mi.x1 && x < mi.x2 && y >= mi.y1 && y < mi.y2)
-                return a;
+/* Owned in-engine regression; never sends desktop input. Signed: President. */
+int video_fullscreen_check_step(int phase,int* monitor_count,int* assertions,char* error,int capacity)
+{
+    static int original_x,original_y,original_w,original_h,x,y,w,h,checks;
+    static bool original_fullscreen,original_maximized;
+#if defined(ALLEGRO_WINDOWS)
+    static WINDOWPLACEMENT original_placement;
+#endif
+    int count=al_get_num_video_adapters();*monitor_count=count;
+#define DISPLAY_CHECK(condition,reason) do {if(!(condition)){snprintf(error,capacity,"%s",reason);goto test_failed;}checks++;}while(0)
+    if(phase<0){snprintf(error,capacity,"Display checks timed out");goto test_failed;}
+    if(phase==0){
+        checks=0;original_fullscreen=video_is_fullscreen();video_set_fullscreen(false);
+        al_get_window_position(display,&original_x,&original_y);original_w=al_get_display_width(display);original_h=al_get_display_height(display);
+        original_maximized=!!(al_get_display_flags(display)&ALLEGRO_MAXIMIZED);
+#if defined(ALLEGRO_WINDOWS)
+        memset(&original_placement,0,sizeof original_placement);original_placement.length=sizeof original_placement;
+        GetWindowPlacement(al_get_win_window_handle(display),&original_placement);
+#endif
+        ALLEGRO_MONITOR_INFO samples[]={{-1920,0,0,1080},{0,0,1920,1080},{1920,-200,3840,1080}};
+        DISPLAY_CHECK(monitor_for_rectangle(-5,64,480,270,samples,3)==1,"largest window area must override top-left monitor");
+        DISPLAY_CHECK(monitor_for_rectangle(64,-5,480,270,samples,3)==1,"top border above desktop must not default monitor");
+        DISPLAY_CHECK(monitor_for_rectangle(-1800,64,480,270,samples,3)==0,"negative monitor coordinates rejected");
+        DISPLAY_CHECK(monitor_for_rectangle(5000,64,480,270,samples,3)==2,"off-desktop nearest monitor selection failed");
+    }else{
+        int index=(phase-1)/9,stage=(phase-1)%3,edge=((phase-1)%9)/3;
+        if(index>=count)goto test_restore;
+        ALLEGRO_MONITOR_INFO m;
+        DISPLAY_CHECK(al_get_monitor_info(index,&m),"cannot query attached monitor");
+        if(stage==0){
+            video_set_fullscreen(false);al_set_display_flag(display,ALLEGRO_MAXIMIZED,false);
+            DISPLAY_CHECK(al_resize_display(display,480,270),"cannot size owned test window");
+            al_set_window_position(display,m.x1+(edge==1?-5:64),m.y1+(edge==1?-5:64));
+            if(edge==2)al_set_display_flag(display,ALLEGRO_MAXIMIZED,true);
+            al_get_window_position(display,&x,&y);w=al_get_display_width(display);h=al_get_display_height(display);
+            DISPLAY_CHECK(get_display_adapter(display)==index,"wrong monitor selected from live window rectangle");
+        }else if(stage==1){
+            /* Let normal resize events from move/maximize settle before snapshotting. */
+            al_get_window_position(display,&x,&y);w=al_get_display_width(display);h=al_get_display_height(display);
+            video_set_fullscreen(true);
+            int fx,fy;al_get_window_position(display,&fx,&fy);
+            DISPLAY_CHECK(video_is_fullscreen(),"fullscreen transition failed");
+            if(abs(fx-m.x1)>2||abs(fy-m.y1)>2){
+                snprintf(error,capacity,"Monitor %d variant %d: fullscreen at %d,%d expected %d,%d",index,edge,fx,fy,m.x1,m.y1);goto test_failed;
+            }checks++;
+            DISPLAY_CHECK(abs(al_get_display_width(display)-(m.x2-m.x1))<=2&&abs(al_get_display_height(display)-(m.y2-m.y1))<=2,"fullscreen dimensions differ from target monitor");
+        }else{
+            video_set_fullscreen(false);int rx,ry;al_get_window_position(display,&rx,&ry);
+            DISPLAY_CHECK(!video_is_fullscreen(),"windowed transition failed");
+            if(edge==2)DISPLAY_CHECK(al_get_display_flags(display)&ALLEGRO_MAXIMIZED,"maximized window state not restored");
+            DISPLAY_CHECK(abs(rx-x)<=2&&abs(ry-y)<=2,"windowed position not restored");
+            if(al_get_display_width(display)!=w||al_get_display_height(display)!=h){
+                snprintf(error,capacity,"Monitor %d variant %d: restored %dx%d, expected %dx%d",index,edge,al_get_display_width(display),al_get_display_height(display),w,h);goto test_failed;
+            }checks++;
         }
     }
-
-    return -1;
-#else
-    return al_get_display_adapter(display);
+    *assertions=checks;return 0;
+test_failed:
+    phase=-1;
+test_restore:
+    video_set_fullscreen(false);al_set_display_flag(display,ALLEGRO_MAXIMIZED,false);
+    al_resize_display(display,original_w,original_h);al_set_window_position(display,original_x,original_y);
+#if defined(ALLEGRO_WINDOWS)
+    if(original_maximized)SetWindowPlacement(al_get_win_window_handle(display),&original_placement);
 #endif
+    if(original_maximized)al_set_display_flag(display,ALLEGRO_MAXIMIZED,true);
+    if(original_fullscreen)video_set_fullscreen(true);
+    *assertions=checks;return phase<0?-1:1;
+#undef DISPLAY_CHECK
 }
+
 
 
 /*

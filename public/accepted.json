@@ -1,32 +1,35 @@
 {
   "schema": 1,
-  "promotion": "editor-navigation-2026-11-22",
+  "promotion": "fullscreen-monitors-2026-11-22",
   "status": "public-testing-preview",
   "signed": "President",
-  "binary_sha256": "5206420dbfd1e9807e416d1b94ce6adef31868848ca8218823ad35551e0cf30d",
-  "source_sha256": "428713e6cccb7a83cec313e9c6f7f8c7c5a98f177bb430b7ea712d4d74e2afd3",
+  "binary_sha256": "4052518048cac0f3f6e2450c91a1e8def8b2431dc47d8df2638a724e832c3111",
+  "source_sha256": "8b0542b16202c584ff3dc3c91c60b3ee44ab31cc74600c318fad06bf582b1e22",
   "content_sha256": "442dc53989ae3e14b091a975e66b61d4653be55ad1685f2150a613eff10dc4fb",
   "verification": [
     {
-      "scenario": "editor-contract",
+      "scenario": "display-check",
       "passed": true,
-      "assertions": 53
-    },
-    {
-      "scenario": "presentation-menu-check",
-      "passed": true,
-      "assertions": 12
+      "assertions": 107,
+      "monitors": 3,
+      "cases": [
+        "normal",
+        "boundary-straddling",
+        "maximized",
+        "windowed restoration",
+        "negative/nearest monitor selection",
+        "menu artwork retention"
+      ]
     }
   ],
   "review": {
     "by": "Reviewer",
     "verdict": "PASS",
-    "scope": "Source review of editor view/input and publication boundaries."
+    "scope": "Fullscreen monitor selection, renderer size acknowledgement, restoration and owned test cleanup."
   },
   "limitations": [
-    "Physical keyboard/mouse/gamepad usability remains manual acceptance.",
-    "Physics capability and broader RPG/service integration remain work in progress.",
-    "Advanced gameplay-camera behavior is planned; existing gameplay camera remains unchanged."
+    "Physical F11 keyboard dispatch remains the existing engine mapping; the regression calls its shared video API without desktop input injection.",
+    "Broader editor, physics and RPG/service acceptance remains as documented in earlier previews."
   ],
   "dependency": {
     "surgescript_version": "6.9.0",
@@ -36,7 +39,7 @@
   "runtime": [
     {
       "path": "LAB_RUNS.md",
-      "sha256": "c4af6619c709e6fc64c7dca22b1a5bd8de18e3dc4d459fc935d4854c42fdd02f"
+      "sha256": "7d93e56ba9865b47fb26e5216ca0d45d3bf3525dae8293aff714102fd09a8ae0"
     },
     {
       "path": "LICENSE",
@@ -96,7 +99,7 @@
     },
     {
       "path": "build-info.json",
-      "sha256": "96c356ad441f2b6376fae758f2a0916f822eb8e396c56d08bdc776d035b6fe1b"
+      "sha256": "2143a75e622af19e8bae9f39254f0b776c9630fc2ff185ec7c3bf9ca4fbdcc66"
     },
     {
       "path": "characters/none.chr",
@@ -4212,7 +4215,7 @@
     },
     {
       "path": "powersurge.exe",
-      "sha256": "5206420dbfd1e9807e416d1b94ce6adef31868848ca8218823ad35551e0cf30d"
+      "sha256": "4052518048cac0f3f6e2450c91a1e8def8b2431dc47d8df2638a724e832c3111"
     },
     {
       "path": "presentation/presentation.ini",
