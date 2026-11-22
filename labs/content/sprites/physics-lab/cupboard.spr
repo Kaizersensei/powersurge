@@ -1,0 +1,13 @@
+sprite "BSL Physics Cupboard"
+{
+ source_file "images/physics-lab/cupboard.png"
+ source_rect 0 0 48 64
+ frame_size 48 64
+ hot_spot 24 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}

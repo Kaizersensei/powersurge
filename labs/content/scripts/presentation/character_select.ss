@@ -126,6 +126,7 @@ object "BSL Character Selector" is "entity", "detached", "awake", "private"
     moveSound=Sound(layout["audio"]["move"]["path"]);
     acceptSound=Sound(layout["audio"]["accept"]["path"]);
     backSound=Sound(layout["audio"]["back"]["path"]);
+    visuals=[];
     devices=[];
     slots=[];
     catalog=[];
@@ -148,10 +149,10 @@ object "BSL Character Selector" is "entity", "detached", "awake", "private"
     fun initialize(kind)
     {
         mode=kind;
-        spawn("BSL Presentation Sprite").initialize(layout["assets"]["selector_background"],cfg["background_rect"],cfg["canvas"],0);
+        visuals.push(spawn("BSL Presentation Sprite").initialize(layout["assets"]["selector_background"],cfg["background_rect"],cfg["canvas"],0));
         title=mode=="solo" ? cfg["solo_title"] : cfg["lobby_title"];
-        spawn("BSL Presentation Text").initialize(layout["font"],cfg["font_roles"]["heading"],cfg["heading_rect"],cfg["canvas"],"<color="+cfg["color"]+">"+title+"</color>");
-        spawn("BSL Presentation Text").initialize(layout["font"],cfg["font_roles"]["help"],cfg["help_rect"],cfg["canvas"],"<color="+cfg["color"]+">"+cfg["help"]+"</color>");
+        visuals.push(spawn("BSL Presentation Text").initialize(layout["font"],cfg["font_roles"]["heading"],cfg["heading_rect"],cfg["canvas"],"<color="+cfg["color"]+">"+title+"</color>"));
+        visuals.push(spawn("BSL Presentation Text").initialize(layout["font"],cfg["font_roles"]["help"],cfg["help_rect"],cfg["canvas"],"<color="+cfg["color"]+">"+cfg["help"]+"</color>"));
         messageLabel=spawn("BSL Presentation Text").initialize(layout["font"],cfg["font_roles"]["message"],cfg["message_rect"],cfg["canvas"],"");
         for(i=0;i<actions.characterCount();i++) {
             id=actions.characterAt(i);

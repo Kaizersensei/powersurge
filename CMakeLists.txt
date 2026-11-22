@@ -22,8 +22,18 @@
 # Initialization
 # ------------------------------------------
 
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.22)
 project(opensurge LANGUAGES C CXX)
+
+# Diagnostics must not embed developer workspace/home paths. Symbols stay in private builds.
+if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+ add_compile_options("-ffile-prefix-map=${CMAKE_SOURCE_DIR}=PowerSurge" "-ffile-prefix-map=${CMAKE_BINARY_DIR}=build")
+ if(DEFINED ENV{USERPROFILE})
+  file(TO_CMAKE_PATH "$ENV{USERPROFILE}" PS_BUILD_HOME)
+  add_compile_options("-ffile-prefix-map=${PS_BUILD_HOME}=build-host")
+ endif()
+endif()
+
 
 set(CMAKE_C_STANDARD 99)
 set(GAME_UNIXNAME "opensurge")
@@ -323,7 +333,7 @@ endif()
 # ------------------------------------------
 
 # Project-owned installation layout. Upstream sample-game folders are not inputs.
-file(WRITE "${CMAKE_BINARY_DIR}/powersurge-preview.ini" "[preview]\ndefault_lab=terrain\n")
+file(WRITE "${CMAKE_BINARY_DIR}/powersurge-preview.ini" "[preview]\nstartup=frontend\n")
 if(GAME_RUNINPLACE)
  install(TARGETS "${GAME_UNIXNAME}" RUNTIME DESTINATION "${GAME_DISTDIR}")
  install(FILES LICENSE README.md CHANGELOG.md CONTRIBUTING.md "${CMAKE_BINARY_DIR}/powersurge-preview.ini" DESTINATION "${GAME_DISTDIR}")
@@ -348,6 +358,11 @@ target_sources(${GAME_UNIXNAME} PRIVATE src/editor_shell/shell.cpp
  bsl/third_party/imgui/backends/imgui_impl_allegro5.cpp)
 target_include_directories(${GAME_UNIXNAME} PRIVATE bsl/third_party/imgui)
 
+# Experimental shared Box2D object capability. Signed: Mech.
+add_subdirectory(bsl/third_party/box2d)
+target_link_libraries(${GAME_UNIXNAME} box2d::box2d)
+target_sources(${GAME_UNIXNAME} PRIVATE src/physics_lab/world.cpp src/physics_lab/bor_hurtbox.c src/physics_lab/object_factory.cpp)
+
 # Native laboratories; ordinary source ownership, no staging scripts. Signed: President.
 target_sources(${GAME_UNIXNAME} PRIVATE src/labs/lab.cpp)
 
@@ -359,3 +374,16 @@ add_custom_target(powersurge_portable
  "-DPS_DLLDIR=${PS_COMPILER_BIN}" "-DPS_OBJDUMP=${CMAKE_OBJDUMP}"
  -P "${CMAKE_SOURCE_DIR}/cmake/Portable.cmake"
  DEPENDS ${GAME_UNIXNAME} VERBATIM)
+
+# Public promotion is explicit and hash-bound to a passing native scenario. Signed: President.
+add_custom_target(powersurge_candidate
+ COMMAND "${CMAKE_COMMAND}" "-DPS_EXE=$<TARGET_FILE:${GAME_UNIXNAME}>"
+ "-DPS_SOURCE=${CMAKE_SOURCE_DIR}" "-DPS_OUTPUT=${CMAKE_BINARY_DIR}/../private/public-candidate"
+ "-DPS_DLLDIR=${PS_COMPILER_BIN}" "-DPS_OBJDUMP=${CMAKE_OBJDUMP}" "-DPS_STRIP=${CMAKE_STRIP}"
+ -P "${CMAKE_SOURCE_DIR}/cmake/Portable.cmake"
+ DEPENDS ${GAME_UNIXNAME} VERBATIM)
+add_custom_target(powersurge_public
+ COMMAND "${CMAKE_COMMAND}" "-DPS_SOURCE=${CMAKE_SOURCE_DIR}"
+ "-DPS_INPUT=${CMAKE_BINARY_DIR}/../private/public-candidate" "-DPS_PUBLIC_ROOT=${CMAKE_BINARY_DIR}/../public"
+ -P "${CMAKE_SOURCE_DIR}/cmake/Public.cmake"
+ DEPENDS powersurge_candidate VERBATIM)

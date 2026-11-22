@@ -1,0 +1,78 @@
+// Minimal author usability fixture. Signed: Atlas.
+name "Collision Preset Usability"
+author "Kaizer / Atlas"
+version "0.1"
+requires "0.6.1"
+act 1
+theme "themes/collision-presets.brk"
+bgtheme "themes/template.bg"
+spawn_point 192 1018
+setup "BSL Runtime Setup" "Default Camera" "BSL Pause and Quit"
+players "None"
+
+// Only a flat floor and Michio; leave the rest for the author's usability test.
+brick 0 0 1024
+brick 0 32 1024
+brick 0 64 1024
+brick 0 96 1024
+brick 0 128 1024
+brick 0 160 1024
+brick 0 192 1024
+brick 0 224 1024
+brick 0 256 1024
+brick 0 288 1024
+brick 0 320 1024
+brick 0 352 1024
+brick 0 384 1024
+brick 0 416 1024
+brick 0 448 1024
+brick 0 480 1024
+brick 0 512 1024
+brick 0 544 1024
+brick 0 576 1024
+brick 0 608 1024
+brick 0 640 1024
+brick 0 672 1024
+brick 0 704 1024
+brick 0 736 1024
+brick 0 768 1024
+brick 0 800 1024
+brick 0 832 1024
+brick 0 864 1024
+brick 0 896 1024
+brick 0 928 1024
+brick 0 960 1024
+brick 0 992 1024
+brick 0 1024 1024
+brick 0 1056 1024
+brick 0 1088 1024
+brick 0 1120 1024
+brick 0 1152 1024
+brick 0 1184 1024
+brick 0 1216 1024
+brick 0 1248 1024
+brick 0 1280 1024
+brick 0 1312 1024
+brick 0 1344 1024
+brick 0 1376 1024
+brick 0 1408 1024
+brick 0 1440 1024
+brick 0 1472 1024
+brick 0 1504 1024
+brick 0 1536 1024
+brick 0 1568 1024
+brick 0 1600 1024
+brick 0 1632 1024
+brick 0 1664 1024
+brick 0 1696 1024
+brick 0 1728 1024
+brick 0 1760 1024
+brick 0 1792 1024
+brick 0 1824 1024
+brick 0 1856 1024
+brick 0 1888 1024
+brick 0 1920 1024
+brick 0 1952 1024
+brick 0 1984 1024
+brick 0 2016 1024
+entity "BSL Selected Player Spawn" 192 1018

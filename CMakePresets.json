@@ -26,6 +26,13 @@
       "targets": [
         "powersurge_portable"
       ]
+    },
+    {
+      "name": "public-preview",
+      "configurePreset": "native",
+      "targets": [
+        "powersurge_public"
+      ]
     }
   ]
 }

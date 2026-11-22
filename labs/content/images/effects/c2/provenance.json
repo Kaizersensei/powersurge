@@ -2,8 +2,8 @@
   "signed": "Atlas",
   "origin": "Author-provided original C2 prototype assets; user confirms ownership. Unmodified PNGs; source regions selected by effect definitions.",
   "sources": {
-    "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Textures\\WEATHER_Rain1.png": "08324cb57587687e8677f3f14823401dec33f02e650c33176d7d1da32ca0d6c9",
-    "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Textures\\WEATHER_Snow1.png": "1226c019a6ec82c49a590b67148b00cb60188ed204410c7624c7e7bc735caeaa",
-    "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Textures\\WEATHER_Ashen1.png": "d0f43ab89a67e1b535ebc5db83dc788381fa3d268dceb5d14b991a81a47a0533"
+    "author-provided/WEATHER_Rain1.png": "08324cb57587687e8677f3f14823401dec33f02e650c33176d7d1da32ca0d6c9",
+    "author-provided/WEATHER_Snow1.png": "1226c019a6ec82c49a590b67148b00cb60188ed204410c7624c7e7bc735caeaa",
+    "author-provided/WEATHER_Ashen1.png": "d0f43ab89a67e1b535ebc5db83dc788381fa3d268dceb5d14b991a81a47a0533"
   }
 }

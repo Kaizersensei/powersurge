@@ -2,7 +2,17 @@
 #include "lab.h"
 extern "C" {
 #include "../core/engine.h"
+#include "../core/commandline.h"
+#include "../core/video.h"
+#include "../core/image.h"
+#include "../core/scene.h"
+#include "../core/storyboard.h"
+#include "../scripting/scripting.h"
+#include "../entities/actor.h"
+#include "../foundation/foundation_host.h"
+#include "../editor_shell/shell.h"
 }
+#include <allegro5/allegro_image.h>
 #include <algorithm>
 #include <chrono>
 #include <cstdio>
@@ -28,10 +38,10 @@ namespace {
 namespace fs=std::filesystem;
 const char* storage_magic="PowerSurge lab storage v1\n";
 const char* run_magic="PowerSurge native lab run v1\n";
-struct Profile {const char* id;const char* name;bool automatic;};
-const Profile profiles[]={{"terrain","Terrain / editor laboratory",false},{"terrain-journey","Connected terrain journey",true}};
+struct Profile {const char* id;const char* name;bool automatic;bool frontend=false;};
+const Profile profiles[]={{"frontend","Intro / title / main menu",false,true},{"terrain","Terrain / editor laboratory",false},{"physics","Physics objects laboratory",false},{"presentation-menu-check","Menu artwork and navigation checks",true},{"editor-contract","Editor placement / save checks",true},{"terrain-journey","Connected terrain journey",true}};
 struct Run {
- bool active=false,keep=false,automatic=false,completed=false;int code=0,frames=0,frame_limit=0;
+ bool active=false,keep=false,automatic=false,completed=false,frontend=false,embedded=false;int code=0,frames=0,frame_limit=0;
  std::string id,result,error;fs::path root,folder,original,exe;std::string preferences;
  std::chrono::steady_clock::time_point started;
 #ifdef _WIN32
@@ -40,6 +50,9 @@ struct Run {
  int lease=-1;
 #endif
 } run;
+std::string pending_lab;unsigned long long generation=0;
+bool switch_check=false;
+void switch_check_tick();void menu_check_tick();
 std::vector<std::string> arguments;std::vector<char*> pointers;
 std::string read(const fs::path& p,size_t limit=262144){
  std::error_code ec;auto n=fs::file_size(p,ec);if(ec||n>limit)throw std::runtime_error("Missing/oversized lab file: "+p.u8string());
@@ -173,17 +186,19 @@ int storage_check(){
 }
 }
 extern "C" bool ps_lab_active(){return run.active;}
-extern "C" bool ps_lab_automatic(){return run.active&&run.automatic;}
+extern "C" bool ps_lab_automatic(){return run.active&&(switch_check||(run.automatic&&!run.completed));}
 extern "C" const char* ps_lab_preferences(){return run.active?run.preferences.c_str():nullptr;}
 extern "C" int ps_lab_exit_code(){return run.code;}
 extern "C" int ps_lab_prepare(int* argc,char*** argv){
  try{
+  arguments.clear();pointers.clear();
   run.exe=executable();std::string selected;bool list=false,check=false;
   arguments.push_back((*argv)[0]);
   for(int i=1;i<*argc;++i){std::string a=(*argv)[i];
    if(a=="--lab"){if(++i==*argc)throw std::runtime_error("--lab requires an identity");selected=(*argv)[i];}
    else if(a=="--lab-list")list=true;
    else if(a=="--lab-storage-check")check=true;
+   else if(a=="--lab-switch-check")switch_check=true;
    else if(a=="--keep-lab")run.keep=true;
    else if(a=="--lab-frames"){if(++i==*argc)throw std::runtime_error("--lab-frames requires a count");run.frame_limit=std::stoi((*argv)[i]);if(run.frame_limit<1||run.frame_limit>36000)throw std::runtime_error("Lab frame limit must be1..36000");}
    else arguments.push_back(a);
@@ -192,10 +207,10 @@ extern "C" int ps_lab_prepare(int* argc,char*** argv){
   auto preview=run.exe.parent_path()/"powersurge-preview.ini";
   if(selected.empty()&&!list&&!check&&arguments.size()==1&&fs::is_regular_file(preview)){
    std::istringstream config(read(preview,1024));std::string line;
-   while(std::getline(config,line))if(line.rfind("default_lab=",0)==0){selected=line.substr(12);if(!selected.empty()&&selected.back()=='\r')selected.pop_back();}
-   if(selected.empty())throw std::runtime_error("Preview configuration has no default_lab");
+   while(std::getline(config,line))if(line.rfind("startup=",0)==0||line.rfind("default_lab=",0)==0){selected=line.substr(line.find('=')+1);if(!selected.empty()&&selected.back()=='\r')selected.pop_back();}
+   if(selected.empty())throw std::runtime_error("Preview configuration has no startup");
   }
-  if(list){for(auto& p:profiles)std::printf("%s : %s [%s]\n",p.id,p.name,p.automatic?"automatic":"interactive");return -1;}
+  if(list){for(auto& p:profiles)if(!p.frontend)std::printf("%s : %s [%s]\n",p.id,p.name,p.automatic?"automatic":"interactive");return -1;}
   if(check){run.code=storage_check();return -1;}
   if(selected.empty()){
    if(run.keep||run.frame_limit)throw std::runtime_error("Lab options require --lab");
@@ -220,38 +235,142 @@ extern "C" int ps_lab_prepare(int* argc,char*** argv){
   const char* services[]={"GAMEPLAY","PROGRESSION","LEARNING","CHECKPOINT","PROGRESS_SAVE","PROGRESS_BOOT","PICKUPS","LOOT","EQUIPMENT","TELEPORT","CALENDAR"};
   for(auto service:services)env((std::string("BSL_")+service).c_str(),"1");
   env("BSL_COLLIDER_DEBUG","0");
-  run.id=selected;run.automatic=profile->automatic;run.active=true;run.preferences=(run.folder/"user/editor-ui.ini").u8string();run.started=std::chrono::steady_clock::now();
-  if(run.automatic)env("BSL_CELL_LEVEL_JOURNEY",(run.folder/"result.json").u8string());
-  fs::current_path(run.folder/"content");arguments.insert(arguments.end(),{"--game-folder",(run.folder/"content").u8string(),"--quest","quests/cell-levels.qst","--windowed","--resolution","1"});
+  run.id=selected;run.frontend=profile->frontend;run.automatic=profile->automatic;run.active=true;run.preferences=(run.folder/"user/editor-ui.ini").u8string();run.started=std::chrono::steady_clock::now();++generation;
+  if(run.automatic&&selected!="presentation-menu-check")env(selected=="editor-contract"?"BSL_SHELL_CHECK":"BSL_CELL_LEVEL_JOURNEY",(run.folder/"result.json").u8string());
+  fs::current_path(run.folder/"content");arguments.insert(arguments.end(),{"--game-folder",(run.folder/"content").u8string()});if(run.frontend)arguments.insert(arguments.end(),{"--quest","quests/initial.qst"});else if(selected=="presentation-menu-check")arguments.insert(arguments.end(),{"--level","levels/presentation/mainmenu.lev"});else if(selected=="physics")arguments.insert(arguments.end(),{"--level","levels/physics-lab.lev"});else arguments.insert(arguments.end(),{"--quest","quests/cell-levels.qst"});arguments.insert(arguments.end(),{"--windowed","--resolution","1"});
   for(auto& a:arguments)pointers.push_back(a.data());pointers.push_back(nullptr);*argc=int(arguments.size());*argv=pointers.data();
-  std::printf("PowerSurge lab: %s; temporary run %s\n",run.id.c_str(),run.folder.u8string().c_str());return 1;
+  std::printf("PowerSurge session: %s; temporary run %s\n",run.id.c_str(),run.folder.u8string().c_str());return 1;
  }catch(const std::exception& e){run.error=e.what();run.code=1;std::fprintf(stderr,"PowerSurge lab: %s\n",e.what());try{if(!run.folder.empty())remove_run();}catch(...){}return -1;}
 }
 extern "C" void ps_lab_tick(){
+ if(run.active&&switch_check)switch_check_tick();
  if(!run.active||run.completed)return;++run.frames;
+ if(run.id=="presentation-menu-check"){menu_check_tick();return;}
  try{
   if(run.automatic&&fs::exists(run.folder/"result.json")){
-   run.result=read(run.folder/"result.json");run.code=run.result.find("\"passed\":true")!=std::string::npos?0:1;run.completed=true;engine_quit();
-  }else if(std::chrono::steady_clock::now()-run.started>std::chrono::seconds(60)&&run.automatic){run.error="Native scenario exceeded60 seconds";run.code=1;run.completed=true;engine_quit();}
-  else if(run.frame_limit&&run.frames>=run.frame_limit){run.code=run.automatic?1:0;run.completed=true;engine_quit();}
- }catch(const std::exception& e){run.error=e.what();run.code=1;run.completed=true;engine_quit();}
+   run.result=read(run.folder/"result.json");run.code=run.result.find("\"passed\":true")!=std::string::npos?0:1;run.completed=true;if(!run.embedded)engine_quit();else bsl_shell_note("lab",run.code?"Automatic laboratory failed; see its report.":"Automatic laboratory passed; current level remains open.",run.code?2:0);
+  }else if(std::chrono::steady_clock::now()-run.started>std::chrono::seconds(60)&&run.automatic){run.error="Native scenario exceeded60 seconds";run.code=1;run.completed=true;if(!run.embedded)engine_quit();else bsl_shell_note("lab",run.code?"Automatic laboratory failed; see its report.":"Automatic laboratory passed; current level remains open.",run.code?2:0);}
+  else if(run.frame_limit&&run.frames>=run.frame_limit){run.code=run.automatic?1:0;run.completed=true;if(!run.embedded)engine_quit();else bsl_shell_note("lab",run.code?"Automatic laboratory failed; see its report.":"Automatic laboratory passed; current level remains open.",run.code?2:0);}
+ }catch(const std::exception& e){run.error=e.what();run.code=1;run.completed=true;if(!run.embedded)engine_quit();else bsl_shell_note("lab",run.code?"Automatic laboratory failed; see its report.":"Automatic laboratory passed; current level remains open.",run.code?2:0);}
 }
 extern "C" int ps_lab_finish(){
  if(!run.active)return 0;if(run.automatic&&!run.completed)run.code=2;
  try{report();}catch(const std::exception& e){std::fprintf(stderr,"Lab report: %s\n",e.what());run.code=1;}
- try{remove_run();}catch(const std::exception& e){std::fprintf(stderr,"Lab cleanup: %s\n",e.what());run.code=1;}
+ try{remove_run();}catch(const std::exception& e){release_lease();std::fprintf(stderr,"Lab cleanup: %s\n",e.what());run.code=1;}
  run.active=false;return run.code;
 }
+extern "C" unsigned long long ps_lab_generation(){return generation;}
 extern "C" bool ps_lab_spawn(const char* id){
+ if(!id||!pending_lab.empty())return false;
+ if(std::none_of(std::begin(profiles),std::end(profiles),[&](auto& p){return !p.frontend&&std::string(p.id)==id;}))return false;
+ pending_lab=id;engine_restart(nullptr);return true;
+}
+extern "C" bool ps_lab_apply_switch(commandline_t* cmd){
+ if(pending_lab.empty())return true;
+ auto next=std::move(pending_lab);pending_lab.clear();
+ auto exe=run.exe.u8string();ps_lab_finish();
+ if(!bsl_host_begin_lab_run()){run.code=1;std::fprintf(stderr,"Previous gameplay bindings survived teardown; laboratory refused.\n");return false;}
+ run=Run{};
+ char option[]="--lab";char* av[]={exe.data(),option,next.data()};char** args=av;int argc=3;
+ if(ps_lab_prepare(&argc,&args)<0)return false;
+ *cmd=commandline_parse(argc,args);run.embedded=true;return true;
+}
+
+extern "C" void ps_lab_mark_saved(){
+ if(!run.active||run.automatic)return;
  try{
-  if(std::none_of(std::begin(profiles),std::end(profiles),[&](auto& p){return std::string(p.id)==id;}))return false;
-#ifdef _WIN32
-  auto exe=executable();std::wstring wid;for(const char* c=id;*c;++c)wid+=wchar_t(*c);
-  std::wstring cmd=L"\""+exe.wstring()+L"\" --lab "+wid;STARTUPINFOW si{};si.cb=sizeof(si);PROCESS_INFORMATION pi{};
-  if(!CreateProcessW(exe.c_str(),cmd.data(),nullptr,nullptr,FALSE,CREATE_NEW_PROCESS_GROUP,nullptr,exe.parent_path().c_str(),&si,&pi))return false;
-  CloseHandle(pi.hThread);CloseHandle(pi.hProcess);return true;
-#else
-  std::string exe=executable().string();char* args[]={exe.data(),const_cast<char*>("--lab"),const_cast<char*>(id),nullptr};pid_t pid;return posix_spawn(&pid,exe.c_str(),nullptr,nullptr,args,environ)==0;
-#endif
- }catch(...){return false;}
+  auto seed=run.exe.parent_path()/"labs/content";
+  for(const auto* name:{"levels","terrain"}){
+   auto folder=run.folder/"content"/name;if(!fs::exists(folder))continue;
+   for(auto& e:fs::recursive_directory_iterator(folder))if(e.is_regular_file()&&!link(e.path())){
+    auto rel=e.path().lexically_relative(run.folder/"content");auto original=seed/rel;
+    if(!fs::exists(original)||read(e.path(),8*1024*1024)!=read(original,8*1024*1024)){
+     run.keep=true;write(run.folder/".keep","Explicitly saved authoring changes\n");
+     std::string message="Saved test workspace retained at "+run.folder.u8string();bsl_shell_note("workspace",message.c_str(),0);return;
+    }
+   }
+  }
+ }catch(const std::exception& e){run.keep=true;bsl_shell_note("workspace",e.what(),2);}
+}
+namespace {
+void switch_check_tick(){
+ static int phase=0,checks=0;static unsigned long long previous=0;
+ static auto begun=std::chrono::steady_clock::now();
+ auto check=[&](bool ok,const char* error){if(!ok)throw std::runtime_error(error);++checks;};
+ try{
+  if(std::chrono::steady_clock::now()-begun>std::chrono::seconds(150))throw std::runtime_error("Same-instance check timed out");
+  if(run.frames<45||bsl_host_boot_busy()||!pending_lab.empty())return;
+  std::string scene=bsl_engine_level_file();
+  if(phase==0){
+   if(scene!="levels/presentation/title.lev"&&scene!="levels/presentation/mainmenu.lev")return;
+   check(run.frontend,"Default session is not the restored frontend");check(generation>0,"Session generation missing");
+   previous=generation;phase++;check(ps_lab_spawn("terrain"),"Terrain switch refused");
+  }else if(phase==1&&run.id=="terrain"){
+   check(generation>previous,"Terrain did not use a new run context");check(scene=="levels/cell-terrain.lev","Wrong terrain entry");
+   BslGameplayProbe game{};bsl_host_gameplay_probe(&game);check(game.actor&&game.health==100&&game.items==3,"Terrain session not reconstructed");
+   previous=generation;phase++;check(ps_lab_spawn("physics"),"Physics switch refused");
+  }else if(phase==2&&run.id=="physics"){
+   check(generation>previous,"Physics reused prior run context");check(scene=="levels/physics-lab.lev","Wrong physics entry");
+   for(const char* id:{"b5010001","b5010002","b5010003","b5010004","b5010005"})check(bsl_shell_physics_body(id),"Physics factory did not reconstruct");
+   previous=generation;phase++;check(ps_lab_spawn("editor-contract"),"Editor check switch refused");
+  }else if(phase==3&&run.id=="editor-contract"&&run.completed){
+   check(generation>previous,"Editor check reused prior context");check(run.code==0,"Editor contract failed");
+   previous=generation;phase++;check(ps_lab_spawn("terrain-journey"),"Journey switch refused");
+  }else if(phase==4&&run.id=="terrain-journey"&&run.completed){
+   check(generation>previous,"Journey reused prior context");check(run.code==0,"First integrated journey failed");
+   previous=generation;phase++;check(ps_lab_spawn("terrain-journey"),"Repeated journey switch refused");
+  }else if(phase==5&&run.id=="terrain-journey"&&run.completed){
+   check(generation>previous,"Repeated journey reused prior context");check(run.code==0,"Repeated journey failed");
+   auto native=run.result;run.result="{\"passed\":true,\"session_switches\":5,\"checks\":"+std::to_string(checks)+",\"last_journey\":"+native+"}";
+   switch_check=false;phase++;std::printf("Same-instance checks passed: %d; five transitions, including repeated automatic journey.\n",checks);engine_quit();
+  }
+ }catch(const std::exception& e){run.code=1;run.completed=true;run.error=e.what();switch_check=false;std::fprintf(stderr,"Same-instance check failed: %s\n",e.what());engine_quit();}
+}
+}
+
+namespace {
+struct MenuVisuals {int sprites=0,visible=0;surgescript_object_t* menu=nullptr;};
+bool menu_visit(surgescript_object_t* o,void* data){
+ auto& p=*static_cast<MenuVisuals*>(data);std::string name=surgescript_object_name(o);
+ if(name=="BSL C2 Main Menu")p.menu=o;
+ if(name=="BSL Presentation Sprite")p.sprites++;
+ if(name=="Actor"){
+  auto* manager=surgescript_object_manager(o);auto parent=surgescript_object_parent(o);
+  if(surgescript_objectmanager_exists(manager,parent)&&std::string(surgescript_object_name(surgescript_objectmanager_get(manager,parent)))=="BSL Presentation Sprite"){
+   auto* actor=scripting_actor_ptr(o);if(actor&&actor->visible&&actor->alpha>0.01f)p.visible++;
+  }
+ }
+ return true;
+}
+MenuVisuals menu_probe(){MenuVisuals p;auto* level=scripting_util_surgeengine_component(surgescript_vm(),"Level");surgescript_object_traverse_tree_ex(level,&p,menu_visit);return p;}
+void menu_capture(const char* name){
+ auto* shot=video_take_snapshot();if(!shot)return;auto* previous=al_get_new_file_interface();al_set_standard_file_interface();
+ al_save_bitmap((run.folder/name).u8string().c_str(),IMAGE2BITMAP(shot));al_set_new_file_interface(previous);image_destroy(shot);
+}
+void menu_check_tick(){
+ static unsigned long long epoch=0;static int checks=0,before=0,after=0;
+ if(epoch!=generation){epoch=generation;checks=before=after=0;}
+ auto check=[&](bool ok,const char* why){if(!ok)throw std::runtime_error(why);checks++;};
+ try{
+  if(std::chrono::steady_clock::now()-run.started>std::chrono::seconds(60))throw std::runtime_error("Menu navigation check timed out");
+  if(run.frames==15){auto p=menu_probe();before=p.visible;menu_capture("menu-before.png");check(p.menu!=nullptr,"Main menu is missing");check(p.sprites==5&&p.visible==5,"Menu artwork missing before navigation");}
+  if(run.frames==25||run.frames==135||run.frames==165){
+   auto p=menu_probe();check(p.menu&&surgescript_object_has_function(p.menu,"moveSelection"),"Menu navigation action missing");
+   auto* direction=surgescript_var_set_number(surgescript_var_create(),run.frames==165?-1:1);const surgescript_var_t* args[]={direction};auto* result=surgescript_var_create();
+   surgescript_object_call_function(p.menu,"moveSelection",args,1,result);int selected=int(surgescript_var_get_number(result));surgescript_var_destroy(result);surgescript_var_destroy(direction);
+   check(selected==(run.frames==135?2:1),"Wrong menu selection after navigation");
+  }
+  if(run.frames==120||run.frames==210){auto p=menu_probe();after=p.visible;menu_capture("menu-after.png");check(p.sprites==5&&p.visible==5,"Menu artwork disappeared after navigation/garbage collection");}
+  if(run.frames==210){auto p=menu_probe();check(p.menu!=nullptr,"Menu disappeared before activation");surgescript_object_call_function(p.menu,"activate",nullptr,0,nullptr);}
+  if(run.frames==255){
+   check(scenestack_top()==storyboard_get_scene(SCENE_STAGESELECT),"Level Select menu action did not open its scene");menu_capture("level-select.png");
+   run.result="{\"passed\":true,\"checks\":"+std::to_string(checks)+",\"artwork_before\":"+std::to_string(before)+",\"artwork_after\":"+std::to_string(after)+"}";run.completed=true;run.code=0;
+   std::printf("Menu navigation checks passed: %d; artwork retained through GC and Level Select activation.\n",checks);if(!run.embedded)engine_quit();else bsl_shell_note("lab","Menu navigation checks passed; Level Select remains open.",0);
+  }
+ }catch(const std::exception& e){
+  menu_capture("menu-after.png");run.error=e.what();run.code=1;run.completed=true;
+  run.result="{\"passed\":false,\"checks\":"+std::to_string(checks)+",\"artwork_before\":"+std::to_string(before)+",\"artwork_after\":"+std::to_string(after)+"}";
+  std::fprintf(stderr,"Menu navigation check failed: %s\n",e.what());if(!run.embedded)engine_quit();else bsl_shell_note("lab",e.what(),2);
+ }
+}
 }

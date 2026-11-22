@@ -255,6 +255,7 @@ static void damage_reaction(HostActor* target,HostActor* source,const BorFrame* 
  target->a.freeze=fmax(target->a.freeze,fmax(0,f->pause)/200.0);source->a.freeze=fmax(source->a.freeze,fmax(0,f->pause)/200.0);
  total_hits++;if(test_mode)test_hits++;
 }
+extern void bsl_lab_attack(uint64_t,uint64_t,int,const double*);
 static void hit_segment(BorActor* a,const BorFrame* f,bool entering,void* context){
  HostActor* h=(HostActor*)context;
  if(a->action_id!=h->progress_action){
@@ -282,6 +283,7 @@ static void hit_segment(BorActor* a,const BorFrame* f,bool entering,void* contex
   if(f->sound>=0&&sounds&&sounds[f->sound]){total_sound_events++;sound_play(sounds[f->sound]);}
  }
  if(!a->active||a->state==BOR_DEAD||a->state==BOR_FALL)return;
+ double attack_corners[8];if(f->damage>0&&bor_corners(a,true,attack_corners))bsl_lab_attack(h->lifetime,a->epoch,a->facing,attack_corners);
  uint64_t action=a->action_id;
  for(int i=0;i<64;i++){
   if(a->action_id!=action||a->health<=0||!a->active||a->state==BOR_DEAD||a->state==BOR_FALL)break;
@@ -814,8 +816,11 @@ static void update_actor_activity(void){
  }
 }
 #include "audio_demo.inc"
+extern void bsl_lab_tick(void);
+extern void bsl_lab_suspend(void);
+extern void bsl_lab_actor(uint64_t,const double*);
 static void tick_world(void){
- if(level_editmode())return;
+ if(level_editmode()){bsl_lab_suspend();return;}
  for(int i=0;i<64;i++)if(slots[i]&&!slots[i]->placed)rebase(slots[i]);
  if(bsl_host_boot_step())return;
  if(bsl_host_player_assembly_waiting())return;
@@ -838,6 +843,7 @@ static void tick_world(void){
  for(int i=0;i<64;i++)if(slots[i]&&!(ui_waiting&&controlled(slots[i])))move_actor(slots[i]);
  for(int i=0;i<64;i++)if(slots[i]&&!(ui_waiting&&controlled(slots[i])))update_surface_rotation(slots[i]);
  prepare_combat_poses(); /* All targets need current movement/rotation before any slot attacks. */
+ HostActor* lab_actor=hero();double lab_corners[8];if(lab_actor&&bor_corners(&lab_actor->a,false,lab_corners))bsl_lab_actor(lab_actor->lifetime,lab_corners);else bsl_lab_actor(0,NULL);bsl_lab_tick();
   for(int i=0;i<64;i++)if(slots[i]&&controlled(slots[i]))lock_update(slots[i],slots[i]->defense_held&&!bsl_host_input_locked(slots[i]->lifetime));
  for(int i=0;i<64;i++)if(slots[i]){
   advance_host(slots[i]);
@@ -911,7 +917,9 @@ static surgescript_var_t* controller_init(surgescript_object_t* obj,const surges
  h->reaction_tick=-1;h->tap_tick[0]=h->tap_tick[1]=-1000;h->entity=surgescript_objectmanager_get(surgescript_object_manager(obj),surgescript_object_parent(obj));
  surgescript_object_t* actor=surgescript_objectmanager_get(surgescript_object_manager(obj),surgescript_object_child(h->entity,"Actor"));h->visual=scripting_actor_ptr(actor);
  h->drive_input=input_create_computer();h->body=physicsactor_create(v2d_new(0,0));
- if(load_physics(&h->physics,h->a.model->name)<0){scripting_warning(obj,"Invalid BOR physics profile; controller not activated");input_destroy(h->drive_input);physicsactor_destroy(h->body);free(h);return NULL;}
+ int physics_result=load_physics(&h->physics,h->a.model->name);
+ if(physics_result<0){char message[256];snprintf(message,sizeof message,"Invalid physics profile for %s; controller not activated",h->a.model->name);scripting_warning(obj,"%s",message);bsl_shell_note("movement",message,2);input_destroy(h->drive_input);physicsactor_destroy(h->body);free(h);return NULL;}
+ if(physics_result==0&&bor_is_player(&h->a)){char message[256];snprintf(message,sizeof message,"Missing physics/%s.physics; player movement uses fallback",h->a.model->name);logfile_message("%s",message);scripting_warning(obj,"%s",message);bsl_shell_note("movement",message,1);}
  if(getenv("BOR_POC_TEST"))h->physics.enabled=false;
  apply_physics(h);
  slots[slot]=h;h->lifetime=++actor_lifetime;h->a.serial=slot;
@@ -1305,7 +1313,11 @@ extern void scripting_register_foundation(surgescript_vm_t* vm);
 static surgescript_var_t* bridge_ui_captures(surgescript_object_t* obj,const surgescript_var_t** p,int n){return surgescript_var_set_bool(surgescript_var_create(),bsl_host_captures_commands()||bsl_shell_keyboard());}
 extern void scripting_register_spatial_audio(surgescript_vm_t* vm);
 static surgescript_var_t* controller_hearing(surgescript_object_t* obj,const surgescript_var_t** p,int n){HostActor* h=surgescript_object_userdata(obj);if(h){h->listening=surgescript_var_get_bool(p[0]);h->hearing_threshold=fmax(.001,surgescript_var_get_number(p[1]));}return NULL;}
+#include "../physics_lab/prop_controller.inc"
 void scripting_register_bor(surgescript_vm_t* vm){
+ surgescript_vm_bind(vm,"BSLPhysicsPropController","state:main",controller_main,0);
+ surgescript_vm_bind(vm,"BSLPhysicsPropController","update",bsl_lab_prop_update,1);
+ surgescript_vm_bind(vm,"BSLPhysicsPropController","destructor",bsl_lab_prop_destroy,0);
  scripting_register_foundation(vm);scripting_register_spatial_audio(vm);register_impact_feed(vm);register_impact_audio_view(vm);
  surgescript_vm_bind(vm,"AudioDemoDoorView","state:main",controller_main,0);
  surgescript_vm_bind(vm,"AudioDemoDoorView","get_open",audio_door_view,0);

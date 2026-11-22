@@ -1,3 +1,4 @@
+#include "../labs/lab.h"
 extern "C" int bsl_shell_paint_action(void);
 extern "C" void bsl_shell_terrain_thumbs_clear();
 #include "../editor_shell/shell.h"
@@ -187,7 +188,9 @@ void trace(){
 #include "native_checks.inc"
 #include "level_journey.inc"
 }
-extern "C" void bsl_cell_end(){release(resources);textures.clear();cell_materials.clear();if(label){font_destroy(label);label=nullptr;}active=false;undo_stack.clear();redo_stack.clear();field={};loaded.clear();terrain_level.clear();terrain_scene.clear();material_path.clear();visual_dirty.clear();collision_dirty.clear();last_visual=0;drag=pending=dirty=false;keys.fill(false);previous_buttons=0;preview={};tools_visible=true;pointer_capture=false;bsl_shell_terrain_thumbs_clear();}
+#include "../physics_lab/contours.inc"
+#include "../physics_lab/live.inc"
+extern "C" void bsl_cell_end(){lab_end();release(resources);textures.clear();cell_materials.clear();if(label){font_destroy(label);label=nullptr;}active=false;undo_stack.clear();redo_stack.clear();field={};loaded.clear();terrain_level.clear();terrain_scene.clear();material_path.clear();visual_dirty.clear();collision_dirty.clear();last_visual=0;drag=pending=dirty=false;keys.fill(false);previous_buttons=0;preview={};tools_visible=true;pointer_capture=false;bsl_shell_terrain_thumbs_clear();}
 extern "C" void bsl_cell_begin(const char* level){
  bsl_cell_end();BslLevelTerrain attachment{};if(!level||!bsl_host_level_terrain(level,&attachment))return;
  terrain_level=attachment.id;terrain_scene=level;material_path=attachment.materials;
@@ -202,7 +205,11 @@ extern "C" int bsl_cell_world_height(){return active?8192:0;}
 extern "C" bool bsl_cell_painting(){return active&&tool;}
 extern "C" bool bsl_cell_tool(){return active&&tool;}
 extern "C" bool bsl_cell_actors_clear(void);
-extern "C" bool bsl_cell_leave(){if(!active)return true;commit();pending=false;try{rebuild(false);if(!bsl_cell_actors_clear()){message="Terrain overlaps an actor. Undo/erase the enclosing area before resuming.";return false;}return true;}catch(const std::exception& e){message=e.what();return false;}}
+extern "C" bool bsl_cell_leave(){lab_end();if(!active)return true;commit();pending=false;try{rebuild(false);if(!bsl_cell_actors_clear()){message="Terrain overlaps an actor. Undo/erase the enclosing area before resuming.";return false;}return true;}catch(const std::exception& e){message=e.what();return false;}}
+extern "C" bool bsl_cell_cancel_line(){
+ if(!active||!pending)return false;
+ pending=false;preview.valid=false;message="Line cancelled; terrain unchanged";return true;
+}
 extern "C" void bsl_cell_input(float px,float py,int grid,float screen_x,float screen_y){
  if(!active||std::getenv("BSL_CELL_UI_CAPTURE"))return;
  try{
@@ -212,7 +219,7 @@ extern "C" void bsl_cell_input(float px,float py,int grid,float screen_x,float s
   double x=std::clamp(double(px-origin),-double(cell::limit),double(cell::limit)),y=std::clamp(double(py-origin),-double(cell::limit),double(cell::limit));
   cursorx=px-origin;cursory=py-origin;
   int spacing=std::clamp(grid,8,128);brush=spacing; x=std::floor(x/spacing)*spacing+spacing*.5;y=std::floor(y/spacing)*spacing+spacing*.5;
-  bool left=mouse.buttons&1,right=(mouse.buttons&2)||(bsl_shell_paint_action()==1&&(mouse.buttons&1)),middle=mouse.buttons&4;shift=shift||bsl_shell_paint_action()==2;bool press=left&&!(previous_buttons&1);
+  bool left=mouse.buttons&1,right=(mouse.buttons&2)||(bsl_shell_paint_action()==1&&(mouse.buttons&1));shift=shift||bsl_shell_paint_action()==2;bool press=left&&!(previous_buttons&1);
   /* F1 is owned by the shared Help command. */
   bool over_tools=false;pointer_x=screen_x;pointer_y=screen_y;
   if(edge(ALLEGRO_KEY_ESCAPE)){pending=false;commit();}
@@ -224,7 +231,7 @@ extern "C" void bsl_cell_input(float px,float py,int grid,float screen_x,float s
   else if(edge(ALLEGRO_KEY_C))mode=(mode+1)%3;
   else if(edge(ALLEGRO_KEY_EQUALS)||edge(ALLEGRO_KEY_MINUS))curve=std::clamp(curve+(edge(ALLEGRO_KEY_EQUALS)?.1:-.1),0.,1.);
   else if(over_tools){}
-  else if(middle&&!(previous_buttons&4)){const auto* sampled=field.sample(px-origin,py-origin);if(sampled){commit();selected=sampled->id;pending=false;message="Sampled material, overrides, shape association, preset, blend and route";}}
+  else if(right&&pending){bsl_cell_cancel_line();}
   else if(!ctrl&&shift&&press){
    commit();if(!pending){ax=x;ay=y;pending=true;message="Click line endpoint; Esc cancels";}
    else {start_edit();stroke(ax,ay,x,y,false,mode);commit();pending=false;rebuild(false);}
@@ -270,4 +277,4 @@ extern "C" void bsl_cell_overlay(float cx,float cy){
 
 #include "../editor_shell/terrain_adapter.inc"
 
-extern "C" bool bsl_shell_physics_body(const char*){return false;}
+extern "C" bool bsl_shell_physics_body(const char* placement){uint64_t id=0;return lab.factory&&bsl_object_factory_lookup(lab.factory,placement,&id);}

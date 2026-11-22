@@ -1,0 +1,13 @@
+sprite "BSL Physics Ball"
+{
+ source_file "images/physics-lab/ball.png"
+ source_rect 0 0 16 16
+ frame_size 16 16
+ hot_spot 8 8
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}

@@ -8,13 +8,17 @@ extern "C" {
 #endif
 union ALLEGRO_EVENT;
 typedef struct BslShellState {
- bool editing,terrain,terrain_dirty,placements_dirty,readonly;
+ bool editing,terrain,terrain_dirty,placements_dirty,readonly,presentation;
+ int ready_kind,ready_index;
  int tool,grid,paint_action,brightness,selected_shape,preset,mode,blend_cells,material,materials;
  bool blend;
- float curve,x,y,selected_x,selected_y;
+ float curve,x,y,selected_x,selected_y,zoom;
  uint64_t selection;
  char level[512],name[256],message[512];
 } BslShellState;
+typedef struct BslShellDrop {int kind,index;float x,y;} BslShellDrop;
+void bsl_shell_request_drop(int kind,int index,float x,float y);
+bool bsl_shell_drop_payload(BslShellDrop*);
 typedef struct BslShellField {int index;bool boolean,overridden,live_available;double value,effective,minimum,maximum,step;char name[96];} BslShellField;
 void bsl_cell_editor_open(void);
 void bsl_shell_event(union ALLEGRO_EVENT*);
@@ -25,6 +29,8 @@ uint64_t bsl_shell_command_target(void);
 void bsl_shell_shutdown(void);
 bool bsl_shell_present(void);
 bool bsl_shell_block_editor(void);
+bool bsl_shell_navigation_keyboard(void);
+bool bsl_shell_view_fixture(void);
 bool bsl_shell_keyboard(void);
 void bsl_shell_note(const char* category,const char* message,int severity);
 void bsl_shell_status(const char* category,const char* text);

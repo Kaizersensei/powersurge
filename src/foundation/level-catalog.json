@@ -146,6 +146,33 @@
         },
         "terrain": null
       }
+    },
+    {
+      "version": 1,
+      "kind": "level",
+      "id": "level:physics-lab",
+      "scene": "levels/physics-lab.lev",
+      "parent": "",
+      "name": "Physics Objects Laboratory",
+      "location": {
+        "country": "Terrain Lab",
+        "locality": "Physics Objects Laboratory"
+      },
+      "properties": {
+        "editable": true,
+        "weather": {
+          "region": "",
+          "hemisphere": "inherit",
+          "indoor": false,
+          "preset": "",
+          "wind_factor": 1,
+          "precipitation_factor": 1
+        },
+        "terrain": {
+          "document": "terrain/physics-lab.json",
+          "materials": "terrain/cell-materials.json"
+        }
+      }
     }
   ]
 }

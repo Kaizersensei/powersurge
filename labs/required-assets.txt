@@ -1,0 +1,14 @@
+# Native scene dependencies include paths not declared by authored level files.
+# Signed: President.
+musics/options.ogg
+fonts/editor.fnt
+fonts/menu.fnt
+sprites/ui/pointer.spr
+themes/scenes/levelselect.bg
+images/bsl-grid.png
+quests/stage_select.qst
+quests/initial.qst
+physics/michio_sword.physics
+presentation/presentation.ini
+videos/presentation/loading-start.ogv
+videos/presentation/loading-loop.ogv

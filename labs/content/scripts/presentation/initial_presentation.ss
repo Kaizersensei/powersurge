@@ -205,6 +205,7 @@ object "BSL C2 Main Menu" is "setup", "entity", "detached", "awake", "private"
     moveSound=Sound(layout["audio"]["move"]["path"]);
     acceptSound=Sound(layout["audio"]["accept"]["path"]);
     backSound=Sound(layout["audio"]["back"]["path"]);
+    visuals=[];
     labels=[];
     hint=null;
     selected=0;
@@ -212,8 +213,8 @@ object "BSL C2 Main Menu" is "setup", "entity", "detached", "awake", "private"
     state "main"
     {
         if(gate) { if(!input.held()) gate=false; }
-        else if(input.previous()) { selected=(selected+labels.length-1)%labels.length; moveSound.play(); refresh(); }
-        else if(input.next()) { selected=(selected+1)%labels.length; moveSound.play(); refresh(); }
+        else if(input.previous()) moveSelection(-1);
+        else if(input.next()) moveSelection(1);
         else if(input.cancel()) { backSound.play(); Level.next=cfg["title_sequence_index"]; Level.loadNext(); state="out"; }
         else if(input.accept()) activate();
     }
@@ -221,17 +222,23 @@ object "BSL C2 Main Menu" is "setup", "entity", "detached", "awake", "private"
     fun constructor()
     {
         Console.print("BSL presentation: main menu");
-        spawn("BSL Presentation Sprite").initialize(layout["assets"]["background"],cfg["background_rect"],cfg["canvas"],0);
-        spawn("BSL Presentation Sprite").initialize(layout["assets"]["portrait"],cfg["portrait_rect"],cfg["canvas"],0.1);
-        spawn("BSL Presentation Sprite").initialize(layout["assets"]["shuriken"],cfg["shuriken_rect"],cfg["canvas"],0.3);
-        spawn("BSL Presentation Sprite").initialize(layout["assets"]["sword"],cfg["sword_rect"],cfg["canvas"],0.4);
-        spawn("BSL Presentation Sprite").initialize(layout["assets"]["wordmark"],cfg["title_rect"],cfg["canvas"],0.5);
+        visuals.push(spawn("BSL Presentation Sprite").initialize(layout["assets"]["background"],cfg["background_rect"],cfg["canvas"],0));
+        visuals.push(spawn("BSL Presentation Sprite").initialize(layout["assets"]["portrait"],cfg["portrait_rect"],cfg["canvas"],0.1));
+        visuals.push(spawn("BSL Presentation Sprite").initialize(layout["assets"]["shuriken"],cfg["shuriken_rect"],cfg["canvas"],0.3));
+        visuals.push(spawn("BSL Presentation Sprite").initialize(layout["assets"]["sword"],cfg["sword_rect"],cfg["canvas"],0.4));
+        visuals.push(spawn("BSL Presentation Sprite").initialize(layout["assets"]["wordmark"],cfg["title_rect"],cfg["canvas"],0.5));
         for(i=0;i<cfg["options"].length;i++) {
             rect=[cfg["first_option"][0],cfg["first_option"][1]+i*cfg["spacing"],cfg["label_width"],cfg["spacing"]];
             labels.push(spawn("BSL Presentation Text").initialize(layout["font"],"menu",rect,cfg["canvas"],""));
         }
         hint=spawn("BSL Presentation Text").initialize(layout["font"],"hint",cfg["hint_rect"],cfg["canvas"],"");
         refresh();
+    }
+    fun moveSelection(direction)
+    {
+        if(labels.length==0) return -1;
+        selected=(selected+direction+labels.length)%labels.length;
+        moveSound.play(); refresh(); return selected;
     }
     fun refresh()
     {

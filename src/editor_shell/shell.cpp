@@ -37,8 +37,8 @@ extern "C" {
 #include <windows.h>
 #endif
 namespace {
-struct Command {std::string id;double value;uint64_t target;};
-uint64_t command_target=0;
+struct Command {std::string id;double value;uint64_t target;BslShellDrop drop{};};
+uint64_t command_target=0;BslShellDrop command_drop{};bool command_has_drop=false;
 struct Message {std::string category,text;int severity,count=1;double time;};
 struct Region {float x,y,w,h;bool hit(float a,float b)const{return a>=x&&b>=y&&a<x+w&&b<y+h;}};
 std::deque<Command> commands;std::deque<Message> log;
@@ -58,8 +58,16 @@ float width=0,height=0,top=0,bottom=0,progress=0,scale=1,slide=.18f,base_size=24
 bool reduced=false;
 char search[128]="",log_search[128]="";
 uint64_t previous_selection=0;int previous_shape=0;
-std::string settings_path,last_note="Ready",intent;
+std::string settings_path,last_note="Ready",intent,lab_intent;
+bool lab_modal=false,save_and_lab=false;
 BslShellState state{};
+bool view_keys=false,view_middle=false,view_dragging=false,view_sample=false;
+float view_start_x=0,view_start_y=0,view_last_x=0,view_last_y=0;
+bool palette_active=false,palette_released=false;
+BslShellDrop palette_pending{};
+ImVec2 test_palette_row{};bool test_palette_visible=false;
+bool view_canvas(float x,float y);
+
 
 std::string raw_file(const char* name,bool& okay){
  okay=false;if(!name||!*name)return {};
@@ -69,6 +77,7 @@ std::string raw_file(const char* name,bool& okay){
  al_fclose(f);return bytes;
 }
 bool hit(float x,float y){for(const auto& r:regions)if(r.hit(x,y))return true;return false;}
+bool view_canvas(float x,float y){return x>=0&&y>=top&&x<width&&y<height-bottom&&!hit(x,y);}
 bool contains(const char* value,const char* query){
  std::string a=value,b=query;for(auto& c:a)c=char(std::tolower((unsigned char)c));for(auto& c:b)c=char(std::tolower((unsigned char)c));return a.find(b)!=std::string::npos;
 }
@@ -158,6 +167,12 @@ void menu(){
   ImGui::EndMenu();
  }
  if(ImGui::BeginMenu("View")){
+  menu_item("Reset editor zoom (100%)",nullptr,"view.reset");
+  if(ImGui::BeginMenu("Editor zoom")){
+   for(float zoom:{.2f,.5f,1.f,2.f,5.f,10.f}){char label[32];snprintf(label,sizeof label,"%.0f%%",zoom*100);menu_item(label,nullptr,"view.set",zoom);}
+   ImGui::EndMenu();
+  }
+  ImGui::Separator();
   if(ImGui::MenuItem("Right drawer",nullptr,drawer)){drawer=!drawer;user_hidden=!drawer;}
   ImGui::MenuItem("Diagnostic log","F8",&log_open);ImGui::MenuItem("Live diagnostics",nullptr,&details);
   if(ImGui::BeginMenu("Collision overlays")){
@@ -170,9 +185,12 @@ void menu(){
  }
  if(ImGui::BeginMenu("Test")){
   if(ImGui::MenuItem("Resume gameplay","F12"))submit("resume");
-  if(ImGui::BeginMenu("Laboratories (new instance)")){
-   if(ImGui::MenuItem("Terrain / editor")) {if(!ps_lab_spawn("terrain"))bsl_shell_note("lab","Cannot start terrain laboratory",2);}
-   if(ImGui::MenuItem("Connected terrain journey")){if(!ps_lab_spawn("terrain-journey"))bsl_shell_note("lab","Cannot start journey laboratory",2);}
+  if(ImGui::BeginMenu("Laboratories")){
+   if(ImGui::MenuItem("Terrain / editor")){lab_intent="terrain";lab_modal=true;}
+   if(ImGui::MenuItem("Physics objects")){lab_intent="physics";lab_modal=true;}
+   if(ImGui::MenuItem("Connected terrain journey")){lab_intent="terrain-journey";lab_modal=true;}
+   if(ImGui::MenuItem("Editor interaction checks")){lab_intent="editor-contract";lab_modal=true;}
+   if(ImGui::MenuItem("Menu artwork checks")){lab_intent="presentation-menu-check";lab_modal=true;}
    ImGui::EndMenu();
   }ImGui::EndMenu();
  }
@@ -202,32 +220,58 @@ void toolbar(){
   if(width>1200*scale){ImGui::SameLine();command_button("New shape","terrain.new_shape");}
  }
  if(width>1100*scale)ImGui::TextDisabled("Tool: %s",state.tool==0?"Select / Inspect":state.tool==1?"Terrain (Shift + two clicks: line)":state.tool==2?"Objects":state.tool==3?"Events":"Decoration");
+ if(state.ready_kind>=0&&state.ready_index>=0)ImGui::TextWrapped("Ready: %s",bsl_shell_palette_name(state.ready_kind,state.ready_index));
  float total=ImGui::GetWindowPos().y+ImGui::GetWindowHeight();regions.push_back({0,0,width,total});top=total;
  ImGui::End();
 }
+void palette_choice(int kind,int index){
+ submit(kind==0?"palette.entity":kind==1?"palette.brick":"terrain.material",index);
+ if(kind==2)submit("tool",1);
+ note("placement",kind==2?"Material selected. Drag onto a terrain shape to assign it.":"Ready for placement. Click the level or drag this entry into it.",0);
+}
 void palette(){
+ test_palette_visible=false;
  const char* kinds[]={"Entities","Decoration / bricks","Materials"};
  ImGui::TextUnformatted("Category");ImGui::SetNextItemWidth(-1);if(ImGui::Combo("##category",&palette_kind,kinds,3))search[0]=0;
  ImGui::SetNextItemWidth(-1);ImGui::InputTextWithHint("##search","Search palette",search,sizeof search);
+ ImGui::TextWrapped(palette_kind==2?"Select a material; drag onto terrain to assign it.":"Click to prepare placement. Drag an entry into the level to place it.");
  int count=bsl_shell_palette_count(palette_kind);ImGui::TextDisabled("%d entries",count);
  ImGui::BeginChild("entries",ImVec2(0,0),ImGuiChildFlags_None);
  for(int i=0;i<count;i++){
   const char* name=bsl_shell_palette_name(palette_kind,i);if(!contains(name,search))continue;ImGui::PushID(i);
   auto* bitmap=(ALLEGRO_BITMAP*)bsl_shell_palette_image(palette_kind,i);
-  if(bitmap){float side=44*scale;ImGui::Image((ImTextureID)(intptr_t)bitmap,ImVec2(side,side));ImGui::SameLine();}
-  float text_width=std::max(1.f,ImGui::GetContentRegionAvail().x);
-  ImVec2 size=ImGui::CalcTextSize(name,nullptr,false,text_width);
-  ImVec2 label_at=ImGui::GetCursorScreenPos();
-  if(ImGui::Selectable("##entry",false,ImGuiSelectableFlags_None,ImVec2(0,std::max(size.y,44*scale)))){
-   submit(palette_kind==0?"palette.entity":palette_kind==1?"palette.brick":"terrain.material",i);
-   if(palette_kind==2){submit("tool",1);tab=1;}
+  float side=44*scale,gap=bitmap?side+ImGui::GetStyle().ItemSpacing.x:0;
+  float row_width=ImGui::GetContentRegionAvail().x,text_width=std::max(1.f,row_width-gap);
+  ImVec2 size=ImGui::CalcTextSize(name,nullptr,false,text_width);ImVec2 start=ImGui::GetCursorScreenPos();
+  bool selected=palette_kind==2?state.material==i:state.ready_kind==palette_kind&&state.ready_index==i;
+  if(ImGui::Selectable("##entry",selected,palette_kind==2?ImGuiSelectableFlags_None:ImGuiSelectableFlags_SelectOnClick,ImVec2(0,std::max(size.y,side))))palette_choice(palette_kind,i);
+  if(!strcmp(name,"BOR Pole")&&ImGui::IsItemVisible()){test_palette_row=ImVec2(start.x+10,start.y+side*.5f);test_palette_visible=true;}
+  if(ImGui::BeginDragDropSource()){
+   BslShellDrop payload{palette_kind,i,0,0};palette_pending=payload;palette_active=true;ImGui::SetDragDropPayload("PS_PALETTE",&payload,sizeof payload);
+   ImGui::TextUnformatted(name);ImGui::TextUnformatted("Release over the level; Esc cancels");ImGui::EndDragDropSource();
   }
   if(ImGui::IsItemHovered())ImGui::SetTooltip("%s",name);
-  ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(),ImGui::GetFontSize(),label_at,ImGui::GetColorU32(ImGuiCol_Text),name,nullptr,text_width);
+  auto* draw=ImGui::GetWindowDrawList();if(bitmap)draw->AddImage((ImTextureID)(intptr_t)bitmap,start,ImVec2(start.x+side,start.y+side));
+  draw->AddText(ImGui::GetFont(),ImGui::GetFontSize(),ImVec2(start.x+gap,start.y),ImGui::GetColorU32(ImGuiCol_Text),name,nullptr,text_width);
   ImGui::PopID();
  }
  ImGui::EndChild();
 }
+void palette_drag(){
+ if(!palette_active)return;
+ auto mouse=ImGui::GetIO().MousePos;
+ if(!editing||!focus||ImGui::IsKeyPressed(ImGuiKey_Escape,false)){
+  palette_active=palette_released=false;ImGui::ClearDragDrop();note("placement","Placement cancelled.",0);return;
+ }
+ if(palette_released||ImGui::IsMouseReleased(ImGuiMouseButton_Left)){
+  auto drop=palette_pending;palette_active=palette_released=false;
+  if(view_canvas(mouse.x,mouse.y)&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&!state.readonly)
+   bsl_shell_request_drop(drop.kind,drop.index,mouse.x,mouse.y);
+  else note("placement","Drop cancelled: release over the level canvas.",0);
+  ImGui::ClearDragDrop();release_block=true;wait_release=true;
+ }
+}
+
 void properties(){
  if(*state.name){
   ImGui::TextWrapped("%s",state.name);ImGui::TextDisabled("Placement %llx",(unsigned long long)state.selection);
@@ -298,7 +342,7 @@ void status_bar(){
  ImGui::Begin("##status",nullptr,ImGuiWindowFlags_NoDecoration|ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NoScrollbar);
  if(ImGui::SmallButton(log_open?"Log v":"Log ^"))log_open=!log_open;
  ImGui::SameLine();ImGui::Text("%s%s%s",editing?"EDIT":"PLAY",state.terrain_dirty?" terrain*":"",state.placements_dirty?" placements*":"");
- if(width>1100*scale){ImGui::SameLine();ImGui::Text("| %.2f, %.2f m | grid %d",state.x,state.y,state.grid);}
+ if(width>1100*scale){ImGui::SameLine();ImGui::Text("| %.2f, %.2f m | grid %d | zoom %.0f%%",state.x,state.y,state.grid,state.zoom*100);}
  ImGui::SameLine();ImGui::TextColored(last_severity==2?ImVec4(1,.45f,.4f,1):ImVec4(.8f,.87f,.9f,1),"%s",last_note.c_str());if(ImGui::IsItemHovered())ImGui::SetTooltip("%s",last_note.c_str());
  ImGui::End();regions.push_back({0,height-row,width,row});
  if(log_open){
@@ -313,9 +357,22 @@ void status_bar(){
  }
 }
 void dialogs(){
+ if(lab_modal){ImGui::OpenPopup("Replace current level?");lab_modal=false;}
+ if(ImGui::BeginPopupModal("Replace current level?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)){
+  ImGui::TextWrapped("Starting this laboratory replaces the current level in this instance and starts a disposable gameplay session.");
+  if(state.terrain_dirty||state.placements_dirty){
+   ImGui::TextWrapped("The current level has unsaved edits. Saved test workspaces will be retained when changing labs.");
+   if(ImGui::Button("Save and start lab")){submit("save");save_and_lab=true;ImGui::CloseCurrentPopup();}
+   ImGui::SameLine();
+   if(ImGui::Button("Discard edits and start")){submit(("lab."+lab_intent).c_str());ImGui::CloseCurrentPopup();}
+  }else if(ImGui::Button("Replace level and start")){submit(("lab."+lab_intent).c_str());ImGui::CloseCurrentPopup();}
+  ImGui::SameLine();if(ImGui::Button("Cancel")){lab_intent.clear();save_and_lab=false;ImGui::CloseCurrentPopup();}
+  ImGui::EndPopup();
+ }
+
  if(help){ImGui::SetNextWindowSize(ImVec2(std::min(width,700*scale),0),ImGuiCond_Appearing);ImGui::Begin("Editor controls",&help);
   ImGui::TextWrapped("Choose Select / Inspect, Terrain or Objects from the tool row. Select mode never paints. Palette searches placeable runtime objects; Properties edits supported fields.");
-  ImGui::TextWrapped("Terrain: drag to paint; right drag erases; Shift + two clicks draws a line; middle click samples a shape. G changes the grid/brush. Escape cancels a pending line.");
+  ImGui::TextWrapped("Terrain: drag to paint; right drag erases; Shift + two clicks draws a line. Esc or right click cancels its first point. Middle click samples the active tool; middle drag pans. Ctrl + wheel zooms this editor view (20%-1000%); View resets zoom. G changes the grid/brush.");
   ImGui::TextWrapped("Ctrl+S saves terrain and placements. Ctrl+Z/Y undo/redo the active document. F12 resumes play. F6 is an optional Terrain/Objects shortcut. F8 toggles the diagnostic log.");
   auto hp=ImGui::GetWindowPos(),hs=ImGui::GetWindowSize();regions.push_back({hp.x,hp.y,hs.x,hs.y});ImGui::End();
  }
@@ -337,18 +394,44 @@ extern "C" bool bsl_shell_present(){return ready;}
 extern "C" void bsl_shell_status(const char* category,const char* text){if(text)statuses[category]=std::string(text).substr(0,16384);}
 extern "C" void bsl_shell_note(const char* category,const char* text,int severity){note(category,text,severity);}
 extern "C" void bsl_shell_submit(const char* id,double value){submit(id,value);}
-extern "C" bool bsl_shell_pop(char* id,int capacity,double* value){if(commands.empty())return false;auto at=std::find_if(commands.begin(),commands.end(),[](const Command& c){return c.id.rfind("field.",0)==0||c.id.rfind("reset.",0)==0;});if(at==commands.end())at=commands.begin();auto c=*at;commands.erase(at);snprintf(id,capacity,"%s",c.id.c_str());*value=c.value;command_target=c.target;return true;}
+extern "C" bool bsl_shell_pop(char* id,int capacity,double* value){if(commands.empty())return false;auto at=std::find_if(commands.begin(),commands.end(),[](const Command& c){return c.id.rfind("field.",0)==0||c.id.rfind("reset.",0)==0;});if(at==commands.end())at=commands.begin();auto c=*at;commands.erase(at);snprintf(id,capacity,"%s",c.id.c_str());*value=c.value;command_target=c.target;command_drop=c.drop;command_has_drop=c.id=="palette.drop"||c.id=="view.sample";return true;}
+extern "C" void bsl_shell_request_drop(int kind,int index,float x,float y){commands.push_back({"palette.drop",double(index),state.selection,{kind,index,x,y}});}
+extern "C" bool bsl_shell_drop_payload(BslShellDrop* out){if(!command_has_drop||!out)return false;*out=command_drop;return true;}
 extern "C" uint64_t bsl_shell_command_target(){return command_target;}
-extern "C" void bsl_shell_detach(){visible=false;commands.clear();previous_selection=0;previous_shape=0;previous_tool=-1;editing=was_editing=false;regions.clear();}
+extern "C" void bsl_shell_detach(){visible=false;commands.clear();previous_selection=0;previous_shape=0;previous_tool=-1;editing=was_editing=false;view_middle=view_dragging=palette_active=palette_released=false;view_keys=false;regions.clear();}
 extern "C" bool bsl_shell_keyboard(){if(ps_lab_automatic())return true;if(!ready||!visible)return false;if(std::getenv("BSL_SHELL_CHECK")&&!editing)return true;return editing?(keyboard||handled||blocked):game_ui_capture;}
-extern "C" bool bsl_shell_block_editor(){return blocked||handled;}
+extern "C" bool bsl_shell_block_editor(){return blocked||handled||view_middle;}
+extern "C" bool bsl_shell_navigation_keyboard(){return view_keys;}
 extern "C" bool bsl_shell_file_capture(const char* path){bool ok;auto bytes=raw_file(path,ok);if(ok)baselines[path]=std::move(bytes);return ok;}
 extern "C" bool bsl_shell_file_unchanged(const char* path){bool ok;auto bytes=raw_file(path,ok);auto found=baselines.find(path);return ok&&found!=baselines.end()&&found->second==bytes;}
 extern "C" void bsl_shell_event(ALLEGRO_EVENT* e){
  if(!ready)return;
  if(std::getenv("BSL_SHELL_CHECK")&&!test_injecting&&(e->type>=ALLEGRO_EVENT_JOYSTICK_AXIS&&e->type<=ALLEGRO_EVENT_MOUSE_WARPED))return;
  ImGui_ImplAllegro5_ProcessEvent(e);
- if(e->type==ALLEGRO_EVENT_DISPLAY_SWITCH_OUT){focus=false;wait_release=true;submit("cancel");for(auto& o:owner)o=0;}
+ if(editing&&focus){
+  const bool popup=ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId);
+  if(e->type==ALLEGRO_EVENT_MOUSE_BUTTON_DOWN&&e->mouse.button==3&&!popup){
+   view_middle=true;view_dragging=false;view_sample=view_canvas(e->mouse.x,e->mouse.y);
+   view_start_x=view_last_x=e->mouse.x;view_start_y=view_last_y=e->mouse.y;
+  }
+  if(e->type==ALLEGRO_EVENT_MOUSE_AXES&&view_middle){
+   float x=e->mouse.x,y=e->mouse.y;
+   if(!view_dragging&&std::hypot(x-view_start_x,y-view_start_y)>=6){view_dragging=true;submit("cancel");}
+   if(view_dragging){submit("view.pan_x",x-view_last_x);submit("view.pan_y",y-view_last_y);}
+   view_last_x=x;view_last_y=y;
+  }
+  if(e->type==ALLEGRO_EVENT_MOUSE_BUTTON_UP&&e->mouse.button==3&&view_middle){
+   if(!view_dragging&&view_sample&&view_canvas(e->mouse.x,e->mouse.y))commands.push_back({"view.sample",0,state.selection,{-1,0,view_start_x,view_start_y}});
+   view_middle=view_dragging=false;release_block=true;
+  }
+  if(e->type==ALLEGRO_EVENT_MOUSE_AXES&&e->mouse.dz&&!popup&&view_canvas(e->mouse.x,e->mouse.y)){
+   ALLEGRO_KEYBOARD_STATE keys;al_get_keyboard_state(&keys);
+   if(al_key_down(&keys,ALLEGRO_KEY_LCTRL)||al_key_down(&keys,ALLEGRO_KEY_RCTRL))submit("view.zoom",e->mouse.dz);
+  }
+  if(e->type==ALLEGRO_EVENT_MOUSE_BUTTON_UP&&e->mouse.button==1&&palette_active)palette_released=true;
+ }
+
+ if(e->type==ALLEGRO_EVENT_DISPLAY_SWITCH_OUT){view_middle=view_dragging=palette_active=palette_released=false;focus=false;wait_release=true;submit("cancel");for(auto& o:owner)o=0;}
  if(e->type==ALLEGRO_EVENT_DISPLAY_SWITCH_IN)focus=true;
  if(e->type==ALLEGRO_EVENT_MOUSE_BUTTON_DOWN&&e->mouse.button<8)owner[e->mouse.button]=visible&&(hit(e->mouse.x,e->mouse.y)||ImGui::GetIO().WantCaptureMouse)?1:2;
  if(e->type==ALLEGRO_EVENT_MOUSE_BUTTON_UP&&e->mouse.button<8){if(owner[e->mouse.button]==1)release_block=true;owner[e->mouse.button]=0;}
@@ -368,7 +451,7 @@ extern "C" void bsl_shell_settings_save(){
 extern "C" void bsl_shell_tick(bool is_level){
  scene_level=is_level;if(!scene_level){visible=false;commands.clear();return;}
  if(!ready)init();if(!ready)return;
- bsl_shell_snapshot(&state);editing=state.editing;
+ bsl_shell_snapshot(&state);editing=state.editing;if(state.presentation&&!editing){visible=false;return;}
  static std::string terrain_notice;
  if(state.terrain&&*state.message&&terrain_notice!=state.message){terrain_notice=state.message;if(terrain_notice.rfind("F12 edits",0)!=0)note("terrain",state.message,terrain_notice.find("refus")!=std::string::npos||terrain_notice.find("failed")!=std::string::npos||terrain_notice.find("overlaps")!=std::string::npos?2:0);}visible=true;handled=false;
  if(editing&&!was_editing){tool=0;tab=1;submit("tool",0);}
@@ -379,7 +462,7 @@ extern "C" void bsl_shell_tick(bool is_level){
  width=io.DisplaySize.x;height=io.DisplaySize.y;regions.clear();
  keyboard=io.WantCaptureKeyboard;ALLEGRO_MOUSE_STATE mouse;al_get_mouse_state(&mouse);
  ALLEGRO_KEYBOARD_STATE held_keys;al_get_keyboard_state(&held_keys);bool held_key=false;for(int k=1;k<ALLEGRO_KEY_MAX;k++)held_key|=al_key_down(&held_keys,k);
- if((keyboard||io.WantTextInput)&&held_key)wait_release=true;
+ if(io.WantTextInput&&held_key)wait_release=true;
  if(wait_release&&mouse.buttons==0&&!held_key){wait_release=false;release_block=true;}
  if(editing){
   if(!user_hidden&&((state.selection&&state.selection!=previous_selection)||state.selected_shape!=previous_shape)){drawer=true;tab=1;}
@@ -388,8 +471,10 @@ extern "C" void bsl_shell_tick(bool is_level){
   menu();toolbar();
  }
  status_bar();if(editing)right_drawer(std::min(.1f,io.DeltaTime));dialogs();
+ view_keys=editing&&focus&&!io.WantTextInput&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&!help&&!details&&!ImGui::IsAnyItemActive();
  if(editing&&!io.WantTextInput&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)){
-  if(ImGui::IsKeyPressed(ImGuiKey_F12,false)){submit("resume");handled=true;}
+  if(!help&&!details&&(ImGui::IsKeyPressed(ImGuiKey_Escape,false)||(view_canvas(io.MousePos.x,io.MousePos.y)&&ImGui::IsMouseClicked(ImGuiMouseButton_Right)))&&bsl_cell_cancel_line()){handled=true;wait_release=true;}
+  if(!handled&&ImGui::IsKeyPressed(ImGuiKey_F12,false)){submit("resume");handled=true;}
   if(!io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_F6,false)){submit("tool",state.tool==1?2:1);handled=true;}
   const ImGuiKey overlays[]={ImGuiKey_F3,ImGuiKey_F4,ImGuiKey_F5,ImGuiKey_None,ImGuiKey_F2,ImGuiKey_F7};for(int i=0;i<6;i++)if(i!=3&&ImGui::IsKeyPressed(overlays[i],false)){bsl_shell_debug_set(bsl_shell_debug_get()^(1u<<i));handled=true;}
   if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_F6,false)){bsl_shell_debug_set(bsl_shell_debug_get()^8u);handled=true;}
@@ -408,11 +493,17 @@ extern "C" void bsl_shell_tick(bool is_level){
  }
  if(!io.WantTextInput&&ImGui::IsKeyPressed(ImGuiKey_Escape,false)&&(help||details)){help=details=false;handled=true;wait_release=true;}
  if(!io.WantTextInput&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&ImGui::IsKeyPressed(ImGuiKey_F8,false)){log_open=!log_open;handled=true;}
+ if(editing)palette_drag();
+ if(editing&&view_canvas(mouse.x,mouse.y)&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&!palette_active&&
+    (ImGui::IsMouseClicked(ImGuiMouseButton_Left)||ImGui::IsMouseClicked(ImGuiMouseButton_Middle))){
+  ImGui::ClearActiveID();ImGui::SetWindowFocus(nullptr);keyboard=false;
+ }
  bool world=false,ui=false;for(int o:owner){world|=o==2;ui|=o==1;}
- if(world&&hit(mouse.x,mouse.y)&&mouse.buttons){submit("cancel");wait_release=true;}
- blocked=!focus||wait_release||release_block||ui||(!world&&(hit(mouse.x,mouse.y)||io.WantCaptureMouse||keyboard));
+ if(world&&hit(mouse.x,mouse.y)&&(mouse.buttons&3)&&!view_middle){submit("cancel");wait_release=true;}
+ blocked=!focus||wait_release||release_block||ui||(!world&&(hit(mouse.x,mouse.y)||io.WantCaptureMouse));
  game_ui_capture=keyboard||handled||ui||release_block||wait_release||!focus;
  release_block=false;
+ if(save_and_lab){if(!state.terrain_dirty&&!state.placements_dirty){submit(("lab."+lab_intent).c_str());save_and_lab=false;}else if(commands.empty()){save_and_lab=false;note("save","Lab was not started: some edits could not be saved.",2);}}
  if(save_and_resume||save_and_reload){if(!state.terrain_dirty&&!state.placements_dirty){submit(save_and_reload?"reload":"resume");save_and_resume=save_and_reload=false;}else if(commands.empty()){save_and_resume=save_and_reload=false;note("save","Save incomplete; remaining edits are retained.",2);}}
  ImGui::Render();test_tick();
 }
@@ -425,10 +516,21 @@ extern "C" void bsl_shell_render(){
 }
 extern "C" void bsl_shell_shutdown(){if(!ready)return;bsl_shell_settings_save();bsl_shell_terrain_thumbs_collect();ImGui_ImplAllegro5_Shutdown();ImGui::DestroyContext();ready=false;}
 namespace {
+void test_pointer(int type,float x,float y,int button=0){
+ test_injecting=true;ALLEGRO_EVENT event{};event.type=type;event.mouse.display=al_get_current_display();event.mouse.x=(int)x;event.mouse.y=(int)y;event.mouse.button=button;bsl_shell_event(&event);test_injecting=false;
+}
+void test_view_capture(const char* report,const char* suffix){
+ auto* shot=video_take_snapshot();if(!shot)throw std::runtime_error("View capture failed");
+ auto* previous=al_get_new_file_interface();al_set_standard_file_interface();
+ bool saved=al_save_bitmap((std::string(report)+suffix).c_str(),IMAGE2BITMAP(shot));
+ al_set_new_file_interface(previous);image_destroy(shot);if(!saved)throw std::runtime_error("View capture write failed");
+}
 void test_tick(){
  const char* report=std::getenv("BSL_SHELL_CHECK");if(!report)return;
- static int step=0,frames=0,checks=0;static bool done=false;
+ static int step=0,frames=0,checks=0,drag_phase=0;static bool done=false;
  static bool passed=true;static std::string error;static int old_material=0;
+ static unsigned long long generation=0;
+ if(generation!=ps_lab_generation()){generation=ps_lab_generation();step=frames=checks=drag_phase=0;done=false;passed=true;error.clear();old_material=0;}
  if(done)return;++frames;
  {std::ofstream trace(std::filesystem::u8path(std::string(report)+".progress"));trace<<step<<" "<<state.tool<<" "<<state.material<<" "<<state.terrain_dirty<<" "<<state.placements_dirty;}
 
@@ -448,23 +550,45 @@ void test_tick(){
    old_material=state.material;submit("tool",1);step++;frames=0;
   }else if(step==2&&frames>8){
    check(state.tool==1,"terrain menu did not activate tool");
+   check(bsl_shell_view_fixture(),"editor zoom limits/inverse mapping/anchor/pan changed gameplay camera");
    check(bsl_shell_terrain_preview_fixture(),"toolbar preview did not refresh without painting/uploading");
+   submit("view.set",.2);
    submit("terrain.mode_set",2);submit("terrain.curve",.7);submit("grid",16);
    submit("terrain.material",(old_material+1)%state.materials);step++;frames=0;
   }else if(step==3&&frames>8){
+   check(std::abs(state.zoom-.2f)<.001,"wide editor zoom not applied");test_view_capture(report,".wide.png");submit("view.set",10);
    check(state.mode==2&&std::abs(state.curve-.7)<.01,"line controls did not reach terrain");
    check(state.grid==16,"brush/grid command failed");check(state.material!=old_material,"material selection failed");
    check(state.terrain_dirty,"authoring edit did not mark terrain dirty");submit("undo");step++;frames=0;
   }else if(step==4&&frames>8){
+   check(std::abs(state.zoom-10)<.001,"close editor zoom not applied");test_view_capture(report,".close.png");submit("view.reset");
    check(state.material==old_material,"contextual terrain undo failed");submit("redo");step++;frames=0;
   }else if(step==5&&frames>8){
    check(state.material!=old_material,"contextual terrain redo failed");
    submit("terrain.material",old_material);submit("tool",2);step++;frames=0;
   }else if(step==6&&frames>8){
    check(state.tool==2,"Objects command did not leave terrain");
-   submit("tool",0);step++;frames=0;
+   int index=-1;for(int i=0;i<bsl_shell_palette_count(0);++i)if(!strcmp(bsl_shell_palette_name(0,i),"BOR Pole")){index=i;break;}
+   check(index>=0,"drop fixture palette entry missing");
+   if(drag_phase==0){
+    check(bsl_shell_native_fixture(6),"cannot record pre-drop count");
+    strcpy(search,"BOR Pole");drawer=true;user_hidden=false;tab=0;drag_phase++;frames=0;
+   }else if(drag_phase==1&&test_palette_visible){
+    test_pointer(ALLEGRO_EVENT_MOUSE_AXES,test_palette_row.x,test_palette_row.y);
+    test_pointer(ALLEGRO_EVENT_MOUSE_BUTTON_DOWN,test_palette_row.x,test_palette_row.y,1);drag_phase++;frames=0;
+   }else if(drag_phase==2){
+    test_pointer(ALLEGRO_EVENT_MOUSE_AXES,width*.35f,height*.4f);drag_phase++;frames=0;
+   }else if(drag_phase==3){
+    check(palette_active,"real palette drag did not arm");
+    test_pointer(ALLEGRO_EVENT_MOUSE_BUTTON_UP,width*.35f,height*.4f,1);drag_phase++;frames=0;
+   }else if(drag_phase==4){
+    check(!palette_active,"palette release was not consumed");search[0]=0;step++;frames=0;
+   }
   }else if(step==7&&frames>8){
-   check(state.tool==0,"Select command failed");
+   check(bsl_shell_native_fixture(7),"palette release did not create exactly one instance");
+   check(state.tool==2&&state.ready_kind==0&&state.ready_index>=0,"palette selection was not armed for placement");
+   check(!strcmp(state.name,"BOR Pole"),"palette drop did not place/select an instance");
+   check(bsl_shell_native_fixture(5),"drop placement undo/redo failed");submit("tool",0);
    auto before=state.selection;drawer=false;user_hidden=true;
    note("test","Repeated diagnostic",1);note("test","Repeated diagnostic",1);
    check(log.back().count==2,"diagnostic repeats are not coalesced");

@@ -44,3 +44,13 @@ out/
 lab-reports/
 lab-kept/
 CMakeUserPresets.json
+
+# Private collaboration, experiments and raw evidence are never public source.
+/CLAIMS.md
+/HANDOFF.md
+/research/
+/private/
+/.vscode/
+*.bak
+*.tmp
+*.progress

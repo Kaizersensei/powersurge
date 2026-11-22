@@ -16,6 +16,7 @@ bool bsl_cell_painting(void);
 int bsl_cell_world_height(void);
 void bsl_cell_input(float x,float y,int grid,float screen_x,float screen_y);
 bool bsl_cell_leave(void);
+bool bsl_cell_cancel_line(void);
 #ifdef __cplusplus
 }
 #endif

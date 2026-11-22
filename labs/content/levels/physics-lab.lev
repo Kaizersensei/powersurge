@@ -1,0 +1,21 @@
+// Isolated signed-world terrain course. Native (4096,4096) is authored world zero. Signed: President.
+name "Physics Objects Laboratory"
+author "Kaizer / President"
+version "0.1"
+requires "0.6.1"
+theme "themes/presentation.brk"
+bgtheme "themes/template.bg"
+spawn_point 3936 4096
+setup "BSL Runtime Setup" "Default Camera" "BSL Pause and Quit"
+players "None"
+brick 0 0 0
+brick 0 8192 8192
+entity "BOR Michio" 3936 4096
+
+entity "BSL Teleporter" 3936 4160 "c3110001"
+
+entity "BSL Physics Ball" 4008 4040 "b5010001"
+entity "BSL Physics Stone" 4098 4040 "b5010002"
+entity "BSL Physics Cupboard" 4188 4040 "b5010003"
+entity "BSL Physics Boulder" 4278 4040 "b5010004"
+entity "BSL Physics Star" 4368 4040 "b5010005"

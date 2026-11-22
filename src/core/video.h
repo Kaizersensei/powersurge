@@ -36,6 +36,7 @@ void video_render(void (*render_overlay)());
 #define VIDEO_SCREEN_W ((int)(video_get_screen_size().x))
 #define VIDEO_SCREEN_H ((int)(video_get_screen_size().y))
 struct image_t *video_get_backbuffer();
+void video_set_world_view_size(v2d_t size); /* render scope only; zero restores physical logical size */
 v2d_t video_get_screen_size(); /* usually 426x240 pixels */
 
 /* resolution: controls the size of the window */

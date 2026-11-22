@@ -4370,19 +4370,19 @@
   ],
   "sources": [
     {
-      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Densetsu Arcade.caproj",
+      "path": "author-provided/Densetsu Arcade.caproj",
       "sha256": "1b9ff2df1f49e3ce55e1ff304da24e950a9bda6f373641edb0c44b5325416f5c"
     },
     {
-      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Layouts\\MENU.xml",
+      "path": "author-provided/MENU.xml",
       "sha256": "cf962870ed1701015288f2b1f62bb403a5c1724dce4411801fce02c55cba4c50"
     },
     {
-      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Event sheets\\MENU.xml",
+      "path": "author-provided/MENU.xml",
       "sha256": "51d9349bf3e5b69e153363c05ef92764c6d540f49bd660b1765a04a4c5528b08"
     },
     {
-      "path": "F:\\Retraissance\\!Branch Backups\\Densetsu Arcade\\Testing\\Files\\stylesheet.css",
+      "path": "author-provided/stylesheet.css",
       "sha256": "40fe569dec16d3952c406d2b1520ca8b2c429f4978cd64ae3389c8eb70214a73"
     }
   ],

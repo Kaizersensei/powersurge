@@ -64,5 +64,6 @@ extern "C" bool bsl_shell_terrain_preview_fixture(){
  tool=true;pending=true;ax=-96;ay=-64;mode=0;curve=.5;update_preview(96,-64);
  bsl_shell_terrain_command("curve",.8);bsl_shell_terrain_command("mode_set",1);bsl_shell_terrain_command("brush",16);
  bool okay=preview.valid&&!preview.lines.empty()&&preview.stroke.mode==1&&preview.stroke.size==16&&std::abs(preview.stroke.curve-.8)<.001&&cell::encode(field.doc)==document&&bake_stats.uploads==counters.uploads&&bake_stats.masks==counters.masks;
+ bool cancelled=bsl_cell_cancel_line();okay=okay&&cancelled&&!pending&&!preview.valid&&!bsl_cell_cancel_line()&&cell::encode(field.doc)==document;
  preview=std::move(old_preview);pending=old_pending;tool=old_tool;ax=old_ax;ay=old_ay;curve=old_curve;brush=old_brush;mode=old_mode;return okay;
 }

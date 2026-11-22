@@ -632,8 +632,15 @@ bool video_is_fps_visible()
  * video_get_screen_size()
  * Returns the size of the backbuffer
  */
+static v2d_t world_view_size = {0, 0};
+void video_set_world_view_size(v2d_t size)
+{
+    world_view_size = size;
+}
+
 v2d_t video_get_screen_size()
 {
+    if(world_view_size.x > 0 && world_view_size.y > 0) return world_view_size;
     int screen_width = game_screen_width;
     int screen_height = game_screen_height;
 

@@ -4,6 +4,9 @@ void level_journey_tick(){
  struct Observation {std::string scene,id,document,materials;uint64_t actor=0,xp=0;int hp=0,items=0;bool cells=false;};
  static std::vector<Observation> observations;static unsigned phase=0,settled=0,checks=0;static bool done=false;static double started=al_get_time();
  static BslGameplayProbe initial{};static BslStatProbe initial_stat{};static BslWorldTimeProbe initial_time{};
+ static unsigned long long run_generation=0;
+ if(run_generation!=ps_lab_generation()){run_generation=ps_lab_generation();observations.clear();phase=settled=checks=0;done=false;started=al_get_time();initial={};initial_stat={};initial_time={};}
+
  if(done)return;
  auto finish=[&](bool passed,const char* error){
   std::ofstream out(std::filesystem::u8path(report));out<<"{\"passed\":"<<(passed?"true":"false")<<",\"checks\":"<<checks<<",\"error\":\""<<error<<"\",\"observations\":[";

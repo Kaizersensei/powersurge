@@ -94,7 +94,8 @@ int main(int argc, char **argv)
         engine_init(&cmd);
         engine_mainloop();
         engine_release();
-    } while(engine_must_restart(&cmd));
+        if(engine_must_restart(&cmd) && !ps_lab_apply_switch(&cmd)) return ps_lab_exit_code();
+    } while(engine_must_restart(NULL));
 
     return ps_lab_finish();
 }

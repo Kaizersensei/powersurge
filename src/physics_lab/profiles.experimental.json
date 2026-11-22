@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "status": "experimental_standalone_only",
+  "units": "meters, kg, seconds",
+  "note": "Provisional fixture inputs, not an editor or runtime content schema. Size for cupboard is width 1.5 m, height 2 m.",
+  "objects": [
+    {
+      "id": "ball",
+      "shape": "circle",
+      "radius_m": 0.25,
+      "density_kg_m2": 1.0,
+      "friction": 0.3,
+      "restitution": 0.85
+    },
+    {
+      "id": "stone",
+      "shape": "box",
+      "size_m": [
+        1.5,
+        1.5
+      ],
+      "density_kg_m2": 25.0,
+      "friction": 0.9,
+      "restitution": 0.05
+    },
+    {
+      "id": "cupboard",
+      "shape": "box",
+      "size_m": [
+        1.5,
+        2.0
+      ],
+      "density_kg_m2": 2.0,
+      "friction": 0.5,
+      "restitution": 0.15
+    },
+    {
+      "id": "boulder",
+      "shape": "circle",
+      "radius_m": 1.5,
+      "density_kg_m2": 10.0,
+      "friction": 0.8,
+      "restitution": 0.1
+    },
+    {
+      "id": "star",
+      "shape": "star5",
+      "size_m": [
+        2.0,
+        2.0
+      ],
+      "inner_outer_ratio": 0.45,
+      "density_kg_m2": 0.2,
+      "friction": 0.4,
+      "restitution": 0.1
+    }
+  ]
+}

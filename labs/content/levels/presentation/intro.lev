@@ -1,0 +1,12 @@
+// Presentation scene; no gameplay service owner. Signed: Mech.
+name "BORSurgeLab intro"
+author "Kaizer / President / Mech"
+version "0.1"
+requires "0.6.1"
+act 1
+theme "themes/presentation.brk"
+bgtheme "themes/presentation.bg"
+spawn_point 0 0
+setup "BSL Presentation Only" "BSL C2 Intro"
+players "None"
+readonly

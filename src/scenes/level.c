@@ -1,3 +1,4 @@
+#include "../labs/lab.h"
 #include "../editor_shell/shell.h"
 /*
  * Open Surge Engine
@@ -320,6 +321,10 @@ enum editor_entity_type {
 static bool editor_enabled; /* is the level editor enabled? */
 static editorcmd_t* editor_cmd;
 static v2d_t editor_camera;
+static float editor_zoom = 1.0f;
+static bool editor_rendering = false;
+static v2d_t editor_view_size(void);
+static void editor_view_zoom(float zoom, v2d_t anchor);
 static enum editor_entity_type editor_selected_entity_type;
 static int editor_selected_entity_id;
 static videomode_t editor_previous_videomode = VIDEOMODE_DEFAULT;
@@ -2757,7 +2762,7 @@ bool level_is_in_debug_mode()
 void render_level(const item_list_t *major_items, const enemy_list_t *major_enemies)
 {
     /* starting up the render queue... */
-    renderqueue_begin( camera_get_position() );
+    renderqueue_begin( editor_is_enabled() ? editor_camera : camera_get_position() );
 
         /* render the background */
         renderqueue_enqueue_background(backgroundtheme);
@@ -2795,7 +2800,7 @@ void render_level(const item_list_t *major_items, const enemy_list_t *major_enem
 
     /* okay, enough! let's render */
     renderqueue_end();
-    v2d_t cell_camera=camera_get_position();
+    v2d_t cell_camera=editor_is_enabled()?editor_camera:camera_get_position();
     bsl_cell_render(cell_camera.x,cell_camera.y,editor_is_enabled());
 }
 
@@ -2806,10 +2811,10 @@ int inside_screen(int x, int y, int w, int h, int margin)
     v2d_t cam = level_editmode() ? editor_camera : camera_get_position();
     float a[4] = { x, y, x+w, y+h };
     float b[4] = {
-        cam.x-VIDEO_SCREEN_W/2 - margin,
-        cam.y-VIDEO_SCREEN_H/2 - margin,
-        cam.x+VIDEO_SCREEN_W/2 + margin,
-        cam.y+VIDEO_SCREEN_H/2 + margin
+        cam.x-(editor_is_enabled()?editor_view_size().x:VIDEO_SCREEN_W)/2 - margin,
+        cam.y-(editor_is_enabled()?editor_view_size().y:VIDEO_SCREEN_H)/2 - margin,
+        cam.x+(editor_is_enabled()?editor_view_size().x:VIDEO_SCREEN_W)/2 + margin,
+        cam.y+(editor_is_enabled()?editor_view_size().y:VIDEO_SCREEN_H)/2 + margin
     };
 
     return bounding_box(a,b);
@@ -3136,7 +3141,7 @@ void clear_level_state(levelstate_t* state)
 /* create a region of interest */
 rect_t create_roi(v2d_t camera, int margin)
 {
-    v2d_t screen_size = video_get_screen_size();
+    v2d_t screen_size = editor_is_enabled() ? editor_view_size() : video_get_screen_size();
     int dx = (int)screen_size.x / 2 + margin;
     int dy = (int)screen_size.y / 2 + margin;
 
@@ -3732,9 +3737,16 @@ void editor_brush_paint(bool clicked)
 
 void editor_update()
 {
-    if(bsl_shell_level_update())return;
+    bool captured=bsl_shell_level_update();
+    if(!editor_is_enabled())return;
+    editor_scroll();
+    rect_t view_roi=create_roi(editor_camera,ROI_MARGIN_EDITOR);
+    brickmanager_set_roi(brick_manager,view_roi);
+    set_entitymanager_roi(view_roi);entitymanager_set_active_region(view_roi);
+    editor_cursor_update();
+    if(captured)return;
+    if(editor_selected_entity_type==EDT_INSPECT){editor_brush_reset();return;}
     if(bsl_cell_tool()) {
-        editor_scroll();
         editor_grid_update();
         editor_cursor_update();
         bsl_cell_input(editor_cursor.world_position.x,editor_cursor.world_position.y,editor_grid_size,editor_cursor.screen_position.x,editor_cursor.screen_position.y);
@@ -3998,7 +4010,7 @@ void editor_update()
     }
 
     /* pick or delete item */
-    pick_object = editorcmd_is_triggered(editor_cmd, "pick-item");
+    pick_object = false; /* Middle-click sampling is release-owned by the shell. */
     delete_object = editorcmd_is_triggered(editor_cmd, "delete-item") || editor_is_eraser_enabled();
     if(pick_object || delete_object) {
         switch(editor_selected_entity_type) {
@@ -4173,8 +4185,7 @@ void editor_update()
     /* grid */
     editor_grid_update();
 
-    /* scrolling */
-    editor_scroll();
+    /* View navigation runs before UI/tool early returns. */
 
     /* status bar */
     editor_status_update();
@@ -4205,6 +4216,14 @@ void editor_render()
     item_list_t* major_items = entitymanager_retrieve_active_items();
     enemy_list_t* major_enemies = entitymanager_retrieve_active_objects();
     
+    /* A projection-only view avoids giant intermediate bitmaps at wide zoom. */
+    v2d_t view=editor_view_size();
+    ALLEGRO_TRANSFORM saved_projection,projection;
+    al_copy_transform(&saved_projection,al_get_current_projection_transform());
+    al_identity_transform(&projection);
+    al_orthographic_transform(&projection,0,0,-1,view.x,view.y,1);
+    video_set_world_view_size(view);editor_rendering=true;
+    al_use_projection_transform(&projection);
     /* render the level */
     render_level(major_items, major_enemies);
 
@@ -4220,7 +4239,7 @@ void editor_render()
     /* Unified shell owns if(editor_selected_entity_type != EDT_INSPECT) editor_tooltip_render(); */
 
     /* mouse cursor */
-    if(!bsl_cell_painting() && !bsl_shell_block_editor() && editor_selected_entity_type!=EDT_INSPECT) editor_draw_object(editor_selected_entity_type,editor_selected_entity_id,editor_cursor.screen_grid_position);
+    if(!bsl_cell_painting() && !bsl_shell_block_editor() && editor_selected_entity_type!=EDT_INSPECT) editor_draw_object(editor_selected_entity_type,editor_selected_entity_id,editor_world2screen(editor_cursor.world_grid_position));
 
     /* status bar */
     /* Unified shell owns editor_status_render(); */
@@ -4228,8 +4247,10 @@ void editor_render()
     /* top bar */
     /* Unified shell owns editor_topbar_render(); */
     /* Unified shell owns if(editor_selected_entity_type == EDT_INSPECT) bsl_inspect_render(); */
-    v2d_t cell_editor_camera=camera_get_position();
+    v2d_t cell_editor_camera=editor_camera;
     bsl_cell_overlay(cell_editor_camera.x,cell_editor_camera.y);
+    editor_rendering=false;video_set_world_view_size(v2d_new(0,0));
+    al_use_projection_transform(&saved_projection);
 
     /* done */
     major_items = entitymanager_release_retrieved_item_list(major_items);
@@ -4261,8 +4282,9 @@ void editor_enable()
     editor_brush_reset();
     editor_enabled = true;
     bsl_shell_enter();
-    editor_camera.x = (int)camera_get_position().x;
-    editor_camera.y = (int)camera_get_position().y;
+    editor_zoom=1.0f;
+    editor_camera.x = camera_get_position().x;
+    editor_camera.y = camera_get_position().y;
     memset(&editor_cursor, 0, sizeof(editor_cursor));
     editor_cursor_update();
 
@@ -4371,37 +4393,26 @@ void editor_save()
  */
 void editor_scroll()
 {
-    v2d_t camera_direction = v2d_new(0, 0);
-    float camera_speed = 750.0f;
-    float dt = timer_get_delta();
+    if(!bsl_shell_navigation_keyboard())return;
+    ALLEGRO_KEYBOARD_STATE keys;al_get_keyboard_state(&keys);
+    if(al_key_down(&keys,ALLEGRO_KEY_LCTRL)||al_key_down(&keys,ALLEGRO_KEY_RCTRL))return;
+    v2d_t direction=v2d_new(
+        (al_key_down(&keys,ALLEGRO_KEY_RIGHT)||al_key_down(&keys,ALLEGRO_KEY_D))-(al_key_down(&keys,ALLEGRO_KEY_LEFT)||al_key_down(&keys,ALLEGRO_KEY_A)),
+        (al_key_down(&keys,ALLEGRO_KEY_DOWN)||al_key_down(&keys,ALLEGRO_KEY_S))-(al_key_down(&keys,ALLEGRO_KEY_UP)||al_key_down(&keys,ALLEGRO_KEY_W)));
+    float speed=(al_key_down(&keys,ALLEGRO_KEY_LSHIFT)||al_key_down(&keys,ALLEGRO_KEY_RSHIFT))?3750.0f:750.0f;
+    editor_camera=v2d_add(editor_camera,v2d_multiply(direction,speed*timer_get_delta()/editor_zoom));
+}
 
-    /* input */
-    if(editorcmd_is_triggered(editor_cmd, "UP"))
-        camera_direction.y -= 5.0f;
-    if(editorcmd_is_triggered(editor_cmd, "RIGHT"))
-        camera_direction.x += 5.0f;
-    if(editorcmd_is_triggered(editor_cmd, "DOWN"))
-        camera_direction.y += 5.0f;
-    if(editorcmd_is_triggered(editor_cmd, "LEFT"))
-        camera_direction.x -= 5.0f;
-    if(editorcmd_is_triggered(editor_cmd, "up"))
-        camera_direction.y -= 1.0f;
-    if(editorcmd_is_triggered(editor_cmd, "right"))
-        camera_direction.x += 1.0f;
-    if(editorcmd_is_triggered(editor_cmd, "down"))
-        camera_direction.y += 1.0f;
-    if(editorcmd_is_triggered(editor_cmd, "left"))
-        camera_direction.x -= 1.0f;
+static v2d_t editor_view_size(void)
+{
+    return v2d_multiply(video_get_screen_size(),editor_rendering?1.0f:1.0f/editor_zoom);
+}
 
-    /* scroll */
-    if(!nearly_zero(v2d_magnitude(camera_direction)))
-        editor_camera = v2d_add(v2d_multiply(camera_direction, camera_speed * dt), editor_camera);
-
-    /* the camera mustn't go off the bounds */
-    editor_camera.x = (int)max(editor_camera.x, VIDEO_SCREEN_W/2);
-    editor_camera.y = (int)max(editor_camera.y, VIDEO_SCREEN_H/2);
-    camera_set_position(editor_camera);
-    camera_update();
+static void editor_view_zoom(float zoom,v2d_t anchor)
+{
+    v2d_t before=editor_screen2world(anchor);
+    editor_zoom=clip(zoom,.2f,10.0f);
+    editor_camera=v2d_add(editor_camera,v2d_subtract(before,editor_screen2world(anchor)));
 }
 
 /*
@@ -4438,19 +4449,14 @@ bool editor_is_eraser_enabled()
 /* convert screen coordinates to world coordinates */
 v2d_t editor_screen2world(v2d_t screen_position)
 {
-    v2d_t half_screen = v2d_multiply(video_get_screen_size(), 0.5f);
-    v2d_t topleft = v2d_subtract(editor_camera, half_screen);
-
-    return v2d_add(screen_position, topleft);
+    float scale=editor_rendering?1.0f:editor_zoom;
+    return v2d_add(editor_camera,v2d_subtract(v2d_multiply(screen_position,1.0f/scale),v2d_multiply(editor_view_size(),.5f)));
 }
 
-/* convert world coordinates to screen coordinates */
+/* Inverse of the exact view used for terrain, entities, previews and drops. */
 v2d_t editor_world2screen(v2d_t world_position)
 {
-    v2d_t half_screen = v2d_multiply(video_get_screen_size(), 0.5f);
-    v2d_t topleft = v2d_subtract(editor_camera, half_screen);
-
-    return v2d_subtract(world_position, topleft);
+    return v2d_multiply(v2d_add(v2d_subtract(world_position,editor_camera),v2d_multiply(editor_view_size(),.5f)),editor_rendering?1.0f:editor_zoom);
 }
 
 /* returns a string containing a text
@@ -5138,6 +5144,9 @@ void editor_grid_render_ex(color_t color, int grid_width, int grid_height)
     const float dx[6] = { -1, 1, 1, 1, -1, -1 }, dy[6] = { -1, -1, 1, 1, 1, -1 };
     v2d_t half_screen = v2d_multiply(video_get_screen_size(), 0.5f);
     v2d_t topleft = v2d_subtract(editor_camera, half_screen);
+    /* Keep fine-grid rendering bounded; the authored placement grid is unchanged. */
+    int multiple=max(1,(int)ceilf(8.0f/(grid_width*editor_zoom)));
+    grid_width*=multiple;grid_height*=multiple;
     int max_x = VIDEO_SCREEN_W + grid_width;
     int max_y = VIDEO_SCREEN_H + grid_height;
 
@@ -5154,8 +5163,8 @@ void editor_grid_render_ex(color_t color, int grid_width, int grid_height)
 
             /* prepare two triangles per vertex of the grid */
             for(int j = 0; j < 6; j++) {
-                int vertex_x = (int)(snapped_pos.x + dx[j]);
-                int vertex_y = (int)(snapped_pos.y + dy[j]);
+                int vertex_x = (int)(snapped_pos.x + dx[j]/editor_zoom);
+                int vertex_y = (int)(snapped_pos.y + dy[j]/editor_zoom);
                 vertexcache_push(editor_grid_cache, vertex_x, vertex_y, color);
             }
 
@@ -5169,20 +5178,14 @@ void editor_grid_render_ex(color_t color, int grid_width, int grid_height)
 /* aligns a position in world space to the grid */
 v2d_t editor_grid_snap(v2d_t world_pos)
 {
-    v2d_t half_screen = v2d_multiply(video_get_screen_size(), 0.5f);
-    v2d_t topleft = v2d_subtract(editor_camera, half_screen);
-
-    return editor_grid_snap_ex(world_pos, topleft, editor_grid_size, editor_grid_size);
+    return v2d_new(floorf(world_pos.x/editor_grid_size)*editor_grid_size,floorf(world_pos.y/editor_grid_size)*editor_grid_size);
 }
 
-/* aligns a position in screen space to the grid */
 v2d_t editor_grid_screen_snap(v2d_t screen_pos)
 {
-    v2d_t half_screen = v2d_multiply(video_get_screen_size(), 0.5f);
-    v2d_t topleft = v2d_subtract(editor_camera, half_screen);
-
-    return editor_grid_screen_snap_ex(screen_pos, topleft, editor_grid_size, editor_grid_size);
+    return editor_world2screen(editor_grid_snap(editor_screen2world(screen_pos)));
 }
+
 
 /* snap world position to grid with custom grid size */
 v2d_t editor_grid_snap_ex(v2d_t world_pos, v2d_t topleft, int grid_width, int grid_height)
@@ -6039,7 +6042,7 @@ static void bsl_door_navigate(int direction){
  static uint64_t last=0;bsl_door_nav_t n={0};n.last=last;n.direction=direction;
  surgescript_object_traverse_tree_ex(level_ssobject(),&n,bsl_door_nav_visit);
  if(!n.first_id){last=0;editor_status_display("No teleporters in this level",0,NULL);return;}
- last=n.next_id?n.next_id:n.first_id;editor_camera=n.next_id?n.next_pos:n.first_pos;camera_set_position(editor_camera);
+ last=n.next_id?n.next_id:n.first_id;editor_camera=n.next_id?n.next_pos:n.first_pos;
  char msg[128];snprintf(msg,sizeof msg,"Teleporter %016llx",(unsigned long long)last);editor_status_display(msg,0,NULL);
 }
 static bool bsl_workflow_input(void){
@@ -6049,7 +6052,7 @@ static bool bsl_workflow_input(void){
  if(al_key_down(&keys,ALLEGRO_KEY_LCTRL)||al_key_down(&keys,ALLEGRO_KEY_RCTRL)||al_key_down(&keys,ALLEGRO_KEY_LSHIFT)||al_key_down(&keys,ALLEGRO_KEY_RSHIFT)||al_key_down(&keys,ALLEGRO_KEY_ALT))return false;
  if(pressed[18]){BslLevelProbe level={0};bsl_host_level_probe(&level);if(level.enabled&&level.registered&&*level.id){bsl_editor_launch(NULL,level.id);editor_status_display(bsl_editor_status,0,NULL);}else editor_status_display("This level has no registered local definitions",0,NULL);return true;}
  if(pressed[16]||pressed[17]){bsl_door_navigate(pressed[16]?1:-1);return true;}
- if(pressed[4]){editor_camera=spawn_point;camera_set_position(editor_camera);editor_status_display("Camera moved to level spawn",0,NULL);return true;}
+ if(pressed[4]){editor_camera=spawn_point;editor_status_display("Camera moved to level spawn",0,NULL);return true;}
  if(pressed[5]){if(editor_ssobj_count>0){editorpal_config_t config={.type=EDITORPAL_SSOBJ,.ssobj={.name=(const char**)editor_ssobj,.count=editor_ssobj_count}};scenestack_push(storyboard_get_scene(SCENE_EDITORPAL),&config);editor_selected_entity_type=EDT_SSOBJ;editor_next_entity();}else sound_play(SFX_DENY);return true;}
  for(int i=0;i<10;i++)if(pressed[6+i]){if(i<editor_brick_filter_count){editor_brick_refresh_filter(i);if(editor_brick_count>0){editorpal_config_t config={.type=EDITORPAL_BRICK,.brick={.id=(const int*)editor_brick,.count=editor_brick_count}};scenestack_push(storyboard_get_scene(SCENE_EDITORPAL),&config);editor_selected_entity_type=EDT_BRICK;editor_next_entity();}}else editor_status_display("No brick category assigned to this number",0,NULL);return true;}
  if(editor_selected_entity_type==EDT_BRICK&&brick_role_preview(editor_selected_entity_id)==BRR_DECORATION){

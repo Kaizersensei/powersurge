@@ -1,0 +1,54 @@
+// BOR jump baseline, C2-inspired steering and input windows. Signed: Atlas.
+// Relaunch Play Surge PoC after edits; no native rebuild is required.
+// air_drag multiplies ordinary airborne X speed each nominal60Hz tick.
+// air_brake adds neutral-input braking; forced dash/wall jobs are excluded.
+// Stock Surge clips airborne speed around 1440px/s; max_fall/jump remain requested values.
+speed 330
+acceleration 320
+deceleration 512
+air_control 1
+air_speed 240
+air_drag 0.995
+air_brake 120
+gravity 1000
+max_fall 1920
+jump 500
+second_jump 500
+jump_count 2
+jump_cut 0
+dash_speed 400
+dash_ticks 15
+dash_cooldown_ticks 18
+double_tap_ticks 15
+dash_jump_ticks 15
+dash_jump_strength 400
+wall_jump_x 426.6666666667
+wall_jump_y 266.6666666667
+wall_lock_ticks 15
+roll_friction 240
+roll_entry 32
+roll_stop_ratio 0.2
+ledge_reach 25
+chest_height 35
+ledge_scan 32
+hang_back 20
+hang_drop 72
+climb_inset 24
+climb_ticks 30
+ledge_cooldown_ticks 15
+guard_hold_ticks 9
+parry_ticks 6
+// Provisional traversal speeds; C2 ladder behavior is a new independent state.
+pole_speed 120
+ladder_speed 100
+bar_speed 120
+
+// Actual-speed locomotion: idle > walk > run > sprint (dash or above speed soft cap).
+idle_speed 2
+run_ratio 0.333333333333
+hold_pressure_ticks 3
+actor_platform_ticks 15
+
+// LT/Ctrl double-tap defensive roll: bounded at60Hz, independent of normal roll friction.
+evasion_speed 400
+evasion_ticks 18
