@@ -10,6 +10,7 @@ set(GAME_SRCS
   src/foundation/particles_native.cpp
   src/foundation/equipment.cpp
   src/foundation/event_rewards.cpp
+  src/foundation/event_skills.cpp
   src/foundation/quests.cpp
   src/foundation/commerce.cpp
   src/foundation/teleport.cpp

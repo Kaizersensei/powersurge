@@ -1,5 +1,10 @@
 // Fresh-process laboratories; no build or scripting pipeline. Signed: President.
 #include "lab.h"
+#include "../ui/widgets.hpp"
+extern "C" int ps_ui_compat_check(const char*,char*,unsigned);
+extern "C" int ps_ui_pilot_open(const char*);
+extern "C" int ps_ui_pilot_inventory();
+extern "C" int ps_ui_pilot_mix_confirm(int);
 extern "C" {
 #include "../core/engine.h"
 #include "../core/commandline.h"
@@ -39,7 +44,7 @@ namespace fs=std::filesystem;
 const char* storage_magic="PowerSurge lab storage v1\n";
 const char* run_magic="PowerSurge native lab run v1\n";
 struct Profile {const char* id;const char* name;bool automatic;bool frontend=false;};
-const Profile profiles[]={{"frontend","Intro / title / main menu",false,true},{"terrain","Terrain / editor laboratory",false},{"physics","Physics objects laboratory",false},{"display-check","Fullscreen monitor and window restoration checks",true},{"presentation-menu-check","Menu artwork and navigation checks",true},{"editor-contract","Editor placement / save checks",true},{"terrain-journey","Connected terrain journey",true}};
+const Profile profiles[]={{"ui-pilot","Shared UI / conversation / meter pilot",false},{"ui-pilot-check","Shared UI and save compatibility checks",true},{"frontend","Intro / title / main menu",false,true},{"terrain","Terrain / editor laboratory",false},{"physics","Physics objects laboratory",false},{"display-check","Fullscreen monitor and window restoration checks",true},{"presentation-menu-check","Menu artwork and navigation checks",true},{"editor-contract","Editor placement / save checks",true},{"terrain-journey","Connected terrain journey",true}};
 struct Run {
  bool active=false,keep=false,automatic=false,completed=false,frontend=false,embedded=false;int code=0,frames=0,frame_limit=0;
  std::string id,result,error;fs::path root,folder,original,exe;std::string preferences;
@@ -52,6 +57,7 @@ struct Run {
 } run;
 std::string pending_lab;unsigned long long generation=0;
 bool switch_check=false;
+void ui_check_tick();
 void switch_check_tick();void menu_check_tick();void display_check_tick();
 std::vector<std::string> arguments;std::vector<char*> pointers;
 std::string read(const fs::path& p,size_t limit=262144){
@@ -84,9 +90,9 @@ void env(const char* name,const std::string& value){
 void clear_old_configuration(){
  std::vector<std::string> names;
 #ifdef _WIN32
- for(char** p=_environ;p&&*p;++p){std::string s=*p;auto n=s.substr(0,s.find('='));if(n.rfind("BSL_",0)==0||n.rfind("BOR_",0)==0)names.push_back(n);}
+ for(char** p=_environ;p&&*p;++p){std::string s=*p;auto n=s.substr(0,s.find('='));if(n.rfind("BSL_",0)==0||n.rfind("BOR_",0)==0||n.rfind("PS_UI_",0)==0)names.push_back(n);}
 #else
- for(char** p=environ;p&&*p;++p){std::string s=*p;auto n=s.substr(0,s.find('='));if(n.rfind("BSL_",0)==0||n.rfind("BOR_",0)==0)names.push_back(n);}
+ for(char** p=environ;p&&*p;++p){std::string s=*p;auto n=s.substr(0,s.find('='));if(n.rfind("BSL_",0)==0||n.rfind("BOR_",0)==0||n.rfind("PS_UI_",0)==0)names.push_back(n);}
 #endif
  for(auto& n:names){
 #ifdef _WIN32
@@ -236,7 +242,9 @@ extern "C" int ps_lab_prepare(int* argc,char*** argv){
   for(auto service:services)env((std::string("BSL_")+service).c_str(),"1");
   env("BSL_COLLIDER_DEBUG","0");
   run.id=selected;run.frontend=profile->frontend;run.automatic=profile->automatic;run.active=true;run.preferences=(run.folder/"user/editor-ui.ini").u8string();run.started=std::chrono::steady_clock::now();++generation;
-  if(run.automatic&&selected!="presentation-menu-check"&&selected!="display-check")env(selected=="editor-contract"?"BSL_SHELL_CHECK":"BSL_CELL_LEVEL_JOURNEY",(run.folder/"result.json").u8string());
+  if(selected=="ui-pilot"||selected=="ui-pilot-check")env("PS_UI_PILOT","1");
+  if(selected=="ui-pilot-check")fs::remove(run.folder/"content/editor-ui.ini");
+  if(run.automatic&&selected!="ui-pilot-check"&&selected!="presentation-menu-check"&&selected!="display-check")env(selected=="editor-contract"?"BSL_SHELL_CHECK":"BSL_CELL_LEVEL_JOURNEY",(run.folder/"result.json").u8string());
   fs::current_path(run.folder/"content");arguments.insert(arguments.end(),{"--game-folder",(run.folder/"content").u8string()});if(run.frontend)arguments.insert(arguments.end(),{"--quest","quests/initial.qst"});else if(selected=="presentation-menu-check"||selected=="display-check")arguments.insert(arguments.end(),{"--level","levels/presentation/mainmenu.lev"});else if(selected=="physics")arguments.insert(arguments.end(),{"--level","levels/physics-lab.lev"});else arguments.insert(arguments.end(),{"--quest","quests/cell-levels.qst"});arguments.insert(arguments.end(),{"--windowed","--resolution","1"});
   for(auto& a:arguments)pointers.push_back(a.data());pointers.push_back(nullptr);*argc=int(arguments.size());*argv=pointers.data();
   std::printf("PowerSurge session: %s; temporary run %s\n",run.id.c_str(),run.folder.u8string().c_str());return 1;
@@ -245,6 +253,7 @@ extern "C" int ps_lab_prepare(int* argc,char*** argv){
 extern "C" void ps_lab_tick(){
  if(run.active&&switch_check)switch_check_tick();
  if(!run.active||run.completed)return;++run.frames;
+ if(run.id=="ui-pilot-check"){ui_check_tick();return;}
  if(run.id=="presentation-menu-check"){menu_check_tick();return;}
  if(run.id=="display-check"){display_check_tick();return;}
  try{
@@ -305,25 +314,28 @@ void switch_check_tick(){
   if(phase==0){
    if(scene!="levels/presentation/title.lev"&&scene!="levels/presentation/mainmenu.lev")return;
    check(run.frontend,"Default session is not the restored frontend");check(generation>0,"Session generation missing");
-   previous=generation;phase++;check(ps_lab_spawn("terrain"),"Terrain switch refused");
-  }else if(phase==1&&run.id=="terrain"){
+   previous=generation;phase++;check(ps_lab_spawn("ui-pilot-check"),"UI pilot switch refused");
+  }else if(phase==1&&run.id=="ui-pilot-check"&&run.completed){
+   check(run.code==0,"UI pilot contract failed");check(std::getenv("PS_UI_PILOT")!=nullptr,"UI pilot did not own its opt-in flag");previous=generation;phase++;check(ps_lab_spawn("terrain"),"Terrain switch refused");
+  }else if(phase==2&&run.id=="terrain"){
+   check(std::getenv("PS_UI_PILOT")==nullptr,"UI pilot configuration escaped to ordinary gameplay");
    check(generation>previous,"Terrain did not use a new run context");check(scene=="levels/cell-terrain.lev","Wrong terrain entry");
    BslGameplayProbe game{};bsl_host_gameplay_probe(&game);check(game.actor&&game.health==100&&game.items==3,"Terrain session not reconstructed");
    previous=generation;phase++;check(ps_lab_spawn("physics"),"Physics switch refused");
-  }else if(phase==2&&run.id=="physics"){
+  }else if(phase==3&&run.id=="physics"){
    check(generation>previous,"Physics reused prior run context");check(scene=="levels/physics-lab.lev","Wrong physics entry");
    for(const char* id:{"b5010001","b5010002","b5010003","b5010004","b5010005"})check(bsl_shell_physics_body(id),"Physics factory did not reconstruct");
    previous=generation;phase++;check(ps_lab_spawn("editor-contract"),"Editor check switch refused");
-  }else if(phase==3&&run.id=="editor-contract"&&run.completed){
+  }else if(phase==4&&run.id=="editor-contract"&&run.completed){
    check(generation>previous,"Editor check reused prior context");check(run.code==0,"Editor contract failed");
    previous=generation;phase++;check(ps_lab_spawn("terrain-journey"),"Journey switch refused");
-  }else if(phase==4&&run.id=="terrain-journey"&&run.completed){
+  }else if(phase==5&&run.id=="terrain-journey"&&run.completed){
    check(generation>previous,"Journey reused prior context");check(run.code==0,"First integrated journey failed");
    previous=generation;phase++;check(ps_lab_spawn("terrain-journey"),"Repeated journey switch refused");
-  }else if(phase==5&&run.id=="terrain-journey"&&run.completed){
+  }else if(phase==6&&run.id=="terrain-journey"&&run.completed){
    check(generation>previous,"Repeated journey reused prior context");check(run.code==0,"Repeated journey failed");
-   auto native=run.result;run.result="{\"passed\":true,\"session_switches\":5,\"checks\":"+std::to_string(checks)+",\"last_journey\":"+native+"}";
-   switch_check=false;phase++;std::printf("Same-instance checks passed: %d; five transitions, including repeated automatic journey.\n",checks);engine_quit();
+   auto native=run.result;run.result="{\"passed\":true,\"session_switches\":6,\"checks\":"+std::to_string(checks)+",\"last_journey\":"+native+"}";
+   switch_check=false;phase++;std::printf("Same-instance checks passed: %d; six transitions, including UI teardown and repeated automatic journey.\n",checks);engine_quit();
   }
  }catch(const std::exception& e){run.code=1;run.completed=true;run.error=e.what();switch_check=false;std::fprintf(stderr,"Same-instance check failed: %s\n",e.what());engine_quit();}
 }
@@ -391,5 +403,41 @@ void display_check_tick(){
  run.code=passed?0:1;run.completed=true;if(!passed)run.error=*error?error:"Display checks timed out";
  std::printf("Fullscreen monitor checks %s: %d monitors, %d assertions.\n",passed?"passed":"FAILED",monitors,checks);
  if(!run.embedded)engine_quit();else bsl_shell_note("lab",passed?"Monitor checks passed; window restored.":run.error.c_str(),passed?0:2);
+}
+}
+
+namespace {
+void ui_capture(const char* name){
+ ps::ui::native_capture((run.folder/name).u8string().c_str());
+}
+void ui_check_tick(){
+ static unsigned long long epoch=0;static int checks=0,phase=0;static PsUiProbe ui{};static float scroll_before=0;static int inventory_index=-1,inventory_quantity=0,health_before=0;
+ if(epoch!=generation){epoch=generation;checks=phase=0;}
+ if(run.frames<40||run.frames%15)return;
+ auto check=[&](bool okay,const char* why){if(!okay)throw std::runtime_error(why);checks++;};
+ try{
+  char error[512]="";if(std::chrono::steady_clock::now()-run.started>std::chrono::seconds(60))throw std::runtime_error("UI scenario timed out");
+  if(phase==0){int n=ps_ui_check(error,sizeof error);check(n>0,error);checks+=n;int compat=ps_ui_compat_check(run.folder.u8string().c_str(),error,sizeof error);check(compat>0,error);checks+=compat;check(ps_ui_pilot_open("dialogue:choice_list")==0,"Could not open the authoritative conversation controller");phase++;}
+  else if(phase==1){ps_ui_probe(&ui);check(ui.ready&&ui.open&&ui.choices==64,"Real long conversation did not reach shared widgets");check(ui.hp_fraction>=0&&ui.hp_fraction<=1,"Live HP range invalid");check(ui.width==48&&ui.height==64,"C2 meter dimensions changed");ps::ui::native_key(ImGuiKey_GamepadDpadUp,true);phase++;}
+  else if(phase==2){ui_capture("ui-long-choices.png");ps_ui_probe(&ui);check(ui.selected==63,"Gamepad navigation did not wrap and scroll to the final choice");check(ps::ui::selected_visible(),ps::ui::native_choice_bounds());ps::ui::native_key(ImGuiKey_GamepadDpadUp,false);BslConversationProbe conversation{};bsl_host_conversation_probe(&conversation);check(conversation.open,"Conversation closed before confirm");ps::ui::native_key(ImGuiKey_Enter,true);phase++;}
+  else if(phase==3){ps::ui::native_key(ImGuiKey_Enter,false);BslConversationProbe c{};bsl_host_conversation_probe(&c);check(!c.open,"Confirmed choice did not close authoritative conversation");check(c.choice==63,"Wrong choice delivered to controller");check(!ps_ui_request(ui.owner+1,ui.epoch,PS_UI_CONFIRM,63),"Cross-owner late confirmation accepted");check(ps_ui_pilot_open("dialogue:training_choice")==0,"Could not reopen conversation");phase++;}
+  else if(phase==4){ps_ui_probe(&ui);check(ui.open,"Second conversation not presented");ps::ui::native_key(ImGuiKey_GamepadFaceRight,true);phase++;}
+  else if(phase==5){ps::ui::native_key(ImGuiKey_GamepadFaceRight,false);BslConversationProbe c{};bsl_host_conversation_probe(&c);check(!c.open,"Cancellation did not release authoritative conversation");ui_capture("ui-live-meter.png");phase++;}
+  else if(phase==6){check(!bsl_host_captures_commands(),"Conversation left gameplay input captured after close");check(fs::is_regular_file(run.folder/"ui-long-choices.png")&&fs::is_regular_file(run.folder/"ui-live-meter.png"),"Rendered UI captures missing");check(ps_ui_pilot_open("dialogue:choice_list")==0,"Could not open mouse conversation");phase++;}
+  else if(phase==7){scroll_before=ps::ui::native_scroll();ps::ui::native_wheel(-1);phase++;}
+  else if(phase==8){check(ps::ui::native_scroll()>scroll_before,"Mouse wheel did not scroll the in-game list");check(ImGui::GetIO().MouseDrawCursor,"In-game UI cursor is hidden");ps::ui::native_wheel(100);phase++;}
+  else if(phase==9){check(ps::ui::native_click_choice(1,true),"Mouse selection target is not visible");phase++;}
+  else if(phase==10){check(ps::ui::native_click_choice(1,false),"Mouse release target missing");phase++;}
+  else if(phase==11){ps_ui_probe(&ui);check(ui.selected==1,"Mouse click did not select the in-game choice");check(ps::ui::native_click_choice(1,true),"Mouse confirm target missing");phase++;}
+  else if(phase==12){check(ps::ui::native_click_choice(1,false),"Mouse confirm release target missing");phase++;}
+  else if(phase==13){BslConversationProbe c{};bsl_host_conversation_probe(&c);check(!c.open&&c.choice==1,"Second mouse click did not confirm the in-game choice");check(!bsl_host_captures_commands(),"Mouse conversation retained gameplay input capture");check(ps_ui_pilot_inventory()==0,"Could not open the real inventory controller");BslGameplayProbe player{};bsl_host_gameplay_probe(&player);health_before=player.health;phase++;}
+  else if(phase==14){inventory_index=ps::ui::native_menu_item("item:strawberry",&inventory_quantity);if(inventory_index<0||!ps::ui::native_menu_click(PS_MENU_SELECT,inventory_index,true))return;check(true,"Inventory mouse target ready");phase++;}
+  else if(phase==15){check(ps::ui::native_menu_click(PS_MENU_SELECT,inventory_index,false),"Inventory slot release missing");phase++;}
+  else if(phase==16){check(ps::ui::native_menu_selected()==inventory_index,"Inventory click did not select its own slot");check(ps::ui::native_menu_click(PS_MENU_ACTIVATE,inventory_index,true),"Inventory action button missing");phase++;}
+  else if(phase==17){check(ps_ui_pilot_mix_confirm(0)==0,"Could not arm owned mixed input check");check(ps::ui::native_menu_click(PS_MENU_ACTIVATE,inventory_index,false),"Inventory action release missing");phase++;}
+  else if(phase==18){check(ps_ui_pilot_mix_confirm(1)==1,"Mixed mouse and legacy keyboard input was not exercised");int quantity=0;check(ps::ui::native_menu_item("item:strawberry",&quantity)>=0&&quantity==inventory_quantity-1,"Mouse item action did not consume exactly one owned item");BslGameplayProbe player{};bsl_host_gameplay_probe(&player);check(player.health>health_before,"Mouse item action did not reach the real health effect");ui_capture("ui-inventory-mouse.png");check(ps::ui::native_menu_click(PS_MENU_RESUME,0,true),"Inventory Resume button missing");phase++;}
+  else if(phase==19){check(ps::ui::native_menu_click(PS_MENU_RESUME,0,false),"Inventory Resume release missing");phase++;}
+  else if(phase==20){check(!ps_ui_menu_active()&&!bsl_host_captures_commands(),"Inventory mouse close retained pause/input ownership");check(!ps_ui_menu_request(PS_MENU_ACTIVATE,inventory_index),"Closed inventory accepted a repeated action");run.result="{\"passed\":true,\"checks\":"+std::to_string(checks)+",\"save_versions\":[1,2,3],\"choice_count\":64}";run.code=0;run.completed=true;if(!run.embedded)engine_quit();else bsl_shell_note("lab","Shared UI and compatibility checks passed.",0);}
+ }catch(const std::exception& e){run.error=e.what();run.code=1;run.completed=true;run.result="{\"passed\":false,\"checks\":"+std::to_string(checks)+"}";std::fprintf(stderr,"Shared UI checks: %s\n",e.what());if(!run.embedded)engine_quit();else bsl_shell_note("lab",e.what(),2);}
 }
 }

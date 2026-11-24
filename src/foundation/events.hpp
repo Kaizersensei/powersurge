@@ -11,6 +11,12 @@ public:
  virtual ~EventRewardPort()=default;
  virtual Result grant(const EventContext&,const EventCommand&)=0;
 };
+class EventSkillPort {
+public:
+ virtual ~EventSkillPort()=default;
+ virtual bool knows_ability(const std::string&) const noexcept=0;
+ virtual Result invoke(const EventContext&,const EventCommand&)=0;
+};
 class EventQuestPort {
 public:
  virtual ~EventQuestPort()=default;
@@ -52,6 +58,7 @@ public:
  Events& operator=(const Events&)=delete;
  // Bind once during session construction; the adapter shares the session's lifetime.
  void bind_rewards(EventRewardPort&);
+ void bind_skills(EventSkillPort&);
  void bind_quests(EventQuestPort&);
  void bind_trades(EventTradePort&);
  void bind_clock(EventClockPort&);
@@ -71,6 +78,7 @@ private:
  const Catalog catalog_;
  Inventory& inventory_;
  EventRewardPort* rewards_=nullptr;
+ EventSkillPort* skills_=nullptr;
  EventQuestPort* quests_=nullptr;
  EventTradePort* trades_=nullptr;
  EventClockPort* clock_=nullptr;

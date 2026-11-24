@@ -28,7 +28,7 @@ CharacterLearning::CharacterLearning(CharacterStats& stats,LearningCatalog catal
   require(profiles_.emplace(p.definition,p).second);
  }
 }
-std::vector<std::string> CharacterLearning::learn(const CharacterStats& stats,const std::string& character,std::set<std::string>& earned) const {
+std::vector<std::string> CharacterLearning::learn(const CharacterStats& stats,const std::string& character,std::set<std::string>& earned,const std::set<std::string>& revoked) const {
  const auto& p=profiles_.at(stats.profile(character).definition);std::vector<std::string> result;
  // Validate every allowed dependency, including locked abilities and rewards.
  const auto values=stats.capture(character);
@@ -36,13 +36,13 @@ std::vector<std::string> CharacterLearning::learn(const CharacterStats& stats,co
  for(const auto& ref:p.abilities){
   const auto& a=abilities_.at(ref);bool eligible=true;
   for(const auto& c:a.conditions){require(values.count(c.stat));if(stats.view(character,c.stat).units<c.minimum)eligible=false;}
-  if(eligible&&earned.insert(ref).second)result.push_back(ref);
+  if(eligible&&!revoked.count(ref)&&earned.insert(ref).second)result.push_back(ref);
  }
  return result;
 }
 std::vector<std::string> CharacterLearning::refresh(const std::string& character){
  if(!earned_.count(character)&&earned_.size()>=64)throw std::invalid_argument("too many learning characters");
- auto prepared=earned_;auto result=learn(stats_,character,prepared[character]);earned_.swap(prepared);return result;
+ auto prepared=earned_;auto next_revoked=revoked_;auto result=learn(stats_,character,prepared[character],next_revoked[character]);earned_.swap(prepared);revoked_.swap(next_revoked);return result;
 }
 LearningResult CharacterLearning::award(const std::string& character,const std::string& source,const std::string& receipt){
  if(!id(character,256)||!id(source)||!id(receipt,256)||!earned_.count(character)||!sources_.count(source))return {};
@@ -53,24 +53,38 @@ LearningResult CharacterLearning::award(const std::string& character,const std::
  if(receipts_.size()>=4096)return {Code::busy,false,{}};
  // Prepare earned values, unlocks and receipt together; failure cannot partially grant a reward.
  auto next_stats=stats_;auto code=next_stats.grant(character,rewards_.at(reward).grants);if(code!=Code::ok)return {code,false,{}};
- auto next_earned=earned_;auto unlocked=learn(next_stats,character,next_earned.at(character));
+ auto next_earned=earned_;auto unlocked=learn(next_stats,character,next_earned.at(character),revoked_.at(character));
  auto next_receipts=receipts_;next_receipts.emplace(receipt,LearningReceipt{character,source});
  stats_.swap(next_stats);earned_.swap(next_earned);receipts_.swap(next_receipts);return {Code::ok,false,std::move(unlocked)};
 }
 Code CharacterLearning::restore(const LearningState& state){
- if(state.earned.size()!=earned_.size()||state.receipts.size()>4096)return Code::invalid;
+ if(state.earned.size()!=earned_.size()||state.revoked.size()!=earned_.size()||state.receipts.size()>4096)return Code::invalid;
  for(const auto& c:state.earned){
   if(!earned_.count(c.first))return Code::invalid;
   const auto& p=profiles_.at(stats_.profile(c.first).definition);
   for(const auto& a:c.second)if(std::find(p.abilities.begin(),p.abilities.end(),a)==p.abilities.end())return Code::invalid;
-  auto checked=c.second;learn(stats_,c.first,checked);if(checked!=c.second)return Code::invalid;
+  auto removed=state.revoked.find(c.first);if(removed==state.revoked.end())return Code::invalid;
+  for(const auto& a:removed->second)if(c.second.count(a)||std::find(p.abilities.begin(),p.abilities.end(),a)==p.abilities.end())return Code::invalid;
+  auto checked=c.second;learn(stats_,c.first,checked,removed->second);if(checked!=c.second)return Code::invalid;
  }
  for(const auto& r:state.receipts){
   if(!id(r.first,256)||!state.earned.count(r.second.character)||!sources_.count(r.second.source))return Code::invalid;
   const auto& p=profiles_.at(stats_.profile(r.second.character).definition);const auto& reward=sources_.at(r.second.source).reward;
   if(std::find(p.rewards.begin(),p.rewards.end(),reward)==p.rewards.end())return Code::invalid;
  }
- auto prepared=state;earned_.swap(prepared.earned);receipts_.swap(prepared.receipts);return Code::ok;
+ auto prepared=state;earned_.swap(prepared.earned);receipts_.swap(prepared.receipts);revoked_.swap(prepared.revoked);return Code::ok;
+}
+Code CharacterLearning::grant(const std::string& character,const std::string& ability){
+ if(!earned_.count(character))return Code::invalid;
+ const auto& p=profiles_.at(stats_.profile(character).definition);
+ if(std::find(p.abilities.begin(),p.abilities.end(),ability)==p.abilities.end())return Code::denied;
+ auto next_earned=earned_;auto next_revoked=revoked_;next_earned.at(character).insert(ability);next_revoked.at(character).erase(ability);earned_.swap(next_earned);revoked_.swap(next_revoked);return Code::ok;
+}
+Code CharacterLearning::revoke(const std::string& character,const std::string& ability){
+ if(!earned_.count(character))return Code::invalid;
+ const auto& p=profiles_.at(stats_.profile(character).definition);
+ if(std::find(p.abilities.begin(),p.abilities.end(),ability)==p.abilities.end())return Code::denied;
+ auto next_earned=earned_;auto next_revoked=revoked_;next_earned.at(character).erase(ability);next_revoked.at(character).insert(ability);earned_.swap(next_earned);revoked_.swap(next_revoked);return Code::ok;
 }
 bool CharacterLearning::learned(const std::string& character,const std::string& ability) const {auto c=earned_.find(character);return c!=earned_.end()&&c->second.count(ability);}
 bool CharacterLearning::permits(const std::string& character,const std::string& capability) const {

@@ -1,4 +1,6 @@
 #include "../editor_shell/shell.h"
+#include "../ui/widgets.h"
+#include "../labs/lab.h"
 #include "spatial_audio.h"
 // Native service host for one disposable loaded-level laboratory. Signed: Atlas.
 #include "foundation.hpp"
@@ -21,6 +23,7 @@
 #include <random>
 #include "events.hpp"
 #include "event_rewards.hpp"
+#include "event_skills.hpp"
 #include "quests.hpp"
 #include "quest_records.hpp"
 #include "commerce.hpp"
@@ -111,6 +114,7 @@ struct Session {
  std::unique_ptr<bsl::CharacterLearning> learning;
  HostActorEvents actor_events;
  std::unique_ptr<bsl::EventRewards> event_rewards;
+ std::unique_ptr<bsl::EventSkills> event_skills;
  std::unique_ptr<bsl::Quests> quests;
  std::unique_ptr<bsl::Commerce> commerce;
  std::unique_ptr<bsl::CalendarClock> clock;
@@ -141,7 +145,7 @@ struct Session {
  double ui_seconds=0,simulation_seconds=0,calendar_seconds=0;
  bool barrier=false,captures_commands=false;
  int selected=0,choice=0,choice_first=0,choice_last=0,category_index=0;
- int menu_page=1,last_menu_page=1,menu_row=0,home_row=0;
+ int menu_page=1,last_menu_page=1,menu_row=0,home_row=0;uint64_t menu_revision=0;bool menu_test_mix_confirm=false,menu_test_mix_applied=false;
  std::string last_event;
  std::map<uint64_t,uint64_t> used_actions;
  std::map<uint64_t,std::string> anchor_runs;
@@ -190,6 +194,7 @@ struct Session {
    if(progression_enabled()){progression=std::make_unique<bsl::CharacterStats>(compiled_stat_catalog());for(const auto& c:profile.characters)progression->character(definition_roster.character(c.id)->id,c.id);}
    if(learning_enabled()){learning=std::make_unique<bsl::CharacterLearning>(*progression,compiled_learning_catalog());for(const auto& c:profile.characters)learning->refresh(definition_roster.character(c.id)->id);}
    if(learning){std::map<std::string,std::string> owners;for(const auto& c:profile.characters)owners.emplace(definition_roster.character(c.id)->id,profile.player);event_rewards=std::make_unique<bsl::EventRewards>(*learning,std::move(owners));events.bind_rewards(*event_rewards);}
+   if(learning){std::map<std::string,std::string> owners;for(const auto& c:profile.characters)owners.emplace(definition_roster.character(c.id)->id,profile.player);event_skills=std::make_unique<bsl::EventSkills>(*learning,std::move(owners));events.bind_skills(*event_skills);}
    if(learning&&!compiled_quests().empty()){std::map<std::string,std::string> owners;for(const auto& c:profile.characters)owners.emplace(definition_roster.character(c.id)->id,profile.player);quests=std::make_unique<bsl::Quests>(inventory,events,*learning,compiled_quests(),std::move(owners));events.bind_quests(*quests);}
    if(!compiled_commerce().shops.empty()){commerce=std::make_unique<bsl::Commerce>(inventory,events,compiled_commerce(),std::set<std::string>{profile.player});events.bind_trades(*commerce);}
    if(calendar_enabled()){auto rules=compiled_calendar();if(!rules)throw std::runtime_error("Calendar definitions unavailable.");clock=std::make_unique<bsl::CalendarClock>(*rules,calendar_seconds,std::set<std::string>{profile.player});events.bind_clock(*clock);weather=std::make_unique<bsl::Weather>(compiled_weather());}
@@ -218,7 +223,7 @@ struct Session {
  }
  bsl::EventContext event_context(const std::string& definition,const std::string& owner,uint64_t actor) const {
   bsl::EventContext context{owner,owner_id(actor)};const auto* event=catalog.event(definition);
-  if(event&&std::any_of(event->commands.begin(),event->commands.end(),[](const bsl::EventCommand& c){return c.op==bsl::EventOp::grant_reward||c.op==bsl::EventOp::accept_quest||c.op==bsl::EventOp::claim_quest||c.op==bsl::EventOp::spawn_character||c.op==bsl::EventOp::spawn_actor;})&&gameplay_enabled()){
+  if(event&&std::any_of(event->commands.begin(),event->commands.end(),[](const bsl::EventCommand& c){return c.op==bsl::EventOp::grant_skill||c.op==bsl::EventOp::revoke_skill||c.op==bsl::EventOp::grant_reward||c.op==bsl::EventOp::accept_quest||c.op==bsl::EventOp::claim_quest||c.op==bsl::EventOp::spawn_character||c.op==bsl::EventOp::spawn_actor;})&&gameplay_enabled()){
    const auto* character=roster().bound(actor);if(character)context.character=character->id;
   }
   return context;
@@ -233,9 +238,9 @@ struct Session {
  bool alive() const {auto* a=actor();return a&&a->model&&a->health>0&&a->state!=BOR_DEAD;}
  // Roster state may be dormant; only the selected body is required for scene assembly. Signed: Mech.
  bool selected_ready() const {const auto id=roster().selected().actor;auto at=bindings.find(id);return id&&owner==id&&at!=bindings.end()&&at->second&&at->second->initialized;}
- void open_menu(int page){if(!menu)menu=policies.menu(owner_id(owner));menu_page=page;if(page)last_menu_page=page;menu_row=page?0:home_row;selected=0;category_index=0;}
- void menu_back(){if(menu_page){last_menu_page=menu_page;menu_page=0;menu_row=home_row;}else close_menu();}
- void close_menu(){if(menu){policies.close(menu);menu=0;}}
+ void open_menu(int page){++menu_revision;if(!menu)menu=policies.menu(owner_id(owner));menu_page=page;if(page)last_menu_page=page;menu_row=page?0:home_row;selected=0;category_index=0;}
+ void menu_back(){++menu_revision;if(menu_page){last_menu_page=menu_page;menu_page=0;menu_row=home_row;}else close_menu();}
+ void close_menu(){menu_test_mix_confirm=false;ps_ui_menu_clear();++menu_revision;if(menu){policies.close(menu);menu=0;}}
  void cancel(){close_menu();conversation.cancel();talking.reset();barrier=true;}
  bool dialogue_open() const {return conversation.state()==bsl::ConversationState::open;}
  bool modal() const {return menu||dialogue_open();}
@@ -303,7 +308,7 @@ struct Session {
  }
  void change_category(int delta){
   if(!delta)return;
-  const auto count=static_cast<int>(categories().size());category_index=(category_index+delta+count)%count;selected=0;
+  ++menu_revision;const auto count=static_cast<int>(categories().size());category_index=(category_index+delta+count)%count;selected=0;
  }
  void menu_action(bool assign=false){
   normalize_selection();auto entries=rows();if(entries.empty()){notice="Inventory is empty.";return;}
@@ -324,7 +329,7 @@ struct Session {
   int count=menu_page==0?bsl_ui_menu_option_count():menu_page==5?3:menu_page==6?5:0;
   if(count){menu_row=(menu_row+delta+count)%count;if(menu_page==0)home_row=menu_row;}
  }
- void menu_confirm(){
+ void menu_confirm(){++menu_revision;
   if(menu_page==0){home_row=menu_row;menu_page=bsl_ui_menu_option_page(menu_row);last_menu_page=menu_page;menu_row=0;selected=0;return;}
   if(menu_page==1||menu_page==2){menu_action(menu_page==2);return;}
   if(menu_page==5){if(menu_row==0)bsl_ui_toggle_motion();else if(menu_row==1)bsl_ui_cycle_layout();else menu_back();}
@@ -516,7 +521,7 @@ bool checkpoint_restore(const bsl::CheckpointRecord* resume=nullptr){
    std::string restored=record->id;
    std::string notice="Rewound to "+record->id+"; selected character, player bag and registered progress restored.";
    // Commit only after every service and spatial preflight has succeeded. No script/event runs resume.
-   s.cancel();services.commit();s.progression.swap(next_stats);s.learning.swap(next_learning);if(s.event_rewards)s.event_rewards->rebind(*s.learning);if(s.quests)s.quests->rebind(*s.learning);s.loot.swap(next_loot);gameplay_roster.swap(next_roster);bsl_bor_checkpoint_character_publish(prepared.get());s.effects=std::move(effects);
+   s.cancel();services.commit();s.progression.swap(next_stats);s.learning.swap(next_learning);if(s.event_rewards)s.event_rewards->rebind(*s.learning);if(s.event_skills)s.event_skills->rebind(*s.learning);if(s.quests)s.quests->rebind(*s.learning);s.loot.swap(next_loot);gameplay_roster.swap(next_roster);bsl_bor_checkpoint_character_publish(prepared.get());s.effects=std::move(effects);
    s.owner=target;s.calendar_seconds=p.calendar;s.weather_override.reset();bsl_particles_clear();bsl_ambient_clear();bsl_acoustic_clear();s.used_actions.clear();s.anchor_runs.clear();s.conversation_runs.clear();s.talking.reset();s.last_event.clear();s.interaction_requested=false;s.interaction_subject=0;
    s.selected=s.category_index=s.choice=s.choice_first=s.choice_last=0;s.last_damage=s.last_bonus=s.last_reward_code=0;s.reward_refused=0;s.loot_refused=0;
    s.rewind_requested=false;s.barrier=true;s.captures_commands=true;s.death_ticks=0;s.checkpoint_fault=false;s.save_offer=record->kind==bsl::CheckpointKind::permanent;++s.checkpoint_rewinds;s.notice.swap(notice);s.last_checkpoint.swap(restored);
@@ -599,7 +604,8 @@ bool preupdate(){
  }
  ALLEGRO_KEYBOARD_STATE keys;al_get_keyboard_state(&keys);
  auto held=[&](int key){return !bsl_shell_keyboard()&&al_key_down(&keys,key);};
- auto edge=[&](int key){return held(key)&&!s.previous[key];};
+ bool native_menu_confirm_edge=false;
+ auto edge=[&](int key){return (held(key)&&!s.previous[key])||(key==ALLEGRO_KEY_H&&native_menu_confirm_edge);};
  bool consume_frame=false;
  if(!bsl_shell_present()&&edge(ALLEGRO_KEY_F8)){bsl_ui_cycle_layout();consume_frame=true;}
  if(gameplay_enabled()&&!s.modal()&&!bsl_engine_editor()&&edge(ALLEGRO_KEY_F9)){
@@ -616,6 +622,30 @@ bool preupdate(){
   return false;
  }
  bool was_modal=s.modal();
+ if(ps_ui_enabled()&&s.dialogue_open()&&!s.menu){
+  PsUiCommand command{};while(ps_ui_command(s.talking?s.talking->initiator:s.owner,s.conversation_id,&command)){
+   if(!s.dialogue_open())break;
+   if(command.action==PS_UI_SELECT)s.choice=command.index;
+   else if(command.action==PS_UI_CONFIRM){s.choose_dialogue(command.index);consume_frame=true;}
+   else {s.conversation.cancel();consume_frame=true;}
+  }
+ }
+ if(s.menu&&!edge(ALLEGRO_KEY_ESCAPE)&&!edge(ALLEGRO_KEY_J)&&!edge(ALLEGRO_KEY_I)&&!edge(ALLEGRO_KEY_P)&&!edge(ALLEGRO_KEY_F12)){
+  PsUiMenuCommand command{};while(ps_ui_menu_command(s.owner,s.menu_revision,&command)){
+   if(!s.menu)break;
+   bool item=command.action==PS_MENU_SELECT||command.action==PS_MENU_ACTIVATE||command.action==PS_MENU_ASSIGN;
+   if(item){auto rows=s.rows();if((s.menu_page!=1&&s.menu_page!=2)||command.index<0||size_t(command.index)>=rows.size())continue;const auto& entry=rows[command.index];if(entry.selection.definition!=command.definition||entry.selection.instance!=command.instance)continue;s.selected=command.index;}
+   switch(command.action){
+    case PS_MENU_SELECT:break;
+    case PS_MENU_ACTIVATE:if(ps_lab_automatic()&&s.menu_test_mix_confirm){native_menu_confirm_edge=true;s.menu_test_mix_confirm=false;s.menu_test_mix_applied=true;}s.menu_confirm();break;
+    case PS_MENU_ASSIGN:++s.menu_revision;s.menu_action(true);break;
+    case PS_MENU_CATEGORY:if(s.menu_page==1||s.menu_page==2)s.change_category(command.index);break;
+    case PS_MENU_PAGE:for(int i=0;i<bsl_ui_menu_option_count();i++)if(bsl_ui_menu_option_page(i)==command.index){s.menu_page=0;s.menu_row=i;s.menu_confirm();break;}break;
+    case PS_MENU_BACK:s.menu_back();break;
+    case PS_MENU_RESUME:s.close_menu();break;
+   }consume_frame=true;
+  }
+ }
  if(edge(ALLEGRO_KEY_F12)){s.cancel();bsl_ui_reset_presentation();}
  else if(s.alive()){
   if(edge(ALLEGRO_KEY_I)){
@@ -628,7 +658,7 @@ bool preupdate(){
    if(s.dialogue_open())s.conversation.cancel();
    else{s.talking.reset();s.conversation.open(held(ALLEGRO_KEY_LSHIFT)?"dialogue:choice_list":"dialogue:training_choice",owner_id(s.owner),{owner_id(s.owner)});s.choice=0;s.choice_first=0;++s.conversation_id;}
    s.barrier=true;consume_frame=true;
-  }else if(s.modal()){
+  }else if(s.modal()&&(!ps_ui_enabled()||s.menu)&&!consume_frame){
    int delta=(edge(ALLEGRO_KEY_DOWN)||edge(ALLEGRO_KEY_S))-(edge(ALLEGRO_KEY_UP)||edge(ALLEGRO_KEY_W));
    if(s.menu){
     if(s.menu_page==1||s.menu_page==2){s.change_category((edge(ALLEGRO_KEY_E))-(edge(ALLEGRO_KEY_Q)));delta=delta*bsl_ui_inventory_columns()+(edge(ALLEGRO_KEY_RIGHT)||edge(ALLEGRO_KEY_D))-(edge(ALLEGRO_KEY_LEFT)||edge(ALLEGRO_KEY_A));}
@@ -726,7 +756,7 @@ void render(){
    s.normalize_selection();auto entries=s.rows();auto groups=s.categories();body="Category: "+groups[s.category_index]+"   (Q/E change)\n";
    if(entries.empty())body+="No items in this category.\n";
    else {const auto& item=entries[s.selected];body+=compact(item.name,60)+": "+compact(item.description,140)+"\n";body+="Action: "+std::string(page==2?"Assign to subweapon action":!item.slot.empty()?(item.equipped?"Unequip":"Equip"):item.usable?"Use":"No use action")+"\n";}
-   body+="Arrows/WASD: select   H/Enter: action   K: assign\nQ/E: category   J/Esc: back   I/P: resume\n"+compact(s.notice,96);
+   body+=(ps_ui_menu_active()?std::string("\n"):std::string("Arrows/WASD: select   H/Enter: action   K: assign\nQ/E: category   J/Esc: back   I/P: resume\n"))+compact(s.notice,96);
   }else if(page==3){
    std::string equipped="none";for(const auto& item:s.inventory.entries(owner_id(s.owner)))if(item.equipped)equipped=item.name;
    BslCharacterDefinition display{};const char* title=gameplay_enabled()&&bsl_host_character_definition(roster().selected().definition.c_str(),&display)==0?display.name:"Hokusai Michio";
@@ -752,13 +782,15 @@ void render(){
   }
  }
  bsl_ui_draw(status.str().c_str(),"","",s.ui_seconds);
+ if(ps_ui_enabled()&&!show_menu)ps_ui_meter(s.owner,a?a->health:0,0,a&&a->model?a->model->health:0,ps_ui_preview_mp());
  std::string character_name="Hokusai Michio";if(gameplay_enabled()){const auto* c=roster().bound(s.owner);const auto* d=c?roster().definition(c->definition):nullptr;if(d)character_name=d->name;}
- if(show_menu){auto entries=s.rows();std::vector<BslInventoryCell> cells;for(const auto& item:entries)cells.push_back({item.name.c_str(),item.quantity,item.equipped,item.assigned});std::string month,day,year,time;if(s.clock){auto d=s.clock->date();month=d.month_name;day=std::to_string(d.day);year=std::to_string(d.year)+" "+d.era;std::ostringstream hh;hh<<std::setfill('0')<<std::setw(2)<<d.hour<<":"<<std::setw(2)<<d.minute;time=hh.str();}BslMenuView view{s.menu_page?s.menu_page:s.last_menu_page,s.menu_row,s.home_row,a?a->health:0,a&&a->model?a->model->health:0,s.calendar_seconds,character_name.c_str(),assigned_name.c_str(),title.c_str(),body.c_str(),s.clock?month.c_str():nullptr,s.clock?day.c_str():nullptr,s.clock?year.c_str():nullptr,s.clock?time.c_str():nullptr,cells.data(),static_cast<int>(cells.size()),s.selected,bag&&bag->slot_limit?bag->slot_limit:bsl_ui_inventory_default_slots()};bsl_ui_menu(&view);}
- else if((s.dialogue_open()||bsl_ui_dialogue_visible())&&s.conversation.definition()){
+ if(show_menu){auto entries=s.rows();std::vector<BslInventoryCell> cells;for(const auto& item:entries)cells.push_back({item.name.c_str(),item.quantity,item.equipped,item.assigned});std::string month,day,year,time;if(s.clock){auto d=s.clock->date();month=d.month_name;day=std::to_string(d.day);year=std::to_string(d.year)+" "+d.era;std::ostringstream hh;hh<<std::setfill('0')<<std::setw(2)<<d.hour<<":"<<std::setw(2)<<d.minute;time=hh.str();}BslMenuView view{s.menu_page?s.menu_page:s.last_menu_page,s.menu_row,s.home_row,a?a->health:0,a&&a->model?a->model->health:0,s.calendar_seconds,character_name.c_str(),assigned_name.c_str(),title.c_str(),body.c_str(),s.clock?month.c_str():nullptr,s.clock?day.c_str():nullptr,s.clock?year.c_str():nullptr,s.clock?time.c_str():nullptr,cells.data(),static_cast<int>(cells.size()),s.selected,bag&&bag->slot_limit?bag->slot_limit:bsl_ui_inventory_default_slots()};std::vector<PsUiMenuItem> keys;for(const auto& entry:entries)keys.push_back({entry.selection.definition.c_str(),entry.selection.instance.c_str(),entry.quantity});PsUiMenuModel pointer{s.owner,s.menu_revision,s.menu!=0,s.menu_page,s.selected,static_cast<int>(keys.size()),keys.data()};ps_ui_menu_begin(&pointer);bsl_ui_menu(&view);ps_ui_menu_end();}
+ else if((s.dialogue_open()||bsl_ui_dialogue_visible()||ps_ui_conversation_visible())&&s.conversation.definition()){
   const auto* d=s.conversation.definition();const char* labels[64];
   for(std::size_t i=0;i<d->choices.size();++i)labels[i]=d->choices[i].c_str();
   const char* help=d->choice_help.empty()?"":d->choice_help.at(static_cast<std::size_t>(s.choice)).c_str();
-  bsl_ui_conversation(d->text.c_str(),labels,static_cast<int>(d->choices.size()),s.choice,s.choice_first,help);
+  if(ps_ui_enabled()){PsUiConversation view{s.talking?s.talking->initiator:s.owner,s.conversation_id,d->text.c_str(),labels,static_cast<int>(d->choices.size()),s.choice,help,s.ui_seconds,s.dialogue_open(),bsl_ui_reduced_motion()};ps_ui_conversation(&view);}
+  else bsl_ui_conversation(d->text.c_str(),labels,static_cast<int>(d->choices.size()),s.choice,s.choice_first,help);
  }
 
 }
@@ -1298,6 +1330,11 @@ extern "C" void bsl_host_anchor_probe(uint64_t placement,BslAnchorRun* out){
 // Read-only view: no Session creation, time advancement, or policy token acquisition. Signed: Mech.
 extern "C" void bsl_host_world_time_probe(BslWorldTimeProbe* out){if(!out)return;*out={};guarded([&]{if(!session)return;out->available=true;out->paused=session->policies.paused();out->generation=session_generation;out->simulation=session->simulation_seconds;out->ui=session->ui_seconds;});}
 extern "C" void bsl_host_calendar_probe(BslCalendarProbe* out){if(!out)return;*out={};guarded([&]{if(!session||!session->clock)return;auto& s=*session;auto d=s.clock->date();out->enabled=true;out->elapsed=s.calendar_seconds;out->simulation=s.simulation_seconds;out->ui=s.ui_seconds;out->factor=s.policies.calendar_factor();out->paused=s.policies.paused();out->year=d.year;out->month=d.month;out->day=d.day;out->hour=d.hour;out->minute=d.minute;out->second=d.second;std::snprintf(out->phase,sizeof out->phase,"%s",d.phase.c_str());std::snprintf(out->month_name,sizeof out->month_name,"%s",d.month_name.c_str());});}
+extern "C" int ps_ui_pilot_mix_confirm(int phase){if(!ps_lab_automatic()||!session||!session->menu)return -1;if(phase==0){session->menu_test_mix_confirm=true;session->menu_test_mix_applied=false;return 0;}return session->menu_test_mix_applied?1:0;}
+extern "C" int ps_ui_pilot_inventory(){int code=-1;guarded([&]{if(!ps_lab_automatic()||!std::getenv("PS_UI_PILOT")||!session||session->modal()||!session->alive()||bsl_engine_editor())return;session->actor()->health=std::max(1,session->actor()->health-20);session->open_menu(1);session->barrier=true;code=0;});return code;}
+extern "C" int ps_ui_pilot_open(const char* definition){
+ int code=-1;guarded([&]{if(!std::getenv("PS_UI_PILOT")||!session||!definition||!session->catalog.dialogue(definition))return;auto& s=*session;if(!s.alive()||s.menu||s.dialogue_open()||bsl_engine_editor())return;s.talking.reset();s.conversation.open(definition,owner_id(s.owner),{owner_id(s.owner)});s.choice=s.choice_first=0;++s.conversation_id;s.barrier=true;s.captures_commands=true;code=0;});return code;
+}
 extern "C" int bsl_host_calendar_test_policy(int mode){int code=static_cast<int>(bsl::Code::disabled);guarded([&]{if((!std::getenv("BSL_CALENDAR_TEST")&&!std::getenv("BSL_WEATHER_TEST")&&!std::getenv("BSL_AUDIO_TEST"))||!session||!session->clock||bsl_host_boot_busy())return;auto& s=*session;s.cancel();if(mode==1)s.open_menu(3);else if(mode==2)s.conversation.open("dialogue:training_choice",roster().profile().player,{roster().profile().player});else if(mode!=0)return;code=0;});return code;}
 
 extern "C" int bsl_host_inventory_resize(uint64_t actor,int slots,int rows){

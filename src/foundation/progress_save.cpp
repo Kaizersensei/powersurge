@@ -95,7 +95,8 @@ RewindProgress ProgressSaveStore::expand(const ProgressDocument& d) const {
  PlayerRoster roster(profile_);need(roster.restore_progress(p.selected,p.health)==Code::ok,"Invalid saved character selection/HP.");CharacterStats stats(stats_);
  for(const auto& c:profile_.characters){auto id=roster.character(c.id)->id;stats.character(id,c.id);need(stats.restore(id,p.stats.at(id))==Code::ok,"Invalid saved stat values.");}
  CharacterLearning learning(stats,learning_);for(const auto& c:profile_.characters)learning.refresh(roster.character(c.id)->id);p.learning=learning.capture();
- for(const auto& c:v.learning.earned){need(p.learning.earned.count(c.first),"Unknown earned character.");p.learning.earned.at(c.first).insert(c.second.begin(),c.second.end());}
+ for(const auto& c:v.learning.revoked){need(p.learning.revoked.count(c.first),"Unknown revoked character.");for(const auto& ability:c.second){p.learning.revoked.at(c.first).insert(ability);p.learning.earned.at(c.first).erase(ability);}}
+ for(const auto& c:v.learning.earned){need(p.learning.earned.count(c.first),"Unknown earned character.");for(const auto& ability:c.second){need(!p.learning.revoked.at(c.first).count(ability),"Ability is both earned and revoked.");p.learning.earned.at(c.first).insert(ability);}}
  for(const auto& r:v.learning.receipts){const auto* source=learning.source(r.second.source);need(source&&source->model.empty(),"Transient defeat receipt is not durable progress.");}
  p.learning.receipts=v.learning.receipts;need(learning.restore(p.learning)==Code::ok,"Invalid saved learning state.");
  need(v.inventory.catalog_signature==catalog_.signature(),"Inventory definition revision mismatch.");
@@ -111,6 +112,7 @@ ProgressDocument ProgressSaveStore::select(const CheckpointRecord& r) const {
  for(auto i=p.health.begin();i!=p.health.end();)if(base.health.count(i->first)&&base.health.at(i->first)==i->second)i=p.health.erase(i);else ++i;
  for(auto c=p.stats.begin();c!=p.stats.end();){auto initial=base.stats.find(c->first);for(auto i=c->second.begin();i!=c->second.end();)if(initial!=base.stats.end()&&initial->second.count(i->first)&&initial->second.at(i->first).units==i->second.units&&initial->second.at(i->first).xp==i->second.xp)i=c->second.erase(i);else ++i;if(c->second.empty())c=p.stats.erase(c);else ++c;}
  for(auto i=p.learning.earned.begin();i!=p.learning.earned.end();)if(i->second.empty())i=p.learning.earned.erase(i);else ++i;
+ for(auto i=p.learning.revoked.begin();i!=p.learning.revoked.end();)if(i->second.empty())i=p.learning.revoked.erase(i);else ++i;
  for(auto i=p.learning.receipts.begin();i!=p.learning.receipts.end();){auto source=std::find_if(learning_.sources.begin(),learning_.sources.end(),[&](const auto& s){return s.id==i->second.source;});if(source!=learning_.sources.end()&&!source->model.empty())i=p.learning.receipts.erase(i);else ++i;}
  p.inventory.receipts.clear();p.events.runs.clear();for(auto i=p.events.values.begin();i!=p.events.values.end();)if(std::find(policy_.globals.begin(),policy_.globals.end(),i->first.first)==policy_.globals.end())i=p.events.values.erase(i);else ++i;
  if(!policy_.calendar)p.calendar=0;
@@ -120,23 +122,25 @@ CheckpointRecord ProgressSaveStore::reconstruct(const ProgressDocument& d,double
  const auto& def=destination(d.checkpoint);need(std::isfinite(x)&&std::isfinite(y)&&std::abs(x)<=1e7&&std::abs(y)<=1e7,"Invalid authored resume point.");CheckpointRecord r;r.id=def.id;r.level=def.level;r.kind=CheckpointKind::permanent;r.priority=def.priority;r.x=x;r.y=y;r.progress=expand(d);return r;
 }
 std::string ProgressSaveStore::encode(const ProgressDocument& d) const {
- expand(d);const bool bounded=std::any_of(d.values.inventory.bags.begin(),d.values.inventory.bags.end(),[](const auto& b){return b.second.slot_limit!=0;});Writer w;w.text(d.revision);w.text(d.checkpoint);const auto& p=d.values;for(const auto* s:{&p.mode,&p.save,&p.player,&p.selected})w.text(*s);w.real(p.calendar);
+ expand(d);const bool bounded=std::any_of(d.values.inventory.bags.begin(),d.values.inventory.bags.end(),[](const auto& b){return b.second.slot_limit!=0;});const bool revoked=std::any_of(d.values.learning.revoked.begin(),d.values.learning.revoked.end(),[](const auto& c){return !c.second.empty();});const bool slots=bounded||revoked;Writer w;w.text(d.revision);w.text(d.checkpoint);const auto& p=d.values;for(const auto* s:{&p.mode,&p.save,&p.player,&p.selected})w.text(*s);w.real(p.calendar);
  w.count(p.health.size());for(const auto& c:p.health){w.text(c.first);w.integer(c.second);}
  w.count(p.stats.size());for(const auto& c:p.stats){w.text(c.first);w.count(c.second.size());for(const auto& v:c.second){w.text(v.first);w.integer(v.second.units);w.number(v.second.xp);}}
  w.count(p.learning.earned.size());for(const auto& c:p.learning.earned){w.text(c.first);w.count(c.second.size());for(const auto& a:c.second)w.text(a);}
  w.count(p.learning.receipts.size());for(const auto& r:p.learning.receipts){w.text(r.first);w.text(r.second.character);w.text(r.second.source);}
- w.count(p.inventory.bags.size());for(const auto& b:p.inventory.bags){w.text(b.first);if(bounded)w.integer(b.second.slot_limit);w.count(b.second.stacks.size());for(const auto& s:b.second.stacks){w.text(s.first);w.integer(s.second);}for(const auto* map:{&b.second.unique,&b.second.equipped}){w.count(map->size());for(const auto& x:*map){w.text(x.first);w.text(x.second);}}w.count(b.second.assigned.size());for(const auto& x:b.second.assigned){w.text(x.first);w.text(x.second.definition);w.text(x.second.instance);}}
+ if(revoked){w.count(p.learning.revoked.size());for(const auto& c:p.learning.revoked){w.text(c.first);w.count(c.second.size());for(const auto& a:c.second)w.text(a);}}
+ w.count(p.inventory.bags.size());for(const auto& b:p.inventory.bags){w.text(b.first);if(slots)w.integer(b.second.slot_limit);w.count(b.second.stacks.size());for(const auto& s:b.second.stacks){w.text(s.first);w.integer(s.second);}for(const auto* map:{&b.second.unique,&b.second.equipped}){w.count(map->size());for(const auto& x:*map){w.text(x.first);w.text(x.second);}}w.count(b.second.assigned.size());for(const auto& x:b.second.assigned){w.text(x.first);w.text(x.second.definition);w.text(x.second.instance);}}
  w.count(p.inventory.issued_instances.size());for(const auto& s:p.inventory.issued_instances)w.text(s);
  w.count(p.events.values.size());for(const auto& v:p.events.values){w.text(v.first.first);w.text(v.first.second);w.integer(v.second);}
- Writer header;header.data="BSLPROG\n";header.number(bounded?2:1);header.number(w.data.size());header.number(checksum(w.data));return header.data+w.data;
+ Writer header;header.data="BSLPROG\n";header.number(revoked?3:bounded?2:1);header.number(w.data.size());header.number(checksum(w.data));return header.data+w.data;
 }
 ProgressDocument ProgressSaveStore::decode(const std::string& s) const {
- need(s.size()>=32&&s.size()<=limit+32&&s.compare(0,8,"BSLPROG\n")==0,"Invalid progress header.");Reader r{s};r.at=8;const auto version=r.number();need(version==1||version==2,"Unsupported progress version; file preserved.");need(r.number()==s.size()-32,"Invalid progress length.");auto sum=r.number();need(sum==checksum(s.substr(32)),"Progress checksum mismatch.");
+ need(s.size()>=32&&s.size()<=limit+32&&s.compare(0,8,"BSLPROG\n")==0,"Invalid progress header.");Reader r{s};r.at=8;const auto version=r.number();need(version==1||version==2||version==3,"Unsupported progress version; file preserved.");need(r.number()==s.size()-32,"Invalid progress length.");auto sum=r.number();need(sum==checksum(s.substr(32)),"Progress checksum mismatch.");
  ProgressDocument d;d.revision=r.text();d.checkpoint=r.text();auto& p=d.values;p.mode=r.text();p.save=r.text();p.player=r.text();p.selected=r.text();p.calendar=r.real();
  auto n=r.count();for(std::size_t i=0;i<n;i++){auto key=r.text();auto hp=r.small();put(p.health,key,hp);}
  n=r.count();for(std::size_t i=0;i<n;i++){auto c=r.text();StatValues values;auto count=r.count();for(std::size_t j=0;j<count;j++){auto key=r.text();StatValue v;v.units=r.integer();v.xp=r.number();put(values,key,v);}put(p.stats,c,std::move(values));}
  n=r.count();for(std::size_t i=0;i<n;i++){auto c=r.text();std::set<std::string> abilities;auto count=r.count();for(std::size_t j=0;j<count;j++)need(abilities.insert(r.text()).second,"Duplicate saved ability.");put(p.learning.earned,c,std::move(abilities));}
  n=r.count();for(std::size_t i=0;i<n;i++){auto key=r.text();LearningReceipt value;value.character=r.text();value.source=r.text();put(p.learning.receipts,key,value);}
+ if(version>=3){n=r.count();for(std::size_t i=0;i<n;i++){auto c=r.text();std::set<std::string> abilities;auto count=r.count();for(std::size_t j=0;j<count;j++)need(abilities.insert(r.text()).second,"Duplicate revoked ability.");put(p.learning.revoked,c,std::move(abilities));}}
  p.inventory.catalog_signature=catalog_.signature();n=r.count();for(std::size_t i=0;i<n;i++){auto key=r.text();Bag b;if(version>=2)b.slot_limit=r.small();auto count=r.count();for(std::size_t j=0;j<count;j++){auto id=r.text();auto quantity=r.small();put(b.stacks,id,quantity);}for(auto* map:{&b.unique,&b.equipped}){count=r.count();for(std::size_t j=0;j<count;j++){auto a=r.text();auto b=r.text();put(*map,a,b);}}count=r.count();for(std::size_t j=0;j<count;j++){auto id=r.text();Selection value;value.definition=r.text();value.instance=r.text();put(b.assigned,id,value);}put(p.inventory.bags,key,std::move(b));}
  n=r.count();for(std::size_t i=0;i<n;i++)need(p.inventory.issued_instances.insert(r.text()).second,"Duplicate issued item.");p.events.catalog_signature=catalog_.signature();n=r.count();for(std::size_t i=0;i<n;i++){auto a=r.text();auto b=r.text();auto value=r.small();put(p.events.values,std::make_pair(a,b),value);}
  need(r.at==s.size(),"Trailing progress bytes.");expand(d);return d;
@@ -152,7 +156,7 @@ void ProgressSaveStore::write(const std::filesystem::path& p,const ProgressDocum
 }
 void ProgressSaveStore::recover(const std::filesystem::path& p) const {
  Lock lock(p);auto previous=bytes(suffix(p,".previous"));decode(previous);
- if(std::filesystem::exists(p)){auto current=bytes(p);if(current.size()>=16&&current.compare(0,8,"BSLPROG\n")==0){Reader r{current};r.at=8;need(r.number()<=2,"Newer primary preserved; recovery refused.");}if(current==previous)return;auto original=suffix(p,".recovery-original");unsigned n=0;while(std::filesystem::exists(original)){need(++n<=1024,"Recovery copy limit reached.");original=suffix(p,".recovery-original."+std::to_string(n));}write_bytes(original,current);}
+ if(std::filesystem::exists(p)){auto current=bytes(p);if(current.size()>=16&&current.compare(0,8,"BSLPROG\n")==0){Reader r{current};r.at=8;need(r.number()<=3,"Newer primary preserved; recovery refused.");}if(current==previous)return;auto original=suffix(p,".recovery-original");unsigned n=0;while(std::filesystem::exists(original)){need(++n<=1024,"Recovery copy limit reached.");original=suffix(p,".recovery-original."+std::to_string(n));}write_bytes(original,current);}
  auto temp=suffix(p,".pending");write_bytes(temp,previous);auto written=bytes(temp);need(written==previous,"Recovery temporary slot failed read-back; active save unchanged.");decode(written);replace(temp,p);
 }
 }

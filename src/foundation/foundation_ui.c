@@ -1,4 +1,5 @@
 #include "../editor_shell/shell.h"
+#include "../ui/widgets.h"
 #include <stdlib.h>
 /* Render-only C2 skin/layout adapter; services own dialogue/input/time. Signed: Atlas. */
 #include "foundation_host.h"

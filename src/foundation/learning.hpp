@@ -10,7 +10,7 @@ struct LearningProfile {std::string definition;std::vector<std::string> abilitie
 struct LearningCatalog {std::vector<AbilityDef> abilities;std::vector<RewardDef> rewards;std::vector<RewardSource> sources;std::vector<LearningProfile> profiles;};
 struct LearningResult {Code code=Code::invalid;bool replay=false;std::vector<std::string> unlocked;};
 struct LearningReceipt {std::string character,source;};
-struct LearningState {std::map<std::string,std::set<std::string>> earned;std::map<std::string,LearningReceipt> receipts;};
+struct LearningState {std::map<std::string,std::set<std::string>> earned;std::map<std::string,LearningReceipt> receipts;std::map<std::string,std::set<std::string>> revoked;};
 class CharacterLearning {
 public:
  CharacterLearning(CharacterStats&,LearningCatalog);
@@ -20,10 +20,14 @@ public:
  const AbilityDef* slot(const std::string& character,std::size_t index) const;
  const RewardSource* source(const std::string&) const;
  const RewardSource* defeat(const std::string& model) const;
+ bool knows_ability(const std::string& id) const noexcept {return abilities_.find(id)!=abilities_.end();}
  bool learned(const std::string& character,const std::string& id) const;
  // Unassigned capabilities retain the actor template default. Assigned gates need an earned grant. Signed: Mech.
  bool permits(const std::string& character,const std::string& capability) const;
- LearningState capture() const {return {earned_,receipts_};}
+ // Explicit per-character authoring/event operations; definitions stay shared.
+ Code grant(const std::string& character,const std::string& ability);
+ Code revoke(const std::string& character,const std::string& ability);
+ LearningState capture() const {return {earned_,receipts_,revoked_};}
  Code restore(const LearningState&);
  std::size_t receipts() const noexcept {return receipts_.size();}
 private:
@@ -34,6 +38,7 @@ private:
  std::map<std::string,LearningProfile> profiles_;
  std::map<std::string,std::set<std::string>> earned_;
  std::map<std::string,LearningReceipt> receipts_;
- std::vector<std::string> learn(const CharacterStats&,const std::string&,std::set<std::string>&) const;
+ std::map<std::string,std::set<std::string>> revoked_;
+ std::vector<std::string> learn(const CharacterStats&,const std::string&,std::set<std::string>&,const std::set<std::string>&) const;
 };
 }

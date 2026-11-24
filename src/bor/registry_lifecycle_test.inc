@@ -28,7 +28,7 @@ static void registry_lifecycle_test_tick(void){
    LIFE_CHECK(bsl_host_anchor_start(0xca0021,"event:objective_reward",p->lifetime)==0,"continued common event can replay the authored objective safely");
    stage=21;wait=0;
   }else{
-   LIFE_CHECK(bag.health==83&&bag.items==3&&xp.total==0&&!bsl_host_capability_allowed(p->lifetime,"traversal.double_jump"),"fresh run starts from authored values with locked double jump");
+   BslCharacterDefinition initial={0};LIFE_CHECK(bsl_host_character_definition("character:michio",&initial)==0&&bag.health==initial.health&&bag.items==3&&xp.total==0&&!bsl_host_capability_allowed(p->lifetime,"traversal.double_jump"),"fresh run starts from authored values with locked double jump");
    LIFE_CHECK(bsl_host_progress_save()!=0,"durable save refuses before a permanent activation");
    checkpoint_place(p,230,p->a.y);stage=1;wait=0;
   }

@@ -68,6 +68,7 @@ Catalog::Catalog(std::vector<ItemDef> items,std::vector<EffectDef> effects,std::
    require((c.op==EventOp::spawn_character||c.op==EventOp::spawn_actor)||(c.x==0&&c.y==0),"unexpected spawn coordinates");
    require(c.offer.empty()||c.op==EventOp::buy_shop_item||c.op==EventOp::sell_shop_item,"unexpected shop offer");
    switch(c.op){
+   case EventOp::grant_skill:case EventOp::revoke_skill:require(identity(c.target,"ability:")&&c.value==0,"invalid skill command");break;
    case EventOp::spawn_actor:require(identity(c.target,"actor:")&&c.value==0&&c.x>=-10000000&&c.x<=10000000&&c.y>=-10000000&&c.y<=10000000,"invalid actor spawn");break;
    case EventOp::spawn_character:require(identity(c.target,"character:")&&c.value==0&&c.x>=-10000000&&c.x<=10000000&&c.y>=-10000000&&c.y<=10000000,"invalid character spawn");break;
    case EventOp::set_switch:require(flag(c.target)&&(c.value==0||c.value==1),"invalid switch command");break;

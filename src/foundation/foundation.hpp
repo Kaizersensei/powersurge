@@ -16,7 +16,7 @@ struct FieldDef { std::string id; double strength; int direction; };
 enum class Scope { session, player };
 struct SwitchDef { std::string id; Scope scope; bool initial; };
 struct VariableDef { std::string id; Scope scope; int initial, minimum, maximum; };
-enum class EventOp { set_switch, set_variable, add_variable, grant_item, remove_item, wait_ticks, if_switch, grant_reward, accept_quest, claim_quest, buy_shop_item, sell_shop_item, advance_calendar, spawn_character, spawn_actor };
+enum class EventOp { set_switch, set_variable, add_variable, grant_item, remove_item, wait_ticks, if_switch, grant_reward, accept_quest, claim_quest, buy_shop_item, sell_shop_item, advance_calendar, spawn_character, spawn_actor, grant_skill, revoke_skill };
 struct EventCommand { EventOp op; std::string target; int value=0, skip=0; std::string receipt={},offer={}; int x=0,y=0; };
 struct EventDef { std::string id; std::vector<EventCommand> commands; };
 class Catalog {

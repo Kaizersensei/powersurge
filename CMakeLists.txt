@@ -352,7 +352,7 @@ include(bsl/foundation/presentation/presentation.cmake)
 target_sources(${GAME_UNIXNAME} PRIVATE src/cell_terrain/terrain.cpp src/cell_terrain/native.cpp src/cell_terrain/native_c.c)
 
 # BSL unified editor shell; pinned MIT toolkit. Signed: President.
-target_sources(${GAME_UNIXNAME} PRIVATE src/editor_shell/shell.cpp
+target_sources(${GAME_UNIXNAME} PRIVATE src/ui/widgets.cpp src/editor_shell/shell.cpp
  bsl/third_party/imgui/imgui.cpp bsl/third_party/imgui/imgui_draw.cpp
  bsl/third_party/imgui/imgui_tables.cpp bsl/third_party/imgui/imgui_widgets.cpp
  bsl/third_party/imgui/backends/imgui_impl_allegro5.cpp)
@@ -364,7 +364,7 @@ target_link_libraries(${GAME_UNIXNAME} box2d::box2d)
 target_sources(${GAME_UNIXNAME} PRIVATE src/physics_lab/world.cpp src/physics_lab/bor_hurtbox.c src/physics_lab/object_factory.cpp)
 
 # Native laboratories; ordinary source ownership, no staging scripts. Signed: President.
-target_sources(${GAME_UNIXNAME} PRIVATE src/labs/lab.cpp)
+target_sources(${GAME_UNIXNAME} PRIVATE src/labs/lab.cpp src/labs/ui_compat_check.cpp)
 
 # Portable testing package; build inputs stay in the repository. Signed: President.
 get_filename_component(PS_COMPILER_BIN "${CMAKE_C_COMPILER}" DIRECTORY)

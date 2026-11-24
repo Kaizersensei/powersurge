@@ -12,6 +12,19 @@
           "minimum": 2
         }
       ]
+    },
+    {
+      "id": "ability:double_jump",
+      "name": "Double jump",
+      "animation": "",
+      "tag": "traversal.double_jump",
+      "requires": [
+        {
+          "stat": "stat:experience",
+          "minimum": 2
+        }
+      ],
+      "capability": "traversal.double_jump"
     }
   ],
   "rewards": [
@@ -74,7 +87,8 @@
     {
       "definition": "character:michio",
       "abilities": [
-        "ability:lab_cut"
+        "ability:lab_cut",
+        "ability:double_jump"
       ],
       "rewards": [
         "reward:grunt",
@@ -84,7 +98,8 @@
     {
       "definition": "character:michio_alternate",
       "abilities": [
-        "ability:lab_cut"
+        "ability:lab_cut",
+        "ability:double_jump"
       ],
       "rewards": [
         "reward:grunt",

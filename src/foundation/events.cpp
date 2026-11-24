@@ -17,6 +17,11 @@ void Events::bind_rewards(EventRewardPort& port){
  if(rewards_||!runs_.empty())throw std::invalid_argument("reward adapter must bind once before event execution");
  rewards_=&port;
 }
+void Events::bind_skills(EventSkillPort& port){
+ if(skills_||!runs_.empty())throw std::invalid_argument("skill adapter must bind once before event execution");
+ for(const auto& entry:catalog_.events())for(std::size_t i=0;i<entry.second.commands.size();++i){const auto& command=entry.second.commands[i];if((command.op==EventOp::grant_skill||command.op==EventOp::revoke_skill)&&!port.knows_ability(command.target))throw std::invalid_argument("Event "+entry.first+" command "+std::to_string(i+1)+" references unknown ability "+command.target);}
+ skills_=&port;
+}
 void Events::bind_quests(EventQuestPort& port){
  if(quests_||!runs_.empty())throw std::invalid_argument("quest adapter must bind once before event execution");
  quests_=&port;
@@ -51,13 +56,14 @@ Result Events::start(const std::string& id,const std::string& definition,const E
   return {same?Code::ok:Code::conflict,same};
  }
  const auto* event=catalog_.event(definition);
+ const bool skill=std::any_of(event->commands.begin(),event->commands.end(),[](const EventCommand& c){return c.op==EventOp::grant_skill||c.op==EventOp::revoke_skill;});
  const bool reward=std::any_of(event->commands.begin(),event->commands.end(),[](const EventCommand& c){return c.op==EventOp::grant_reward;});
  const bool quest=std::any_of(event->commands.begin(),event->commands.end(),[](const EventCommand& c){return c.op==EventOp::accept_quest||c.op==EventOp::claim_quest;});
  const bool actor=std::any_of(event->commands.begin(),event->commands.end(),[](const EventCommand& c){return c.op==EventOp::spawn_character||c.op==EventOp::spawn_actor;});
- if((!context.character.empty()&&!identity(context.character))||((reward||quest||actor)&&!identity(context.character)))return {Code::invalid};
+ if((!context.character.empty()&&!identity(context.character))||((reward||quest||actor||skill)&&!identity(context.character)))return {Code::invalid};
  const bool trade=std::any_of(event->commands.begin(),event->commands.end(),[](const EventCommand& c){return c.op==EventOp::buy_shop_item||c.op==EventOp::sell_shop_item;});
  const bool clock=std::any_of(event->commands.begin(),event->commands.end(),[](const EventCommand& c){return c.op==EventOp::advance_calendar;});
- if((actor&&!actors_)||(clock&&!clock_)||(reward&&!rewards_)||(quest&&!quests_)||(trade&&!trades_))return {Code::disabled};
+ if((skill&&!skills_)||(actor&&!actors_)||(clock&&!clock_)||(reward&&!rewards_)||(quest&&!quests_)||(trade&&!trades_))return {Code::disabled};
  if(runs_.size()>=4096)return {Code::denied};
  EventRun r;r.id=id;r.definition=definition;r.context=context;runs_.emplace(id,std::move(r));return {Code::ok};
 }
@@ -86,6 +92,7 @@ Code Events::execute(EventRun& r,const EventCommand& c){
   if(result.code!=Code::ok)return result.code;
   break;
  }
+ case EventOp::grant_skill:case EventOp::revoke_skill:{if(!skills_)return Code::disabled;const auto result=skills_->invoke(r.context,c);if(result.code!=Code::ok)return result.code;break;}
  case EventOp::grant_reward:{
   if(!rewards_)return Code::disabled;
   const auto result=rewards_->grant(r.context,c);if(result.code!=Code::ok)return result.code;
@@ -137,7 +144,7 @@ void Events::restore(const EventState& state){
   require(run_key(r.id)&&entry.first==r.id&&def&&identity(r.context.owner)&&identity(r.context.player));
   require(r.context.character.empty()||identity(r.context.character));
   require(!r.context.travel||valid_travel_context(*r.context.travel));
-  if(std::any_of(def->commands.begin(),def->commands.end(),[](const EventCommand& c){return c.op==EventOp::grant_reward||c.op==EventOp::accept_quest||c.op==EventOp::claim_quest||c.op==EventOp::spawn_character||c.op==EventOp::spawn_actor;}))require(identity(r.context.character));
+  if(std::any_of(def->commands.begin(),def->commands.end(),[](const EventCommand& c){return c.op==EventOp::grant_skill||c.op==EventOp::revoke_skill||c.op==EventOp::grant_reward||c.op==EventOp::accept_quest||c.op==EventOp::claim_quest||c.op==EventOp::spawn_character||c.op==EventOp::spawn_actor;}))require(identity(r.context.character));
   require(static_cast<int>(r.status)>=0&&r.status<=EventStatus::failed&&static_cast<int>(r.error)>=0&&r.error<=Code::busy&&r.next<=def->commands.size());
   require(r.status==EventStatus::failed?r.error!=Code::ok:r.error==Code::ok);
   if(r.status==EventStatus::waiting)require(r.next>0&&def->commands[r.next-1].op==EventOp::wait_ticks&&r.wait_ticks>0&&r.wait_ticks<=def->commands[r.next-1].value);

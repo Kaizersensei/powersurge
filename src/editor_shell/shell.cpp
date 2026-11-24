@@ -2,6 +2,7 @@
 
 // Shared native editor UI. Existing terrain/level providers own all writable content. Signed: President.
 #include "shell.h"
+#include "../ui/widgets.hpp"
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "backends/imgui_impl_allegro5.h"
@@ -45,6 +46,7 @@ std::deque<Command> commands;std::deque<Message> log;
 std::map<std::string,std::string> statuses,baselines;
 std::vector<Region> regions;
 bool test_injecting=false;
+bool frame_open=false;
 bool ready=false,visible=false,scene_level=false,editing=false,was_editing=false,blocked=false,keyboard=false,handled=false;
 bool drawer=true,user_hidden=false,log_open=false,details=false,help=false,modal=false,focus=true,release_block=false,wait_release=false;
 bool save_and_resume=false,save_and_reload=false;
@@ -90,7 +92,7 @@ void note(const char* category,const char* text,int severity){
  last_note=text;last_severity=severity;
 }
 float config_number(ALLEGRO_CONFIG* c,const char* key,float fallback){
- auto* v=al_get_config_value(c,"editor",key);if(!v)return fallback;char* end=nullptr;float n=strtof(v,&end);return end&&!*end&&std::isfinite(n)?n:fallback;
+ return ps::ui::appearance_number(c,key,fallback);
 }
 void init(){
  auto* display=al_get_current_display();if(!display)return;
@@ -113,9 +115,9 @@ void init(){
  style.FramePadding=ImVec2(config_number(cfg,"frame_padding_x",8),config_number(cfg,"frame_padding_y",5));
  for(auto entry:{std::pair<const char*,ImGuiCol>("background",ImGuiCol_WindowBg),{"panel",ImGuiCol_FrameBg},{"accent",ImGuiCol_ButtonActive}}){
   const char* text=cfg?al_get_config_value(cfg,"colors",entry.first):nullptr;float r,g,b,a;
-  if(text&&sscanf(text,"%f,%f,%f,%f",&r,&g,&b,&a)==4)style.Colors[entry.second]=ImVec4(std::clamp(r,0.f,1.f),std::clamp(g,0.f,1.f),std::clamp(b,0.f,1.f),std::clamp(a,0.f,1.f));
+  if(text&&sscanf(text,"%f,%f,%f,%f",&r,&g,&b,&a)==4&&std::isfinite(r)&&std::isfinite(g)&&std::isfinite(b)&&std::isfinite(a))style.Colors[entry.second]=ImVec4(std::clamp(r,0.f,1.f),std::clamp(g,0.f,1.f),std::clamp(b,0.f,1.f),std::clamp(a,0.f,1.f));
  }
- if(cfg)al_destroy_config(cfg);
+ if(cfg)al_destroy_config(cfg);else note("editor","Optional editor-ui.ini is absent; using default appearance.",1);
  char user[4096];asset_user_datadir(user,sizeof user);
  uint64_t workspace_key=UINT64_C(14695981039346656037);for(const unsigned char* p=(const unsigned char*)user;*p;p++){workspace_key^=*p;workspace_key*=UINT64_C(1099511628211);}
  const char* local=std::getenv("LOCALAPPDATA");auto directory=std::filesystem::u8path(local?local:user)/"PowerSurge/editor-shell"/std::to_string(workspace_key);
@@ -126,7 +128,7 @@ void init(){
  if(prefs){scale=std::clamp(config_number(prefs,"scale",scale),.75f,2.f);auto* d=al_get_config_value(prefs,"editor","drawer");if(d)drawer=strcmp(d,"hidden")!=0;user_hidden=!drawer;auto* motion=al_get_config_value(prefs,"editor","reduced_motion");if(motion)reduced=!strcmp(motion,"true");al_destroy_config(prefs);}
  if(std::getenv("BSL_SHELL_CHECK")&&std::getenv("BSL_SHELL_SCALE"))scale=std::clamp(float(atof(std::getenv("BSL_SHELL_SCALE"))),.75f,2.f);
  if(!ImGui_ImplAllegro5_Init(display)){ImGui::DestroyContext();return;}
- ready=true;note("editor","Native editor shell ready.",0);
+ ready=true;note("editor","Native editor shell ready.",0);ps_ui_init();
 }
 bool command_button(const char* label,const char* command,double value=0,bool enabled=true){
  float available=std::max(1.f,ImGui::GetContentRegionAvail().x-2*ImGui::GetStyle().FramePadding.x);
@@ -147,7 +149,7 @@ void want_depart(const char* target){
  if(state.terrain_dirty||state.placements_dirty){intent=target;modal=true;}
  else submit(target);
 }
-void menu_item(const char* label,const char* shortcut,const char* id,double value=0,bool enabled=true){if(ImGui::MenuItem(label,shortcut,false,enabled))submit(id,value);}
+void menu_item(const char* label,const char* shortcut,const char* id,double value=0,bool enabled=true){if(ImGui::MenuItem(label,ps::ui::shortcut(id)?ps::ui::shortcut(id):shortcut,false,enabled))submit(id,value);}
 void menu(){
  if(!ImGui::BeginMainMenuBar())return;
  top=ImGui::GetWindowHeight();
@@ -186,6 +188,8 @@ void menu(){
  if(ImGui::BeginMenu("Test")){
   if(ImGui::MenuItem("Resume gameplay","F12"))submit("resume");
   if(ImGui::BeginMenu("Laboratories")){
+   if(ImGui::MenuItem("Shared UI pilot")){lab_intent="ui-pilot";lab_modal=true;}
+   if(ImGui::MenuItem("Shared UI / compatibility checks")){lab_intent="ui-pilot-check";lab_modal=true;}
    if(ImGui::MenuItem("Terrain / editor")){lab_intent="terrain";lab_modal=true;}
    if(ImGui::MenuItem("Physics objects")){lab_intent="physics";lab_modal=true;}
    if(ImGui::MenuItem("Connected terrain journey")){lab_intent="terrain-journey";lab_modal=true;}
@@ -280,14 +284,8 @@ void properties(){
   ImGui::TextDisabled("Drag in Select mode to move.");
   BslShellField f{};int fields=0;
   while(bsl_shell_field(fields++,&f)){
-   ImGui::PushID(f.index);ImGui::Separator();ImGui::TextWrapped("%s",f.name);
-   char command[64];snprintf(command,sizeof command,"field.%d",f.index);
-   if(f.boolean){bool value=f.value!=0;if(ImGui::Checkbox("Value",&value))submit(command,value);}
-   else {double value=f.value;ImGui::SetNextItemWidth(-1);if(ImGui::InputDouble("##value",&value,f.step,10*f.step,"%.5g")&&std::isfinite(value))submit(command,std::clamp(value,f.minimum,f.maximum));}
-   ImGui::TextDisabled("%s",f.overridden?"Instance override":"Template value");
-   if(f.live_available)ImGui::TextWrapped("Effective: %.5g%s",f.effective,std::abs(f.effective-f.value)>1e-9?" (runtime override)":"");
-   if(f.overridden&&ImGui::SmallButton("Reset to template")){snprintf(command,sizeof command,"reset.%d",f.index);submit(command);}
-   ImGui::PopID();
+   double value=f.value;int action=ps::ui::instance_field(f,value);char command[64];
+   if(action){snprintf(command,sizeof command,action==2?"reset.%d":"field.%d",f.index);submit(command,value);}
   }
   if(fields==1)ImGui::TextWrapped("No editable instance fields are registered for this object.");
   if(strstr(state.name,"Decoration /")){int v=state.brightness;if(ImGui::SliderInt("Brightness",&v,0,15))submit("brightness",v);}
@@ -373,8 +371,8 @@ void dialogs(){
 
  if(help){ImGui::SetNextWindowSize(ImVec2(std::min(width,700*scale),0),ImGuiCond_Appearing);ImGui::Begin("Editor controls",&help);
   ImGui::TextWrapped("Choose Select / Inspect, Terrain or Objects from the tool row. Select mode never paints. Palette searches placeable runtime objects; Properties edits supported fields.");
-  ImGui::TextWrapped("Terrain: drag to paint; right drag erases; Shift + two clicks draws a line. Esc or right click cancels its first point. Middle click samples the active tool; middle drag pans. Ctrl + wheel zooms this editor view (20%-1000%); View resets zoom. G changes the grid/brush.");
-  ImGui::TextWrapped("Ctrl+S saves terrain and placements. Ctrl+Z/Y undo/redo the active document. F12 resumes play. F6 is an optional Terrain/Objects shortcut. F8 toggles the diagnostic log.");
+  ImGui::TextWrapped("Terrain: drag to paint; right drag erases; Shift + two clicks draws a line. Esc or right click cancels its first point. Middle click samples the active tool; middle drag pans. Ctrl + wheel zooms this editor view (20%%-1000%%); View resets zoom. G changes the grid/brush.");
+  ps::ui::command_help();
   auto hp=ImGui::GetWindowPos(),hs=ImGui::GetWindowSize();regions.push_back({hp.x,hp.y,hs.x,hs.y});ImGui::End();
  }
  if(details){ImGui::SetNextWindowSize(ImVec2(std::min(width,760*scale),height*.5f),ImGuiCond_Appearing);ImGui::Begin("Live diagnostics",&details);
@@ -399,7 +397,7 @@ extern "C" bool bsl_shell_pop(char* id,int capacity,double* value){if(commands.e
 extern "C" void bsl_shell_request_drop(int kind,int index,float x,float y){commands.push_back({"palette.drop",double(index),state.selection,{kind,index,x,y}});}
 extern "C" bool bsl_shell_drop_payload(BslShellDrop* out){if(!command_has_drop||!out)return false;*out=command_drop;return true;}
 extern "C" uint64_t bsl_shell_command_target(){return command_target;}
-extern "C" void bsl_shell_detach(){visible=false;commands.clear();previous_selection=0;previous_shape=0;previous_tool=-1;editing=was_editing=false;view_middle=view_dragging=palette_active=palette_released=false;view_keys=false;regions.clear();}
+extern "C" void bsl_shell_detach(){ps_ui_detach();visible=false;commands.clear();previous_selection=0;previous_shape=0;previous_tool=-1;editing=was_editing=false;view_middle=view_dragging=palette_active=palette_released=false;view_keys=false;regions.clear();}
 extern "C" bool bsl_shell_keyboard(){if(ps_lab_automatic())return true;if(!ready||!visible)return false;if(std::getenv("BSL_SHELL_CHECK")&&!editing)return true;return editing?(keyboard||handled||blocked):game_ui_capture;}
 extern "C" bool bsl_shell_block_editor(){return blocked||handled||view_middle;}
 extern "C" bool bsl_shell_navigation_keyboard(){return view_keys;}
@@ -450,6 +448,7 @@ extern "C" void bsl_shell_settings_save(){
  al_destroy_config(cfg);
 }
 extern "C" void bsl_shell_tick(bool is_level){
+ if(frame_open){ImGui::EndFrame();frame_open=false;ps_ui_frame(false);}
  scene_level=is_level;if(!scene_level){visible=false;commands.clear();return;}
  if(!ready)init();if(!ready)return;
  bsl_shell_snapshot(&state);editing=state.editing;if(state.presentation&&!editing){visible=false;return;}
@@ -457,9 +456,9 @@ extern "C" void bsl_shell_tick(bool is_level){
  if(state.terrain&&*state.message&&terrain_notice!=state.message){terrain_notice=state.message;if(terrain_notice.rfind("F12 edits",0)!=0)note("terrain",state.message,terrain_notice.find("refus")!=std::string::npos||terrain_notice.find("failed")!=std::string::npos||terrain_notice.find("overlaps")!=std::string::npos?2:0);}visible=true;handled=false;
  if(editing&&!was_editing){tool=0;tab=1;submit("tool",0);}
  bool reset_focus=!editing&&was_editing;if(reset_focus)bsl_shell_settings_save();was_editing=editing;
- auto& io=ImGui::GetIO();ImGui_ImplAllegro5_SetDisplay(al_get_current_display());ImGui_ImplAllegro5_NewFrame();
- ImGui::GetStyle().FontScaleMain=scale;io.MouseDrawCursor=editing||log_open||details;
- ImGui::NewFrame();if(reset_focus){ImGui::ClearActiveID();ImGui::SetWindowFocus(nullptr);keyboard=false;}
+ auto& io=ImGui::GetIO();ImGui_ImplAllegro5_SetDisplay(al_get_current_display());ImGui_ImplAllegro5_NewFrame();ps_ui_input();
+ ImGui::GetStyle().FontScaleMain=scale;io.MouseDrawCursor=editing||log_open||details||std::getenv("PS_UI_PILOT")||ps_ui_menu_active();
+ ImGui::NewFrame();frame_open=true;ps_ui_frame(true);if(reset_focus){ImGui::ClearActiveID();ImGui::SetWindowFocus(nullptr);keyboard=false;}
  width=io.DisplaySize.x;height=io.DisplaySize.y;regions.clear();
  keyboard=io.WantCaptureKeyboard;ALLEGRO_MOUSE_STATE mouse;al_get_mouse_state(&mouse);
  ALLEGRO_KEYBOARD_STATE held_keys;al_get_keyboard_state(&held_keys);bool held_key=false;for(int k=1;k<ALLEGRO_KEY_MAX;k++)held_key|=al_key_down(&held_keys,k);
@@ -475,25 +474,25 @@ extern "C" void bsl_shell_tick(bool is_level){
  view_keys=editing&&focus&&!io.WantTextInput&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&!help&&!details&&!ImGui::IsAnyItemActive();
  if(editing&&!io.WantTextInput&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)){
   if(!help&&!details&&(ImGui::IsKeyPressed(ImGuiKey_Escape,false)||(view_canvas(io.MousePos.x,io.MousePos.y)&&ImGui::IsMouseClicked(ImGuiMouseButton_Right)))&&bsl_cell_cancel_line()){handled=true;wait_release=true;}
-  if(!handled&&ImGui::IsKeyPressed(ImGuiKey_F12,false)){submit("resume");handled=true;}
-  if(!io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_F6,false)){submit("tool",state.tool==1?2:1);handled=true;}
+  if(!handled&&ps::ui::pressed("resume")){submit("resume");handled=true;}
+  if(!io.KeyCtrl&&ps::ui::pressed("tools")){submit("tool",state.tool==1?2:1);handled=true;}
   const ImGuiKey overlays[]={ImGuiKey_F3,ImGuiKey_F4,ImGuiKey_F5,ImGuiKey_None,ImGuiKey_F2,ImGuiKey_F7};for(int i=0;i<6;i++)if(i!=3&&ImGui::IsKeyPressed(overlays[i],false)){bsl_shell_debug_set(bsl_shell_debug_get()^(1u<<i));handled=true;}
   if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_F6,false)){bsl_shell_debug_set(bsl_shell_debug_get()^8u);handled=true;}
-  if(ImGui::IsKeyPressed(ImGuiKey_F1,false)){help=!help;handled=true;}
-  if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_S,false)){submit("save");handled=true;}
-  if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_R,false)){if(io.KeyShift)submit("terrain.reload_materials");else want_depart("reload");handled=true;}
-  if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_Z,false)){submit("undo");handled=true;}
-  if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_Y,false)){submit("redo");handled=true;}
-  if(ImGui::IsKeyPressed(ImGuiKey_Delete,false)){submit("delete");handled=true;}
-  if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_1,false)){submit("tool",3);handled=true;}
-  if(io.KeyCtrl&&ImGui::IsKeyPressed(ImGuiKey_2,false)){submit("tool",0);handled=true;}
-  if(ImGui::IsKeyPressed(ImGuiKey_Insert,false)){drawer=true;user_hidden=false;tab=0;submit("tool",2);handled=true;}
-  if(ImGui::IsKeyPressed(ImGuiKey_Home,false)){submit("home");handled=true;}
-  if(ImGui::IsKeyPressed(ImGuiKey_PageUp,false)){submit("door",1);handled=true;}
-  if(ImGui::IsKeyPressed(ImGuiKey_PageDown,false)){submit("door",-1);handled=true;}
+  if(ps::ui::pressed("help")){help=!help;handled=true;}
+  if(ps::ui::pressed("save")){submit("save");handled=true;}
+  if(ps::ui::pressed("terrain.reload_materials")){submit("terrain.reload_materials");handled=true;}else if(ps::ui::pressed("reload")){want_depart("reload");handled=true;}
+  if(ps::ui::pressed("undo")){submit("undo");handled=true;}
+  if(ps::ui::pressed("redo")){submit("redo");handled=true;}
+  if(ps::ui::pressed("delete")){submit("delete");handled=true;}
+  if(ps::ui::pressed("events")){submit("tool",3);handled=true;}
+  if(ps::ui::pressed("inspect")){submit("tool",0);handled=true;}
+  if(ps::ui::pressed("palette")){drawer=true;user_hidden=false;tab=0;submit("tool",2);handled=true;}
+  if(ps::ui::pressed("home")){submit("home");handled=true;}
+  if(ps::ui::pressed("door.next")){submit("door",1);handled=true;}
+  if(ps::ui::pressed("door.previous")){submit("door",-1);handled=true;}
  }
  if(!io.WantTextInput&&ImGui::IsKeyPressed(ImGuiKey_Escape,false)&&(help||details)){help=details=false;handled=true;wait_release=true;}
- if(!io.WantTextInput&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&ImGui::IsKeyPressed(ImGuiKey_F8,false)){log_open=!log_open;handled=true;}
+ if(!io.WantTextInput&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&ps::ui::pressed("log")){log_open=!log_open;handled=true;}
  if(editing)palette_drag();
  if(editing&&view_canvas(mouse.x,mouse.y)&&!ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)&&!palette_active&&
     (ImGui::IsMouseClicked(ImGuiMouseButton_Left)||ImGui::IsMouseClicked(ImGuiMouseButton_Middle))){
@@ -502,20 +501,21 @@ extern "C" void bsl_shell_tick(bool is_level){
  bool world=false,ui=false;for(int o:owner){world|=o==2;ui|=o==1;}
  if(world&&hit(mouse.x,mouse.y)&&(mouse.buttons&3)&&!view_middle){submit("cancel");wait_release=true;}
  blocked=!focus||wait_release||release_block||ui||(!world&&(hit(mouse.x,mouse.y)||io.WantCaptureMouse));
- game_ui_capture=keyboard||handled||ui||release_block||wait_release||!focus;
+ game_ui_capture=(keyboard&&((!ps_ui_enabled()&&!ps_ui_menu_active())||io.WantTextInput||ImGui::IsAnyItemActive()))||handled||ui||release_block||wait_release||!focus;
  release_block=false;
  if(save_and_lab){if(!state.terrain_dirty&&!state.placements_dirty){submit(("lab."+lab_intent).c_str());save_and_lab=false;}else if(commands.empty()){save_and_lab=false;note("save","Lab was not started: some edits could not be saved.",2);}}
  if(save_and_resume||save_and_reload){if(!state.terrain_dirty&&!state.placements_dirty){submit(save_and_reload?"reload":"resume");save_and_resume=save_and_reload=false;}else if(commands.empty()){save_and_resume=save_and_reload=false;note("save","Save incomplete; remaining edits are retained.",2);}}
- ImGui::Render();test_tick();
+ test_tick();
 }
 extern "C" void bsl_shell_render(){
- if(!ready||!visible)return;
- ImGui_ImplAllegro5_RenderDrawData(ImGui::GetDrawData());
+ if(!ready||!visible||!frame_open)return;
+ ps_ui_tools();ImGui::Render();frame_open=false;ps_ui_frame(false);
+ ImGui_ImplAllegro5_RenderDrawData(ImGui::GetDrawData());ps::ui::rendered();
  bsl_shell_terrain_thumbs_collect();
  const char* report=std::getenv("BSL_SHELL_SCREENSHOT");static int frame=0;
  if(report&&editing&&(++frame==60||final_capture)){auto* previous=al_get_new_file_interface();al_set_standard_file_interface();al_save_bitmap(report,al_get_backbuffer(al_get_current_display()));al_set_new_file_interface(previous);if(final_capture){std::ofstream marker(std::filesystem::u8path(std::string(report)+".ready"));marker<<"rendered";final_capture=false;}}
 }
-extern "C" void bsl_shell_shutdown(){if(!ready)return;bsl_shell_settings_save();bsl_shell_terrain_thumbs_collect();ImGui_ImplAllegro5_Shutdown();ImGui::DestroyContext();ready=false;}
+extern "C" void bsl_shell_shutdown(){if(!ready)return;if(frame_open){ImGui::EndFrame();frame_open=false;ps_ui_frame(false);}ps_ui_shutdown();bsl_shell_settings_save();bsl_shell_terrain_thumbs_collect();ImGui_ImplAllegro5_Shutdown();ImGui::DestroyContext();ready=false;}
 namespace {
 void test_pointer(int type,float x,float y,int button=0){
  test_injecting=true;ALLEGRO_EVENT event{};event.type=type;event.mouse.display=al_get_current_display();event.mouse.x=(int)x;event.mouse.y=(int)y;event.mouse.button=button;bsl_shell_event(&event);test_injecting=false;

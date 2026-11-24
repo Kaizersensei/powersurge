@@ -41,6 +41,7 @@ static void c2_inventory(const BslMenuView* view,Rect area,float alpha){
   c2_sprite(base,r,alpha*base->opacity*(i<view->slot_limit?1:c2_inventory_locked_opacity),base->frame);
   if(i>=view->slot_limit||i>=view->item_count)continue;
   const BslInventoryCell* item=&view->items[i];
+  if(alpha>.95f){Rect hit=c2_intersection(r,area);ps_ui_menu_region(PS_MENU_SLOT,i,hit.x,hit.y,hit.w,hit.h);}
   if(i==view->selected)for(int edge=0;edge<(int)c2_inventory_outline_width;edge++)image_rect(r.x+edge,r.y+edge,r.x+r.w-1-edge,r.y+r.h-1-edge,color_rgb(c2_inventory_outline[0],c2_inventory_outline[1],c2_inventory_outline[2]));
   char number[32],label[1024];snprintf(number,sizeof(number),"%d",item->quantity);UiValue values[]={{"item",item->name},{"quantity",number},{"equipped",item->equipped?c2_inventory_equipped_marker:""},{"assigned",item->assigned?c2_inventory_assigned_marker:""}};
   float scale=fminf(c2_scale(),cell/base->w);ui_format(label,sizeof(label),name->text,values,4);c2_text(name,label,c2_cell_rect(name,base,r),scale,alpha*name->opacity);ui_format(label,sizeof(label),quantity->text,values,4);c2_text(quantity,label,c2_cell_rect(quantity,base,r),scale,alpha*quantity->opacity);
@@ -75,6 +76,11 @@ void bsl_ui_menu(const BslMenuView* view){
    case 3:{float scale=c2_scale()*node->skin_scale;int left=(int)(bsl_ui_skins[node->skin].left*scale),right=(int)(bsl_ui_skins[node->skin].right*scale);patch_alpha(patches[node->skin][6],(Rect){r.x,r.y,left,r.h},0,0,scale,state->alpha);patch_alpha(patches[node->skin][7],(Rect){r.x+left,r.y,r.w-left-right,r.h},1,0,scale,state->alpha);patch_alpha(patches[node->skin][8],(Rect){r.x+r.w-right,r.y,right,r.h},0,0,scale,state->alpha);break;}
    case 5:c2_inventory(view,r,state->alpha);break;
    case 6:c2_wind(e,r,state->alpha,&weather);break;
+  }
+  if(state->alpha>.95f){Rect hit=c2_intersection(r,state->clip);
+   if(node->action)ps_ui_menu_region(PS_MENU_LINK,node->action,hit.x,hit.y,hit.w,hit.h);
+   if(!strcmp(e->tag,"Inventory_Category"))ps_ui_menu_region(PS_MENU_CATEGORIES,0,hit.x,hit.y,hit.w,hit.h);
+   if(!strcmp(e->tag,"Inventory_Details")||(!strcmp(e->tag,"Detail_Content")&&view->page!=1&&view->page!=2))ps_ui_menu_region(PS_MENU_CONTROLS,0,hit.x,hit.y,hit.w,hit.h);
   }
   state->rect=r;if(node->clip_children)state->clip=c2_intersection(state->clip,r);unclip(old);
  }

@@ -1,0 +1,15 @@
+// Semantic UI adapter. Engine input mappings retain device-specific ownership.
+inputmap "powersurge_ui_pad"
+{
+ joystick 1
+ {
+  up BUTTON_14
+  down BUTTON_13
+  left BUTTON_12
+  right BUTTON_11
+  fire1 BUTTON_1
+  fire2 BUTTON_2
+  fire3 BUTTON_10
+  fire4 BUTTON_9
+ }
+}
