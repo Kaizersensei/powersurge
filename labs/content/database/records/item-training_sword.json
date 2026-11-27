@@ -1,0 +1,13 @@
+{
+  "id": "item:training_sword",
+  "kind": "item",
+  "version": 1,
+  "name": "Training sword",
+  "provenance": "Legacy .sword_box is an unfinished submenu. Unique instance/weapon slot are new laboratory rules, not a claimed legacy implementation.",
+  "storage": "unique",
+  "max_stack": 1,
+  "slot": "weapon",
+  "effect": "",
+  "category": "equipment",
+  "description": "Training equipment: authored stat contributions affect the next action; earned progression stays unchanged."
+}

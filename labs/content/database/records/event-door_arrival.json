@@ -1,0 +1,14 @@
+{
+  "id": "event:door_arrival",
+  "kind": "event",
+  "version": 1,
+  "name": "Arrival handoff",
+  "provenance": "Original teleport service fixture. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "add_variable",
+      "target": "variable:arrivals",
+      "value": 1
+    }
+  ]
+}

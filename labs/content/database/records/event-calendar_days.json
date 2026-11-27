@@ -1,0 +1,13 @@
+{
+  "id": "event:calendar_days",
+  "kind": "event",
+  "version": 1,
+  "name": "Advance calendar days",
+  "provenance": "Original elapsed-time calendar diagnostic; no actor/physics fast-forward. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "advance_calendar",
+      "value": 172800
+    }
+  ]
+}

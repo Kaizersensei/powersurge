@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "materials": [
+    {
+      "id": "material:study-rounded",
+      "name": "Study rounded",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:study-axes",
+      "name": "Study axes",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:study-flat",
+      "name": "Study flat",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    }
+  ]
+}

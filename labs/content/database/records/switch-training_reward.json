@@ -1,0 +1,9 @@
+{
+  "id": "switch:training_reward",
+  "kind": "switch",
+  "version": 1,
+  "name": "Training reward chosen",
+  "provenance": "Original BORSurgeLab event fixture; EasyRPG workflow reference only. No upstream implementation copied.",
+  "scope": "player",
+  "initial": false
+}

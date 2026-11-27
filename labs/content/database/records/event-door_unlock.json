@@ -1,0 +1,14 @@
+{
+  "id": "event:door_unlock",
+  "kind": "event",
+  "version": 1,
+  "name": "Unlock annex door",
+  "provenance": "Original teleport service fixture. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "set_switch",
+      "target": "switch:door_open",
+      "value": true
+    }
+  ]
+}

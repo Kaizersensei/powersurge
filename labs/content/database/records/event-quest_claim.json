@@ -1,0 +1,13 @@
+{
+  "id": "event:quest_claim",
+  "kind": "event",
+  "version": 1,
+  "name": "Claim training supplies",
+  "provenance": "Original quest conversation outcome. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "claim_quest",
+      "target": "quest:training_supplies"
+    }
+  ]
+}

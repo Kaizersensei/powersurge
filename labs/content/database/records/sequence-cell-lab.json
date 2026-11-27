@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "kind": "sequence",
+  "id": "sequence:cell-lab",
+  "name": "Registered Terrain Levels",
+  "file": "quests/cell-levels.qst",
+  "levels": [
+    "level:cell-lab"
+  ]
+}

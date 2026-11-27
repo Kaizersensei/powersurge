@@ -17,6 +17,9 @@ static const int ui_hover[]={53,81,94};
 static const int ui_active[]={75,95,54};
 static const int ui_text[]={235,231,207};
 static const int ui_preview[]={255,215,90};
+static const int ui_selection[]={74,235,255};
+static const int ui_selection_shadow[]={8,16,20};
+static constexpr float ui_selection_width=1.5f,ui_selection_halo=4.0f;
 struct ToolButton {const char* command;const char* label;int width;};
 static const ToolButton tool_buttons[]={
 {"material_prev","Material <",96},

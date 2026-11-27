@@ -1,0 +1,11 @@
+{
+  "id": "variable:shop_berries",
+  "kind": "variable",
+  "version": 1,
+  "name": "Shop Berries",
+  "provenance": "Original scoped commerce fixture. Signed: Atlas.",
+  "scope": "session",
+  "initial": 4,
+  "minimum": 0,
+  "maximum": 20
+}

@@ -1,0 +1,14 @@
+{
+  "id": "event:pickup_fill",
+  "kind": "event",
+  "version": 1,
+  "name": "Pickup capacity test",
+  "provenance": "Isolated pickup capacity fixture. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "grant_item",
+      "target": "item:strawberry",
+      "quantity": 16
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "item:strawberry",
+  "kind": "item",
+  "version": 1,
+  "name": "Strawberries",
+  "provenance": "objects/items/arcade_items.inc ITEM_strawberries; stack limit 20 is a laboratory rule.",
+  "storage": "stack",
+  "max_stack": 20,
+  "slot": "",
+  "effect": "effect:strawberry_heal",
+  "category": "consumables",
+  "description": "Restores 5 HP. Cannot be used at full health."
+}

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "kind": "level",
+  "id": "level:cell-annex",
+  "scene": "levels/cell-annex.lev",
+  "parent": "level:cell-lab",
+  "name": "Cell Terrain Annex",
+  "location": {
+    "country": "Terrain Lab",
+    "locality": "Cell Terrain Annex"
+  },
+  "properties": {
+    "editable": true,
+    "weather": {
+      "region": "",
+      "hemisphere": "inherit",
+      "indoor": true,
+      "preset": "",
+      "wind_factor": 1,
+      "precipitation_factor": 1
+    },
+    "terrain": {
+      "document": "terrain/cell-annex.json",
+      "materials": "terrain/cell-annex-materials.json"
+    }
+  }
+}

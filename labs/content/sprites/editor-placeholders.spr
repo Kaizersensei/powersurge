@@ -1,0 +1,209 @@
+// Original temporary per-type square markers. Replace art while preserving class aliases. Signed: President.
+sprite "BOR Bar"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 0 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BOR Bar Curve"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 32 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BOR Bar Peak"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 64 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BOR Bar Straight"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 96 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BOR Ladder"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 128 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BOR Moving Ledge"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 160 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BOR Pole"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 192 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Alternate Michio"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 224 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Arcade Michio"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 256 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Event Anchor"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 288 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Permanent Checkpoint"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 320 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Pickup"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 352 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Progress Gate"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 384 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Sequence Exit"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 416 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Teleporter"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 448 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}
+sprite "BSL Temporary Checkpoint"
+{
+ source_file "images/editor/helper-placeholders.png"
+ source_rect 480 0 32 32
+ frame_size 32 32
+ hot_spot 16 32
+ animation 0
+ {
+  repeat FALSE
+  fps 1
+  data 0
+ }
+}

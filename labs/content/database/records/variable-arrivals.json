@@ -1,0 +1,11 @@
+{
+  "id": "variable:arrivals",
+  "kind": "variable",
+  "version": 1,
+  "name": "Completed door events",
+  "provenance": "Original teleport service fixture. Signed: Atlas.",
+  "scope": "player",
+  "initial": 0,
+  "minimum": 0,
+  "maximum": 10000
+}

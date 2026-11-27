@@ -1,0 +1,9 @@
+{
+  "id": "field:wind_source",
+  "kind": "field",
+  "version": 1,
+  "name": "Source wind defaults",
+  "provenance": "C2 Environment.xml WindStrength 0, WindDirection 1; Wind event group is empty.",
+  "strength": 0,
+  "direction": 1
+}

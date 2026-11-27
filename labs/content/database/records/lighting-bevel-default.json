@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "kind": "lighting_profile",
+  "id": "lighting:bevel-default",
+  "name": "Bevel-only fallback",
+  "driver": "static",
+  "ambient": {
+    "color": [
+      1,
+      1,
+      1
+    ],
+    "energy": 0.3
+  },
+  "sun": "light:bevel-default",
+  "moon": null
+}

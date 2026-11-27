@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "kind": "level",
+  "id": "level:bevel-demo",
+  "scene": "levels/bevel-demo.lev",
+  "parent": "",
+  "name": "Terrain bevels",
+  "location": {
+    "country": "Terrain Lab",
+    "locality": "Terrain bevels"
+  },
+  "properties": {
+    "editable": true,
+    "weather": {
+      "region": "",
+      "hemisphere": "inherit",
+      "indoor": false,
+      "preset": "",
+      "wind_factor": 1,
+      "precipitation_factor": 1
+    },
+    "terrain": {
+      "document": "terrain/bevel-demo.json",
+      "materials": "terrain/bevel-materials.json"
+    },
+    "lighting": {
+      "profile": "lighting:bevel-default"
+    }
+  }
+}

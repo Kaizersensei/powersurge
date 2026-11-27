@@ -452,8 +452,10 @@ void asset_init(const char* argv0, const char* optional_gamedir, const char* com
  * asset_release()
  * Releases the asset manager
  */
+extern void bsl_database_snapshot_clear(void);
 void asset_release()
 {
+    bsl_database_snapshot_clear();
     /* not initialized? */
     if(!asset_is_init())
         return;

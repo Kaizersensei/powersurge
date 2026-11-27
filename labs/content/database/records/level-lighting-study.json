@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "kind": "level",
+  "id": "level:lighting-study",
+  "scene": "levels/lighting-study.lev",
+  "parent": "",
+  "name": "Normal-map lighting study",
+  "location": {
+    "country": "Terrain Lab",
+    "locality": "Normal-map lighting study"
+  },
+  "properties": {
+    "editable": true,
+    "weather": {
+      "region": "",
+      "hemisphere": "inherit",
+      "indoor": false,
+      "preset": "",
+      "wind_factor": 1,
+      "precipitation_factor": 1
+    },
+    "terrain": {
+      "document": "terrain/lighting-study.json",
+      "materials": "terrain/cell-materials.json"
+    },
+    "lighting": {
+      "profile": "lighting:outdoor"
+    },
+    "surface_study": {
+      "library": "material-library:lighting-study",
+      "material": "material:study-rounded",
+      "light": "light:sun",
+      "profile": "lighting:outdoor"
+    }
+  }
+}

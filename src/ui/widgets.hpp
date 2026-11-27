@@ -1,9 +1,14 @@
 #pragma once
 #include "widgets.h"
 #include "imgui.h"
+#include <string>
+#include <vector>
 struct BslShellField;
 struct ALLEGRO_CONFIG;
 namespace ps::ui {
+bool wheel_selection(int& selected,int count);
+bool combo(const char* label,int* selected,const char* const items[],int count);
+bool combo(const char* label,int* selected,const std::vector<std::string>& items);
 // Returns 1 for a validated edit, 2 for reset, 0 otherwise. Caller retains authority.
 int instance_field(const BslShellField& field,double& value);
 const char* shortcut(const char* command);

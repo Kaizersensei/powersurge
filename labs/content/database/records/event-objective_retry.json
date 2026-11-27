@@ -1,0 +1,14 @@
+{
+  "id": "event:objective_retry",
+  "kind": "event",
+  "version": 1,
+  "name": "Objective Retry",
+  "provenance": "Original single-player common-event reward fixture. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "grant_reward",
+      "target": "source:lab_exploration",
+      "receipt": "objective/exploration"
+    }
+  ]
+}

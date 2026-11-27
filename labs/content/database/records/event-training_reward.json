@@ -1,0 +1,24 @@
+{
+  "id": "event:training_reward",
+  "kind": "event",
+  "version": 1,
+  "name": "Accept training strawberry",
+  "provenance": "Original BORSurgeLab event fixture; EasyRPG workflow reference only. No upstream implementation copied.",
+  "commands": [
+    {
+      "op": "grant_item",
+      "target": "item:strawberry",
+      "quantity": 1
+    },
+    {
+      "op": "set_switch",
+      "target": "switch:training_reward",
+      "value": true
+    },
+    {
+      "op": "add_variable",
+      "target": "variable:training_choices",
+      "value": 1
+    }
+  ]
+}

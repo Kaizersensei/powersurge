@@ -1,0 +1,189 @@
+{
+  "version": 1,
+  "cell_size": 32,
+  "records": [
+    {
+      "object": "BOR Bar",
+      "glyph": "BR",
+      "cell": 0,
+      "color": [
+        235,
+        170,
+        70
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BOR Bar Curve",
+      "glyph": "BC",
+      "cell": 1,
+      "color": [
+        235,
+        170,
+        70
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BOR Bar Peak",
+      "glyph": "BP",
+      "cell": 2,
+      "color": [
+        235,
+        170,
+        70
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BOR Bar Straight",
+      "glyph": "BS",
+      "cell": 3,
+      "color": [
+        235,
+        170,
+        70
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BOR Ladder",
+      "glyph": "LD",
+      "cell": 4,
+      "color": [
+        235,
+        170,
+        70
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BOR Moving Ledge",
+      "glyph": "ML",
+      "cell": 5,
+      "color": [
+        235,
+        170,
+        70
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BOR Pole",
+      "glyph": "PL",
+      "cell": 6,
+      "color": [
+        235,
+        170,
+        70
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Alternate Michio",
+      "glyph": "AM",
+      "cell": 7,
+      "color": [
+        110,
+        170,
+        245
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Arcade Michio",
+      "glyph": "AC",
+      "cell": 8,
+      "color": [
+        110,
+        170,
+        245
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Event Anchor",
+      "glyph": "EV",
+      "cell": 9,
+      "color": [
+        190,
+        135,
+        245
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Permanent Checkpoint",
+      "glyph": "PC",
+      "cell": 10,
+      "color": [
+        235,
+        220,
+        110
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Pickup",
+      "glyph": "PU",
+      "cell": 11,
+      "color": [
+        240,
+        115,
+        175
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Progress Gate",
+      "glyph": "PG",
+      "cell": 12,
+      "color": [
+        195,
+        145,
+        100
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Sequence Exit",
+      "glyph": "SQ",
+      "cell": 13,
+      "color": [
+        80,
+        205,
+        235
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Teleporter",
+      "glyph": "TP",
+      "cell": 14,
+      "color": [
+        80,
+        205,
+        235
+      ],
+      "temporary": true
+    },
+    {
+      "object": "BSL Temporary Checkpoint",
+      "glyph": "TC",
+      "cell": 15,
+      "color": [
+        100,
+        210,
+        130
+      ],
+      "temporary": true
+    }
+  ],
+  "license": "CC0-1.0",
+  "signed": "President",
+  "origin": "bottom_center",
+  "hotspot": [
+    16,
+    32
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "switch:berries_claimed",
+  "kind": "switch",
+  "version": 1,
+  "name": "Training berries collected",
+  "provenance": "Original selected pickup fixture. Signed: Atlas.",
+  "scope": "session",
+  "initial": false
+}

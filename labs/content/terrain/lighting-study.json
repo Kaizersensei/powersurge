@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "base_cell": 32,
+  "sample_step": 2,
+  "shapes": [
+    {
+      "id": 1,
+      "material": "material:stone",
+      "preset": "square",
+      "blend": true,
+      "blend_cells": 2,
+      "route": 0
+    }
+  ],
+  "strokes": [
+    {
+      "shape": 1,
+      "erase": false,
+      "x": -320,
+      "y": 128,
+      "u": 320,
+      "v": 128,
+      "size": 128,
+      "mode": 0,
+      "curve": 0.5
+    }
+  ]
+}

@@ -24,9 +24,10 @@ extern "C" {
 namespace {
 struct Command {const char* id;const char* label;ImGuiKeyChord keys;const char* binding;const char* tip;ImGuiKey second=ImGuiKey_None,third=ImGuiKey_None;};
 const Command commands[]={
+ {"database","Database workspace",ImGuiKey_F10,"F10","Hover a dropdown and use the wheel to change its selection; Ctrl+wheel remains editor zoom. Shape Properties offers previewed materials and visual-only bevel settings. Open Items/Effects/Dialogue/Switches/Variables/Events/Fields and the original EasyRPG database categories. Ctrl+S saves the focused record; Ctrl+Shift+S saves all drafts. Test controls launch, reload and stop a disposable session; Stop returns to the saved source level. New tests use saved definitions. Inspect a bound event anchor and choose Edit linked definition to open its shared draft here."},
  {"save","Save all level edits",ImGuiMod_Ctrl|ImGuiKey_S,"Ctrl+S","Save terrain and placements; failures keep the draft."},
  {"reload","Reload level",ImGuiMod_Ctrl|ImGuiKey_R,"Ctrl+R","Unsaved edits require a decision before reload."},
- {"terrain.reload_materials","Reload materials",ImGuiMod_Ctrl|ImGuiMod_Shift|ImGuiKey_R,"Ctrl+Shift+R","Rescan the material registry without restarting."},
+ {"terrain.reload_materials","Reload materials",ImGuiMod_Ctrl|ImGuiMod_Shift|ImGuiKey_R,"Ctrl+Shift+R","Reload current-session color and normal image files; definition edits require a fresh test."},
  {"undo","Undo",ImGuiMod_Ctrl|ImGuiKey_Z,"Ctrl+Z","Undo in the active terrain or placement document."},
  {"redo","Redo",ImGuiMod_Ctrl|ImGuiKey_Y,"Ctrl+Y","Redo in the active document."},
  {"resume","Resume play",ImGuiKey_F12,"F12","Resume the current disposable playtest."},
@@ -142,6 +143,12 @@ void end_panel(){ImGui::PopClipRect();ImGui::End();}
 double normalized(double v,double lo,double hi){return std::isfinite(v)&&std::isfinite(lo)&&std::isfinite(hi)&&hi>lo?std::clamp((v-lo)/(hi-lo),0.,1.):-1;}
 }
 namespace ps::ui {
+bool wheel_selection(int& selected,int count){
+ if(count<=0||!ImGui::IsItemHovered()||ImGui::IsPopupOpen("",ImGuiPopupFlags_AnyPopupId)||ImGui::GetIO().KeyCtrl||!ImGui::SetItemKeyOwner(ImGuiKey_MouseWheelY))return false;
+ auto* storage=ImGui::GetStateStorage();auto key=ImGui::GetItemID();float accumulated=storage->GetFloat(key^0x9f3147u,0)+ImGui::GetIO().MouseWheel;int steps=int(accumulated);storage->SetFloat(key^0x9f3147u,accumulated-steps);int next=std::clamp(selected-steps,0,count-1);if(next==selected)return false;selected=next;ImGui::MarkItemEdited(key);return true;
+}
+bool combo(const char* label,int* selected,const char* const items[],int count){bool changed=ImGui::Combo(label,selected,items,count);return wheel_selection(*selected,count)||changed;}
+bool combo(const char* label,int* selected,const std::vector<std::string>& items){std::vector<const char*> names;for(auto& item:items)names.push_back(item.c_str());return combo(label,selected,names.data(),int(names.size()));}
 void native_key(ImGuiKey key,bool down){if(ps_lab_automatic())native_keys.push_back({key,down});}
 bool selected_visible(){return choice_visible;}
 const char* native_choice_bounds(){return choice_bounds;}

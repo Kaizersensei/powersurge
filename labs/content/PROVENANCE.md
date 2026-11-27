@@ -7,3 +7,15 @@ The host derives from Open Surge (GPL-3.0-or-later), initially pinned at 61975c2
 Selected actor art, menu/UI art, terrain textures and original audio were supplied by the project author for redistribution in this engine preview. Local prototype archives, conversion experiments, original project files and machine-specific provenance stay outside public packages. Asset-specific public provenance records retain source labels and hashes without local filesystem paths.
 
 Third-party fonts, dependencies and other assets retain their own notices under fonts/ and licenses/. The weather arrow is Animated UI Arrow by maxwof, CC0; its source/license links remain in images/ui/c2/weather/PROVENANCE.md. No blanket relicensing of third-party assets is implied.
+
+Temporary helper-object icons in images/editor/helper-placeholders.png are original geometric pixel glyphs created for PowerSurge and dedicated to CC0-1.0. The adjacent JSON identifies class aliases and glyphs; existing actor/prop artwork is unchanged. Signed: President,2026-11-26.
+
+### Lighting study calibration images
+
+`textures/lighting-study/color.png` and `generated/lighting-study/` contain original deterministic checker, axis, flat and rounded-normal calibration images created for PowerSurge. These four images are dedicated to the public domain under CC0-1.0. They contain no prototype artwork. Normal RGB channels are linear data; albedo RGB is sRGB.
+
+### Creator-supplied material collection
+
+`textures/material_types/` and `inspection/material_types/` contain the project creator's supplied collection, imported at their request without changing PNG bytes. Existing project asset terms apply; this import does not relicense those images as CC0. The relative-path/hash/compatibility manifest is `textures/material_types/catalog.json`; machine-local source paths remain private.
+
+The sky study level, procedural sky/cloud shader, palette/profile records and fully transparent32px PNG fixture are original project test content. Signed: President.

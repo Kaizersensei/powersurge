@@ -1,0 +1,15 @@
+{
+  "id": "event:shop_buy",
+  "kind": "event",
+  "version": 1,
+  "name": "Buy one strawberry",
+  "provenance": "Original shared-event shop consumer. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "buy_shop_item",
+      "target": "shop:training",
+      "offer": "offer:berries",
+      "quantity": 1
+    }
+  ]
+}

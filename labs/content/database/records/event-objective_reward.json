@@ -1,0 +1,34 @@
+{
+  "id": "event:objective_reward",
+  "kind": "event",
+  "version": 1,
+  "name": "Objective Reward",
+  "provenance": "Original single-player common-event reward fixture. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "wait_ticks",
+      "ticks": 30
+    },
+    {
+      "op": "if_switch",
+      "target": "switch:training_reward",
+      "equals": false,
+      "skip": 3
+    },
+    {
+      "op": "grant_reward",
+      "target": "source:lab_exploration",
+      "receipt": "objective/exploration"
+    },
+    {
+      "op": "set_switch",
+      "target": "switch:training_reward",
+      "value": true
+    },
+    {
+      "op": "add_variable",
+      "target": "variable:training_choices",
+      "value": 1
+    }
+  ]
+}

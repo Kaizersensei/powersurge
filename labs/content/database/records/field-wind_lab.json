@@ -1,0 +1,9 @@
+{
+  "id": "field:wind_lab",
+  "kind": "field",
+  "version": 1,
+  "name": "Laboratory wind",
+  "provenance": "Original active test value in px/s^2; source default is separately preserved. Host movement application is not part of this slice.",
+  "strength": 120,
+  "direction": 1
+}

@@ -1,0 +1,38 @@
+{
+  "id": "dialogue:training_choice",
+  "kind": "dialogue",
+  "version": 1,
+  "name": "Training choice",
+  "provenance": "Legacy shop_dialogs.inc demonstrates selectable branches. This dialogue/text/reward example is original fixture content.",
+  "text": "Training supplies and shop. Carry four strawberries and visit the exploration marker. Check Full Status for coins and stock.",
+  "choices": [
+    "Accept quest",
+    "Claim quest reward",
+    "Buy strawberry (3 coins)",
+    "Sell strawberry (1 coin)",
+    "Unlock annex door",
+    "Wait one game hour",
+    "Skip two game days",
+    "Leave"
+  ],
+  "outcomes": [
+    "event:quest_accept",
+    "event:quest_claim",
+    "event:shop_buy",
+    "event:shop_sell",
+    "event:door_unlock",
+    "event:calendar_hour",
+    "event:calendar_days",
+    ""
+  ],
+  "choice_help": [
+    "Accept the one-time supply quest.",
+    "Claim character XP when ready.",
+    "Buy one item into your player-owned bag.",
+    "Sell one owned item; this shelf does not restock from sales.",
+    "Enable travel without altering its activation mode.",
+    "Advance calendar only; actors/physics do not fast-forward.",
+    "Exercise month/year rollover and persistent shared clock.",
+    "Close without changes."
+  ]
+}

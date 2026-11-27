@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "kind": "level",
+  "id": "level:cell-lab",
+  "scene": "levels/cell-terrain.lev",
+  "parent": "",
+  "name": "Cell Terrain Laboratory",
+  "location": {
+    "country": "Terrain Lab",
+    "locality": "Cell Terrain Laboratory"
+  },
+  "properties": {
+    "editable": true,
+    "weather": {
+      "region": "",
+      "hemisphere": "inherit",
+      "indoor": false,
+      "preset": "",
+      "wind_factor": 1,
+      "precipitation_factor": 1
+    },
+    "terrain": {
+      "document": "terrain/cell-lab.json",
+      "materials": "terrain/cell-materials.json"
+    },
+    "lighting": {
+      "profile": "lighting:outdoor"
+    }
+  }
+}

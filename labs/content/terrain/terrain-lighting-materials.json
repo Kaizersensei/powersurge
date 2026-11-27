@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "materials": [
+    {
+      "id": "material:terrain-round",
+      "name": "Terrain round",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:terrain-axes",
+      "name": "Terrain axes",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:terrain-unlit",
+      "name": "Terrain unlit",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:terrain-mirror",
+      "name": "Terrain mirror",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    },
+    {
+      "id": "material:terrain-directx",
+      "name": "Terrain directx",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": []
+    }
+  ]
+}

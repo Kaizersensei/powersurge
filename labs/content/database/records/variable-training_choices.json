@@ -1,0 +1,11 @@
+{
+  "id": "variable:training_choices",
+  "kind": "variable",
+  "version": 1,
+  "name": "Accepted training choices",
+  "provenance": "Original BORSurgeLab event fixture; EasyRPG workflow reference only. No upstream implementation copied.",
+  "scope": "player",
+  "initial": 0,
+  "minimum": 0,
+  "maximum": 1000000
+}

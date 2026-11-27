@@ -1,0 +1,277 @@
+{
+  "version": 1,
+  "base_cell": 32,
+  "sample_step": 2,
+  "shapes": [
+    {
+      "id": 1,
+      "material": "material:bevel-stone",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "round",
+        "contact": "separate",
+        "width_m": 0.375,
+        "depth_m": 0.15,
+        "smoothness": 0.75
+      }
+    },
+    {
+      "id": 2,
+      "material": "material:bevel-wood",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "round",
+        "contact": "separate",
+        "width_m": 0.375,
+        "depth_m": 0.15,
+        "smoothness": 0.75
+      }
+    },
+    {
+      "id": 3,
+      "material": "material:bevel-stone",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "round",
+        "contact": "continuous",
+        "width_m": 0.375,
+        "depth_m": 0.15,
+        "smoothness": 0.75
+      }
+    },
+    {
+      "id": 4,
+      "material": "material:bevel-wood",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "round",
+        "contact": "continuous",
+        "width_m": 0.375,
+        "depth_m": 0.15,
+        "smoothness": 0.75
+      }
+    },
+    {
+      "id": 5,
+      "material": "material:bevel-stone",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "round",
+        "contact": "soft_seam",
+        "width_m": 0.375,
+        "depth_m": 0.15,
+        "smoothness": 0.75
+      }
+    },
+    {
+      "id": 6,
+      "material": "material:bevel-wood",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "round",
+        "contact": "soft_seam",
+        "width_m": 0.375,
+        "depth_m": 0.15,
+        "smoothness": 0.75
+      }
+    },
+    {
+      "id": 7,
+      "material": "material:bevel-moss",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "linear",
+        "contact": "separate",
+        "width_m": 0.25,
+        "depth_m": 0.125,
+        "smoothness": 0.7
+      }
+    },
+    {
+      "id": 8,
+      "material": "material:bevel-stone",
+      "preset": "square",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0
+    },
+    {
+      "id": 9,
+      "material": "material:bevel-detail",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0,
+      "bevel": {
+        "enabled": true,
+        "profile": "round",
+        "contact": "separate",
+        "width_m": 0.375,
+        "depth_m": 0.15,
+        "smoothness": 0.75
+      }
+    }
+  ],
+  "strokes": [
+    {
+      "shape": 1,
+      "erase": false,
+      "x": -144,
+      "y": 120,
+      "u": 0,
+      "v": 120,
+      "size": 64,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 2,
+      "erase": false,
+      "x": 0,
+      "y": 120,
+      "u": 144,
+      "v": 120,
+      "size": 64,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 1,
+      "erase": true,
+      "x": -110,
+      "y": 120,
+      "u": -78,
+      "v": 120,
+      "size": 24,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 3,
+      "erase": false,
+      "x": -144,
+      "y": 280,
+      "u": 0,
+      "v": 280,
+      "size": 64,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 4,
+      "erase": false,
+      "x": 0,
+      "y": 280,
+      "u": 144,
+      "v": 280,
+      "size": 64,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 3,
+      "erase": true,
+      "x": -110,
+      "y": 280,
+      "u": -78,
+      "v": 280,
+      "size": 24,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 5,
+      "erase": false,
+      "x": -144,
+      "y": 440,
+      "u": 0,
+      "v": 440,
+      "size": 64,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 6,
+      "erase": false,
+      "x": 0,
+      "y": 440,
+      "u": 144,
+      "v": 440,
+      "size": 64,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 5,
+      "erase": true,
+      "x": -110,
+      "y": 440,
+      "u": -78,
+      "v": 440,
+      "size": 24,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 7,
+      "erase": false,
+      "x": -320,
+      "y": 0,
+      "u": -320,
+      "v": 320,
+      "size": 64,
+      "mode": 1,
+      "curve": 0.6
+    },
+    {
+      "shape": 8,
+      "erase": false,
+      "x": -512,
+      "y": 576,
+      "u": 512,
+      "v": 576,
+      "size": 32,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 9,
+      "erase": false,
+      "x": -100,
+      "y": -60,
+      "u": 140,
+      "v": -60,
+      "size": 64,
+      "mode": 1,
+      "curve": 0.25
+    }
+  ]
+}

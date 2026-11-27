@@ -7,11 +7,12 @@ extern "C" void bsl_shell_terrain_snapshot(BslShellState* out){
  const auto& s=chosen();out->selected_shape=selected;out->preset=s.preset=="round";
  out->mode=mode;out->curve=curve;out->blend=s.blend;out->blend_cells=s.blend_cells;
  out->material=material_index(s.material);out->materials=static_cast<int>(cell_materials.size());
+ auto bevel=selected_bevel();out->bevel_override=s.bevel.has_value();out->bevel_enabled=bevel.enabled;out->bevel_profile=bevel.profile=="round"?1:bevel.profile=="concave"?2:0;out->bevel_contact=bevel.contact=="continuous"?1:bevel.contact=="soft_seam"?2:0;out->bevel_width=bevel.width_m;out->bevel_depth=bevel.depth_m;out->bevel_smoothness=bevel.smoothness;
 
  snprintf(out->message,sizeof out->message,"%s",message.c_str());
 }
 extern "C" void bsl_shell_terrain_tool(bool enabled){
- if(drag)commit();tool=enabled&&active;pending=false;preview.valid=false;
+ if(drag)try{commit();}catch(const std::exception& e){bsl_shell_note("terrain",e.what(),2);return;}tool=enabled&&active;pending=false;preview.valid=false;
 }
 extern "C" void bsl_shell_terrain_command(const char* id,double value){
  if(!active)return;
@@ -21,7 +22,13 @@ extern "C" void bsl_shell_terrain_command(const char* id,double value){
   if(!strcmp(id,"action")){commit();pending=false;preview.valid=false;shell_paint_action=std::clamp((int)value,0,2);return;}
   if(!strcmp(id,"finish")){commit();return;}
   if(!strcmp(id,"line")){pending=false;preview.valid=false;return;}
-  if(!strcmp(id,"material")){commit();start_edit();chosen().material=cell_materials.at(static_cast<size_t>(value)).id;rebuild();commit();return;}
+  if(!strcmp(id,"material")){assign_material(static_cast<int>(value));return;}
+  if(!strncmp(id,"bevel.",6)){if(!std::isfinite(value))throw std::runtime_error("Invalid bevel value");auto b=selected_bevel();
+   edit_surface([&]{if(!strcmp(id,"bevel.inherit")){chosen().bevel.reset();return;}
+    if(!strcmp(id,"bevel.enabled"))b.enabled=value!=0;else if(!strcmp(id,"bevel.profile"))b.profile=value==1?"round":value==2?"concave":"linear";
+    else if(!strcmp(id,"bevel.contact"))b.contact=value==1?"continuous":value==2?"soft_seam":"separate";
+    else if(!strcmp(id,"bevel.width"))b.width_m=value;else if(!strcmp(id,"bevel.depth"))b.depth_m=value;else if(!strcmp(id,"bevel.smoothness"))b.smoothness=value;else throw std::runtime_error("Unknown bevel setting");chosen().bevel=b;});return;
+  }
   if(!strcmp(id,"curve")){curve=std::clamp(value,0.,1.);return;}
   if(!strcmp(id,"mode_set")){mode=std::clamp(static_cast<int>(value),0,2);return;}
   if(!strcmp(id,"select")){selected=static_cast<int>(value);return;}
@@ -45,11 +52,16 @@ extern "C" void* bsl_shell_material_image(int index){
  if(!active||index<0||index>=(int)textures.size())return nullptr;
  if(shell_thumbs.size()!=textures.size()){bsl_shell_terrain_thumbs_clear();shell_thumbs.resize(textures.size(),nullptr);}
  if(!shell_thumbs[index]){
-  const auto& t=textures[index];auto* p=image_create(t.w,t.h);
-  auto* lock=al_lock_bitmap(IMAGE2BITMAP(p),ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE,ALLEGRO_LOCK_WRITEONLY);
-  if(!lock){image_destroy(p);return nullptr;}
-  for(int y=0;y<t.h;y++)memcpy((char*)lock->data+y*lock->pitch,t.pixels.data()+y*t.w,t.w*sizeof(Pixel));
-  al_unlock_bitmap(IMAGE2BITMAP(p));shell_thumbs[index]=p;
+  if(std::count_if(shell_thumbs.begin(),shell_thumbs.end(),[](auto* p){return p!=nullptr;})>=128){bsl_shell_terrain_thumbs_clear();shell_thumbs.resize(textures.size(),nullptr);}
+  try{
+   Texture temporary;const Texture* source=&textures[index];if(source->w==0){auto image=cell::load_material_images({cell_materials[index]},[](const std::string& path){return asset_exists(path.c_str())?al_fopen(asset_path(path.c_str()),"rb"):nullptr;});temporary=std::move(image.front());source=&temporary;}
+   const auto& t=*source;auto* p=image_create_ex(64,64,IC_DEFAULT);if(!p)return nullptr;
+   auto* lock=al_lock_bitmap(IMAGE2BITMAP(p),ALLEGRO_PIXEL_FORMAT_ABGR_8888_LE,ALLEGRO_LOCK_WRITEONLY);if(!lock){image_destroy(p);return nullptr;}
+   double factor=64./std::max(t.w,t.h);int w=std::max(1,int(t.w*factor)),h=std::max(1,int(t.h*factor)),ox=(64-w)/2,oy=(64-h)/2;
+   for(int y=0;y<64;++y){auto* row=(Pixel*)((char*)lock->data+y*lock->pitch);for(int x=0;x<64;++x)row[x]=(x>=ox&&y>=oy&&x<ox+w&&y<oy+h)?t.pixels[std::min(t.h-1,(y-oy)*t.h/h)*t.w+std::min(t.w-1,(x-ox)*t.w/w)]:Pixel{0,0,0,0};}
+   al_unlock_bitmap(IMAGE2BITMAP(p));shell_thumbs[index]=p;
+  }catch(const std::exception& e){bsl_shell_note("material",e.what(),1);return nullptr;}
+
  }return IMAGE2BITMAP(shell_thumbs[index]);
 }
 

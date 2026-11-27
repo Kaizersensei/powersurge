@@ -1,0 +1,8 @@
+{
+  "id": "effect:strawberry_heal",
+  "kind": "effect",
+  "version": 1,
+  "name": "Strawberry healing",
+  "provenance": "Legacy ITEM_strawberries annotation hp +5; executable healing is a new bounded implementation.",
+  "amount": 5
+}

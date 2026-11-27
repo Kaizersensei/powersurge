@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "kind": "level",
+  "id": "level:cell-plain",
+  "scene": "levels/cell-plain.lev",
+  "parent": "level:cell-annex",
+  "name": "Native Brick Control",
+  "location": {
+    "country": "Terrain Lab",
+    "locality": "Native Brick Control"
+  },
+  "properties": {
+    "editable": true,
+    "weather": {
+      "region": "",
+      "hemisphere": "inherit",
+      "indoor": false,
+      "preset": "",
+      "wind_factor": 1,
+      "precipitation_factor": 1
+    },
+    "terrain": null
+  }
+}

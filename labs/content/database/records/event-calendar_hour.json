@@ -1,0 +1,13 @@
+{
+  "id": "event:calendar_hour",
+  "kind": "event",
+  "version": 1,
+  "name": "Advance calendar hour",
+  "provenance": "Original elapsed-time calendar diagnostic; no actor/physics fast-forward. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "advance_calendar",
+      "value": 3600
+    }
+  ]
+}

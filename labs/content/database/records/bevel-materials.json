@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "kind": "terrain_material_library",
+  "id": "material-library:bevel-demo",
+  "name": "Bevel demonstration materials",
+  "legacy_path": "terrain/bevel-materials.json",
+  "materials": [
+    {
+      "id": "material:bevel-stone",
+      "name": "Stone",
+      "texture": "textures/material_types/architecture/cobblestone/cobblestone_generic.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": null,
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": null,
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": false,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    },
+    {
+      "id": "material:bevel-wood",
+      "name": "Wood",
+      "texture": "textures/material_types/architecture/worked_wood/dojo_1.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": null,
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "wood",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": null,
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": false,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    },
+    {
+      "id": "material:bevel-moss",
+      "name": "Moss",
+      "texture": "textures/material_types/terrain/grass/mossy_04.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": null,
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": null,
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": null,
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": false,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    },
+    {
+      "id": "material:bevel-detail",
+      "name": "Bevel + detail normal",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": "generated/lighting-study/axes.png",
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": true,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    }
+  ]
+}

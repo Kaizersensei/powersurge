@@ -34,6 +34,7 @@ extern void scripting_update_bor(void);
 #include <ctype.h>
 #include <math.h>
 #include "level.h"
+#include "../environment/sky.h"
 #include "../presentation/video_presentation.h"
 #include "confirmbox.h"
 #include "gameover.h"
@@ -728,6 +729,7 @@ void level_unload()
 
     /* unload the background */
     logfile_message("Unloading the background...");
+    ps_sky_detach();
     backgroundtheme = background_unload(backgroundtheme);
 
     /* success! */
@@ -3744,7 +3746,7 @@ void editor_update()
     brickmanager_set_roi(brick_manager,view_roi);
     set_entitymanager_roi(view_roi);entitymanager_set_active_region(view_roi);
     editor_cursor_update();
-    if(captured)return;
+    if(captured){bsl_cell_input_observe();return;}
     if(editor_selected_entity_type==EDT_INSPECT){editor_brush_reset();return;}
     if(bsl_cell_tool()) {
         editor_grid_update();

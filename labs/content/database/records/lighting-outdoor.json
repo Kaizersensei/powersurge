@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "kind": "lighting_profile",
+  "id": "lighting:outdoor",
+  "name": "Outdoor calendar baseline",
+  "driver": "calendar",
+  "ambient": {
+    "color": [
+      0.78,
+      0.84,
+      1
+    ],
+    "energy": 0.3
+  },
+  "sun": "light:sun",
+  "moon": "light:moon"
+}

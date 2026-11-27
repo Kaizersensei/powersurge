@@ -20,7 +20,7 @@ void bsl_shell_snapshot(BslShellState* s){
  snprintf(s->level,sizeof s->level,"%s",file?file:"");
  s->x=(editor_cursor.world_position.x-4096)/32;s->y=(editor_cursor.world_position.y-4096)/32;
  surgescript_object_t* o=bsl_inspect_object();
- if(o){s->selection=bsl_inspect_id;snprintf(s->name,sizeof s->name,"%s",surgescript_object_name(o));v2d_t p=entity_info_spawnpoint(o);s->selected_x=p.x;s->selected_y=p.y;}
+ if(o){s->selection=bsl_inspect_id;snprintf(s->name,sizeof s->name,"%s",surgescript_object_name(o));v2d_t p=entity_info_spawnpoint(o);s->selected_x=p.x;s->selected_y=p.y;if(bsl_event_is_anchor(o))str_cpy(s->definition,bsl_event_definition(entity_info_id(o)),sizeof s->definition);}
  else if(shell_selected_brick()){brick_t* b=shell_selected_brick();s->selection=shell_brick;snprintf(s->name,sizeof s->name,"Decoration / brick %d",brick_id(b));v2d_t p=brick_position(b);s->selected_x=p.x;s->selected_y=p.y;s->brightness=brick_brightness(b);}
  if((shell_tool==2||shell_tool==3)&&(editor_selected_entity_type==EDT_SSOBJ||editor_selected_entity_type==EDT_EVENTS)){s->ready_kind=0;s->ready_index=editor_selected_entity_id;}
  else if(shell_tool==4&&editor_selected_entity_type==EDT_BRICK){s->ready_kind=1;for(int i=0;i<editor_brick_count;i++)if(editor_brick_id(i)==editor_selected_entity_id){s->ready_index=i;break;}}
@@ -127,7 +127,7 @@ static bool shell_view_command(const char* command,double value){
  return false;
 }
 bool bsl_shell_level_update(void){
- static char previous_bridge[256]="";
+ static char previous_bridge[512]="";
  bsl_editor_poll();
  if(strcmp(previous_bridge,bsl_editor_status)){snprintf(previous_bridge,sizeof previous_bridge,"%s",bsl_editor_status);if(*previous_bridge)bsl_shell_note("bridge",previous_bridge,strstr(previous_bridge,"Cannot")||strstr(previous_bridge,"missing")?2:0);}
  bool gesture=false;
@@ -170,9 +170,9 @@ bool bsl_shell_level_update(void){
   else if(!strcmp(command,"home")){editor_camera=spawn_point;}
   else if(!strcmp(command,"door"))bsl_door_navigate(value>=0?1:-1);
   else if(!strcmp(command,"event")){if(value>=-1&&value<bsl_host_event_count()&&bsl_event_is_anchor(bsl_inspect_object()))bsl_event_change(bsl_inspect_id,value<0?"":bsl_host_event_id((int)value));}
-  else if(!strcmp(command,"external")){bsl_editor_launch(bsl_inspect_object(),"");}
+  else if(!strcmp(command,"database")||!strcmp(command,"external")){bsl_editor_launch(bsl_inspect_object(),"");}
   else if(!strcmp(command,"level")){BslLevelProbe p={0};bsl_host_level_probe(&p);if(p.registered)bsl_editor_launch(NULL,p.id);else bsl_shell_note("inspector","This level has no registered properties.",1);}
-  else if(!strcmp(command,"definition")){surgescript_object_t* o=bsl_inspect_object();if(o&&!strcmp(surgescript_object_name(o),"BSL Teleporter"))bsl_editor_launch(o,"@teleporter");else if(bsl_event_is_anchor(o))bsl_editor_launch(o,bsl_event_definition(entity_info_id(o)));else bsl_shell_note("inspector","No supported definition binding for this selection.",1);}
+  else if(!strcmp(command,"definition")){surgescript_object_t* o=bsl_inspect_object();if(!o||bsl_inspect_id!=bsl_shell_command_target())bsl_shell_note("inspector","Selection changed; definition request cancelled.",1);else if(bsl_event_is_anchor(o)){const char* id=bsl_event_definition(entity_info_id(o));if(*id)bsl_editor_launch(o,id);else bsl_shell_note("inspector","Bind a common event before editing its definition.",1);}else bsl_shell_note("inspector","No supported definition binding for this selection.",1);}
   else if(!strncmp(command,"field.",6)){int index=atoi(command+6);if(index>=0&&index<BSL_INSTANCE_FIELDS&&bsl_inspect_id==bsl_shell_command_target()&&bsl_inspect_object()&&!strcmp(bsl_instance_fields[index].object_name,surgescript_object_name(bsl_inspect_object())))bsl_inspect_change(bsl_inspect_id,index,true,bsl_instance_fields[index].boolean?(value!=0):clip(value,bsl_instance_fields[index].minimum,bsl_instance_fields[index].maximum));}
   else if(!strncmp(command,"reset.",6)){int index=atoi(command+6);if(index>=0&&index<BSL_INSTANCE_FIELDS&&bsl_inspect_id==bsl_shell_command_target()&&bsl_inspect_object()&&!strcmp(bsl_instance_fields[index].object_name,surgescript_object_name(bsl_inspect_object())))bsl_inspect_change(bsl_inspect_id,index,false,0);}
   else if(!strcmp(command,"brightness")){brick_t* b=shell_selected_brick();if(b&&brick_role_preview(brick_id(b))==BRR_DECORATION){editor_action_t a=bsl_brick_style_action(b,clip((int)value,0,15),brick_texture(b));editor_action_register(editor_action_commit(a));}}
@@ -196,8 +196,14 @@ bool bsl_shell_level_update(void){
 static bool shell_count_pole_visit(surgescript_object_t* o,void* data){if(!strcmp(surgescript_object_name(o),"BOR Pole"))(*(int*)data)++;return true;}
 static int shell_count_poles(void){int n=0;surgescript_object_traverse_tree_ex(level_ssobject(),&n,shell_count_pole_visit);return n;}
 bool bsl_shell_native_fixture(int phase){
- static uint64_t fixture=0,physics_fixture=0;static int before_drop=-1;
+ static uint64_t fixture=0,physics_fixture=0,bridge_fixture=0;static int before_drop=-1;
  if(!getenv("BSL_SHELL_CHECK"))return false;
+ if(phase==8){
+  int index=editor_ssobj_index("BSL Event Anchor");if(index<0)return false;
+  editor_action_t a=editor_action_entity_new(true,EDT_SSOBJ,index,v2d_add(spawn_point,v2d_new(224,0)));a=editor_action_commit(a);if(a.rejected||!a.ssobj_id)return false;editor_action_register(a);bridge_fixture=a.ssobj_id;bsl_event_change(bridge_fixture,"event:training_reward");bsl_inspect_id=bridge_fixture;return bsl_event_is_anchor(bsl_inspect_object())&&!strcmp(bsl_event_definition(bridge_fixture),"event:training_reward");
+ }
+ if(phase==9){extern bool ps_hub_native_origin(const char*,const char*,const char*);return bridge_fixture&&ps_hub_native_origin("event:training_reward",file,x64_to_str(bridge_fixture,NULL,0));}
+ if(phase==10){if(!bridge_fixture)return false;bsl_event_change(bridge_fixture,"");bsl_inspect_id=bridge_fixture;return !*bsl_event_definition(bridge_fixture);}
  if(phase==0){
   int index=editor_ssobj_index("BOR Pole");if(index<0)return false;
   v2d_t at=v2d_add(spawn_point,v2d_new(160,0));

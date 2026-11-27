@@ -1,0 +1,13 @@
+{
+  "id": "event:gameplay_wait",
+  "kind": "event",
+  "version": 1,
+  "name": "Ownership cancellation fixture",
+  "provenance": "Isolated integration fixture. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "wait_ticks",
+      "ticks": 120
+    }
+  ]
+}

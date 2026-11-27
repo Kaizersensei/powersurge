@@ -1,0 +1,9 @@
+{
+  "id": "switch:door_open",
+  "kind": "switch",
+  "version": 1,
+  "name": "Annex door unlocked",
+  "provenance": "Original teleport service fixture. Signed: Atlas.",
+  "scope": "player",
+  "initial": false
+}

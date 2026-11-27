@@ -68,7 +68,7 @@ foreach(dep IN LISTS deps)
 endforeach()
 file(COPY "${PS_SOURCE}/labs/content/licenses/" DESTINATION "${PS_OUTPUT}/licenses")
 file(COPY_FILE "${PS_SOURCE}/licenses/runtime-dependency-packages.json" "${PS_OUTPUT}/dependency-packages.json" ONLY_IF_DIFFERENT)
-file(COPY "${PS_SOURCE}/docs/LAB_RUNS.md" "${PS_SOURCE}/docs/SHARED_UI.md" DESTINATION "${PS_OUTPUT}")
+file(COPY "${PS_SOURCE}/docs/LAB_RUNS.md" "${PS_SOURCE}/docs/SHARED_UI.md" "${PS_SOURCE}/docs/DATABASE_WORKSPACE.md" "${PS_SOURCE}/docs/NORMAL_MAP_STUDY.md" "${PS_SOURCE}/docs/TERRAIN_LIGHTING.md" "${PS_SOURCE}/docs/MATERIAL_LIBRARY.md" DESTINATION "${PS_OUTPUT}")
 file(SHA256 "${PS_OUTPUT}/powersurge.exe" digest)
 set(info [=[{
   "engine":"PowerSurge",

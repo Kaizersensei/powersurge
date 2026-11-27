@@ -38,16 +38,13 @@ void editor_command(const std::string& command){
  if(command=="save"){save();return;}
  if(command=="reload"){reload_base();return;}
  if(command=="reload_materials"){reload_materials();return;}
+ if(command=="material_prev"||command=="material_next"){int n=material_index(chosen().material),count=int(cell_materials.size());assign_material((n+(command=="material_next"?1:count-1))%count);return;}
  if(command=="mode"){mode=(mode+1)%3;return;}
  if(command=="curve_less"||command=="curve_more"){curve=std::clamp(curve+(command=="curve_more"?.1:-.1),0.,1.);return;}
  commit();
  if(command=="new_shape"){new_shape(chosen().material);pending=false;return;}
  start_edit();
- if(command=="material_prev"||command=="material_next"){
-  int n=material_index(chosen().material),count=static_cast<int>(std::size(cell_materials));
-  chosen().material=cell_materials[(n+(command=="material_next"?1:count-1))%count].id;
-  message="Material changed for every region belonging to the selected shape";
- }else if(command=="preset"){chosen().preset=chosen().preset=="square"?"round":"square";field.rebuild();}
+ if(command=="preset"){chosen().preset=chosen().preset=="square"?"round":"square";field.rebuild();}
  else if(command=="blend")chosen().blend=!chosen().blend;
  else if(command=="blend_less"||command=="blend_more")chosen().blend_cells=std::clamp(chosen().blend_cells+(command=="blend_more"?1:-1),0,4);
  else {drag=false;throw std::runtime_error("Unknown terrain tool command");}

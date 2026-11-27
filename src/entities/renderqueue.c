@@ -27,6 +27,7 @@
 #include "brick.h"
 #include "actor.h"
 #include "background.h"
+#include "../environment/sky.h"
 #include "waterfx.h"
 #include "legacy/item.h"
 #include "legacy/enemy.h"
@@ -569,8 +570,10 @@ void renderqueue_end()
     int batch_count = 0;
 
     /* skip if the buffer is empty */
-    if(buffer_size == 0)
+    if(buffer_size == 0) {
+        ps_sky_render(camera.x,camera.y);
         return;
+    }
 
     /* quickly sort the buffer (stable sorting) */
     merge_sort(sorted_buffer, buffer_size, sizeof(*sorted_buffer), cmp_fun);
@@ -583,6 +586,8 @@ void renderqueue_end()
 
     /* clear the screen */
     al_clear_to_color(al_map_rgb_f(0.0f, 0.0f, 0.0f));
+    /* Reserved first pass; authored backgrounds can reveal it through alpha. */
+    ps_sky_render(camera.x,camera.y);
 
     /* use the shader of the render queue */
     if(internal_shader != NULL)

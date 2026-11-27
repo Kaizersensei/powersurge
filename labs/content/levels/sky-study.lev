@@ -1,0 +1,13 @@
+// Opt-in sky course; source levels remain unchanged. Signed: President.
+name "Sky and Environment Course"
+author "Kaizer / President"
+version "0.1"
+requires "0.6.1"
+theme "themes/presentation.brk"
+bgtheme "themes/sky-study.bg"
+spawn_point 3808 4064
+setup "BSL Runtime Setup" "Default Camera" "BSL Pause and Quit"
+players "None"
+brick 0 0 0
+brick 0 8192 8192
+entity "BOR Michio" 3808 4064

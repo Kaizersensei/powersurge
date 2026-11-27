@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "kind": "terrain_material_library",
+  "id": "material-library:terrain-lighting",
+  "name": "Terrain lighting course materials",
+  "legacy_path": "terrain/terrain-lighting-materials.json",
+  "materials": [
+    {
+      "id": "material:terrain-round",
+      "name": "Terrain round",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": "generated/lighting-study/rounded.png",
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": true,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    },
+    {
+      "id": "material:terrain-axes",
+      "name": "Terrain axes",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": "generated/lighting-study/axes.png",
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": true,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    },
+    {
+      "id": "material:terrain-unlit",
+      "name": "Terrain unlit",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": "generated/lighting-study/rounded.png",
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": false,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    },
+    {
+      "id": "material:terrain-mirror",
+      "name": "Terrain mirror",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": "generated/lighting-study/axes.png",
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "opengl",
+      "uv": {
+        "scale": [
+          -1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 90
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": true,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    },
+    {
+      "id": "material:terrain-directx",
+      "name": "Terrain directx",
+      "texture": "textures/lighting-study/color.png",
+      "tint": [
+        255,
+        255,
+        255
+      ],
+      "shader": "shader:terrain-lit",
+      "physical_profile": null,
+      "acoustic_profile": null,
+      "feedback": {
+        "impact": "stone",
+        "footstep": null,
+        "damage": null,
+        "destruction": null
+      },
+      "reactions": [],
+      "maps": {
+        "normal": "generated/lighting-study/axes.png",
+        "height": null,
+        "roughness": null,
+        "ao": null,
+        "emission": null
+      },
+      "normal_convention": "directx",
+      "uv": {
+        "scale": [
+          1,
+          1
+        ],
+        "offset": [
+          0,
+          0
+        ],
+        "rotation_degrees": 0
+      },
+      "parameters": {},
+      "lighting": {
+        "receive": true,
+        "block": true,
+        "transmission": 0
+      },
+      "bevel": {
+        "enabled": false,
+        "profile": "linear",
+        "width_m": 0.0625,
+        "depth_m": 0.0625,
+        "smoothness": 0.5,
+        "contact": "separate"
+      }
+    }
+  ]
+}

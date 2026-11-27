@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "kind": "light",
+  "id": "light:spot",
+  "name": "Spot light template",
+  "type": "spot",
+  "enabled": true,
+  "color": [
+    1,
+    0.7,
+    0.35
+  ],
+  "energy": 2,
+  "angle_degrees": 90,
+  "elevation_degrees": 45,
+  "height_m": 1.5,
+  "range_m": 5,
+  "falloff": 2,
+  "inner_degrees": 20,
+  "outer_degrees": 45,
+  "shadows": true
+}

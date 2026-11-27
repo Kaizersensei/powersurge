@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "base_cell": 32,
+  "sample_step": 2,
+  "shapes": [
+    {
+      "id": 1,
+      "material": "material:terrain-round",
+      "preset": "square",
+      "blend": true,
+      "blend_cells": 2,
+      "route": 0
+    },
+    {
+      "id": 2,
+      "material": "material:terrain-axes",
+      "preset": "square",
+      "blend": true,
+      "blend_cells": 2,
+      "route": 0
+    },
+    {
+      "id": 3,
+      "material": "material:terrain-unlit",
+      "preset": "square",
+      "blend": true,
+      "blend_cells": 2,
+      "route": 0
+    },
+    {
+      "id": 4,
+      "material": "material:terrain-mirror",
+      "preset": "square",
+      "blend": true,
+      "blend_cells": 2,
+      "route": 0
+    },
+    {
+      "id": 5,
+      "material": "material:terrain-directx",
+      "preset": "square",
+      "blend": true,
+      "blend_cells": 2,
+      "route": 0
+    }
+  ],
+  "strokes": [
+    {
+      "shape": 1,
+      "erase": false,
+      "x": -448,
+      "y": 128,
+      "u": -160,
+      "v": 128,
+      "size": 128,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 2,
+      "erase": false,
+      "x": -64,
+      "y": 128,
+      "u": 192,
+      "v": 32,
+      "size": 96,
+      "mode": 2,
+      "curve": 0.5
+    },
+    {
+      "shape": 3,
+      "erase": false,
+      "x": 224,
+      "y": 32,
+      "u": 416,
+      "v": 32,
+      "size": 96,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 4,
+      "erase": false,
+      "x": 416,
+      "y": 32,
+      "u": 672,
+      "v": 128,
+      "size": 96,
+      "mode": 1,
+      "curve": 0.5
+    },
+    {
+      "shape": 5,
+      "erase": false,
+      "x": 672,
+      "y": 128,
+      "u": 800,
+      "v": 128,
+      "size": 96,
+      "mode": 0,
+      "curve": 0.5
+    }
+  ]
+}

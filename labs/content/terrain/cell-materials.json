@@ -4,7 +4,7 @@
     {
       "id": "material:stone",
       "name": "Stone",
-      "texture": "textures/stone.png",
+      "texture": "textures/material_types/architecture/cobblestone/cobblestone_generic.png",
       "tint": [
         255,
         255,
@@ -24,7 +24,7 @@
     {
       "id": "material:wood",
       "name": "Wood",
-      "texture": "textures/brick_small_brown.png",
+      "texture": "textures/material_types/architecture/worked_wood/dojo_1.png",
       "tint": [
         255,
         255,
@@ -43,12 +43,12 @@
     },
     {
       "id": "material:moss",
-      "name": "Moss study",
-      "texture": "textures/rock.png",
+      "name": "Moss",
+      "texture": "textures/material_types/terrain/grass/mossy_04.png",
       "tint": [
-        110,
-        175,
-        90
+        255,
+        255,
+        255
       ],
       "shader": null,
       "physical_profile": null,

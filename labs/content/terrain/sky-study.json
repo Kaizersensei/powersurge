@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "base_cell": 32,
+  "sample_step": 2,
+  "shapes": [
+    {
+      "id": 1,
+      "material": "material:stone",
+      "preset": "square",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0
+    },
+    {
+      "id": 2,
+      "material": "material:moss",
+      "preset": "round",
+      "blend": false,
+      "blend_cells": 1,
+      "route": 0
+    }
+  ],
+  "strokes": [
+    {
+      "shape": 1,
+      "erase": false,
+      "x": -640,
+      "y": 96,
+      "u": 640,
+      "v": 96,
+      "size": 128,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 1,
+      "erase": false,
+      "x": 640,
+      "y": 96,
+      "u": 1152,
+      "v": -224,
+      "size": 128,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 1,
+      "erase": false,
+      "x": 1152,
+      "y": -224,
+      "u": 1600,
+      "v": -224,
+      "size": 128,
+      "mode": 0,
+      "curve": 0.5
+    },
+    {
+      "shape": 2,
+      "erase": false,
+      "x": -128,
+      "y": -64,
+      "u": 128,
+      "v": -64,
+      "size": 32,
+      "mode": 1,
+      "curve": 0.5
+    }
+  ]
+}

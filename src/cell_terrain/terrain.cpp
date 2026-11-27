@@ -13,6 +13,12 @@ namespace cell {
 namespace {
 void require(bool b,const char* why){if(!b)throw std::runtime_error(why);}
 bool safe(const std::string& s){return !s.empty()&&s.size()<=128&&std::all_of(s.begin(),s.end(),[](unsigned char c){return std::isalnum(c)||c==':'||c=='_'||c=='-'||c=='.';});}
+// A square brush is a continuous swept box, not a chain of sampled stamps.
+bool square_sweep(double x,double y,double a,double b,double c,double d,double radius){
+ double low=0,high=1;
+ auto slab=[&](double point,double start,double delta){if(std::abs(delta)<1e-12)return std::abs(point-start)<=radius;double u=(point-radius-start)/delta,v=(point+radius-start)/delta;if(u>v)std::swap(u,v);low=std::max(low,u);high=std::min(high,v);return low<=high;};
+ return slab(x,a,c-a)&&slab(y,b,d-b);
+}
 double distance(double x,double y,double a,double b,double c,double d){double dx=c-a,dy=d-b,t=(dx*dx+dy*dy)>0?std::clamp(((x-a)*dx+(y-b)*dy)/(dx*dx+dy*dy),0.,1.):0.;return std::hypot(x-a-t*dx,y-b-t*dy);}
 struct Json {std::map<std::string,Json> object;std::vector<Json> array;std::string string;double number=0;int type=0;};
 class Reader {
@@ -70,11 +76,14 @@ int Field::floor_div(int x,int by){int q=x/by;return q-(x%by<0);}
 int Field::at(int x,int y)const {int cx=floor_div(x,side),cy=floor_div(y,side);auto i=blocks.find({cx,cy});return i==blocks.end()?0:i->second.cells[(y-cy*side)*side+x-cx*side];}
 const Shape* Field::shape(int id)const {for(const auto& s:doc.shapes)if(s.id==id)return &s;return nullptr;}
 const Shape* Field::sample(double x,double y)const {if(!std::isfinite(x)||!std::isfinite(y)||std::abs(x)>limit||std::abs(y)>limit)return nullptr;return shape(at(static_cast<int>(std::floor(x/step)),static_cast<int>(std::floor(y/step))));}
-void Field::put(int x,int y,int id){int cx=floor_div(x,side),cy=floor_div(y,side);auto i=blocks.find({cx,cy});if(i==blocks.end()){if(!id)return;require(blocks.size()<256,"Terrain chunk budget exceeded");i=blocks.emplace(Key{cx,cy},Block{}).first;}i->second.cells[(y-cy*side)*side+x-cx*side]=id;}
+void Field::put(int x,int y,int id){int cx=floor_div(x,side),cy=floor_div(y,side);auto i=blocks.find({cx,cy});if(i==blocks.end()){if(!id)return;require(blocks.size()<max_chunks,"Terrain exceeds the authored world bounds");i=blocks.emplace(Key{cx,cy},Block{}).first;}i->second.cells[(y-cy*side)*side+x-cx*side]=id;}
+void validate_bevel(const Bevel& b){
+ require(b.profile=="linear"||b.profile=="round"||b.profile=="concave","Invalid bevel profile");require(b.contact=="separate"||b.contact=="continuous"||b.contact=="soft_seam","Invalid bevel contact mode");require(std::isfinite(b.width_m)&&std::isfinite(b.depth_m)&&std::isfinite(b.smoothness)&&b.width_m>=0&&b.width_m<=32&&b.depth_m>=0&&b.depth_m<=32&&b.smoothness>=0&&b.smoothness<=1,"Invalid bevel dimensions");
+}
 void validate(const Document& d){
  require(!d.shapes.empty()&&d.shapes.size()<=128&&d.strokes.size()<=4096,"Terrain document budget exceeded");
  std::map<int,bool> ids;
- for(const auto& s:d.shapes){require(s.id>0&&s.id<65536&&ids.emplace(s.id,true).second,"Invalid/duplicate shape ID");require(safe(s.material)&&(s.preset=="square"||s.preset=="round"),"Invalid material/preset");require(s.blend_cells>=0&&s.blend_cells<=4&&s.route>=0&&s.route<=2,"Invalid shape properties");}
+ for(const auto& s:d.shapes){if(s.bevel)validate_bevel(*s.bevel);require(s.id>0&&s.id<65536&&ids.emplace(s.id,true).second,"Invalid/duplicate shape ID");require(safe(s.material)&&(s.preset=="square"||s.preset=="round"),"Invalid material/preset");require(s.blend_cells>=0&&s.blend_cells<=4&&s.route>=0&&s.route<=2,"Invalid shape properties");}
  for(const auto& s:d.strokes){require(ids.count(s.shape),"Unknown stroke shape");require(std::isfinite(s.x)&&std::isfinite(s.y)&&std::isfinite(s.u)&&std::isfinite(s.v)&&std::isfinite(s.curve),"Nonfinite stroke");
  require(std::abs(s.x)<=limit&&std::abs(s.y)<=limit&&std::abs(s.u)<=limit&&std::abs(s.v)<=limit,"Stroke exceeds building limits");require(s.size>=8&&s.size<=128&&s.size%8==0&&s.mode>=0&&s.mode<=2&&s.curve>=0&&s.curve<=1,"Invalid brush/curve");}
 }
@@ -84,18 +93,17 @@ std::set<Key> Field::paint(const Stroke& s){
  double dx=s.u-s.x,dy=s.v-s.y,length=std::hypot(dx,dy),offset=(s.mode==1?1:s.mode==2?-1:0)*s.curve*length*.5;
  double nx=length>0?-dy/length:0,ny=length>0?dx/length:0;
  double cx=(s.x+s.u)*.5+nx*offset,cy=(s.y+s.v)*.5+ny*offset;
- bool square=s.mode==0&&sh->preset=="square";
- int segments=square?std::max(1,static_cast<int>(std::ceil(length/(s.size*.2)))):32;
+ bool square=sh->preset=="square";
+ int segments=s.mode==0?1:32;
  std::vector<std::pair<double,double>> path;path.reserve(segments+1);
- for(int j=0;j<=segments;j++){double t=j/double(segments),u=1-t;if(square)path.push_back({t*dx,t*dy});else path.push_back({u*u*s.x+2*u*t*cx+t*t*s.u,u*u*s.y+2*u*t*cy+t*t*s.v});}
+ for(int j=0;j<=segments;j++){double t=j/double(segments),u=1-t;path.push_back({u*u*s.x+2*u*t*cx+t*t*s.u,u*u*s.y+2*u*t*cy+t*t*s.v});}
  int left=std::max(-limit,static_cast<int>(std::floor(std::min({s.x,s.u,cx})-s.size*.5)));
  int top=std::max(-limit,static_cast<int>(std::floor(std::min({s.y,s.v,cy})-s.size*.5)));
  int right=std::min(limit,static_cast<int>(std::ceil(std::max({s.x,s.u,cx})+s.size*.5)));
  int bottom=std::min(limit,static_cast<int>(std::ceil(std::max({s.y,s.v,cy})+s.size*.5)));
  for(int y=floor_div(top,step);y<static_cast<int>(std::ceil(bottom/double(step)));y++)for(int x=floor_div(left,step);x<static_cast<int>(std::ceil(right/double(step)));x++){
   double px=x*step+step*.5,py=y*step+step*.5;bool hit=false;
-  if(square){for(const auto& point:path){hit=std::max(std::abs(px-s.x-point.first),std::abs(py-s.y-point.second))<=s.size*.5;if(hit)break;}}
-  else for(size_t j=1;j<path.size()&&!hit;j++)hit=distance(px,py,path[j-1].first,path[j-1].second,path[j].first,path[j].second)<=s.size*.5;
+  for(size_t j=1;j<path.size()&&!hit;j++)hit=square?square_sweep(px,py,path[j-1].first,path[j-1].second,path[j].first,path[j].second,s.size*.5):distance(px,py,path[j-1].first,path[j-1].second,path[j].first,path[j].second)<=s.size*.5;
   if(hit&&(!s.erase||at(x,y)==s.shape)){
    int value=s.erase?0:s.shape;if(at(x,y)!=value){put(x,y,value);changed.insert({floor_div(x,side),floor_div(y,side)});}
   }
@@ -157,19 +165,19 @@ std::map<Key,std::array<Mix,side*side>> Field::blend_region(const std::set<Key>*
 }
 std::string encode(const Document& d){
  validate(d);std::ostringstream o;o.precision(12);o<<"{\n \"version\":1,\n \"base_cell\":32,\n \"sample_step\":2,\n \"shapes\":[";
- for(size_t i=0;i<d.shapes.size();i++){const auto& s=d.shapes[i];if(i)o<<",";o<<"\n  {\"id\":"<<s.id<<",\"material\":\""<<s.material<<"\",\"preset\":\""<<s.preset<<"\",\"blend\":"<<(s.blend?"true":"false")<<",\"blend_cells\":"<<s.blend_cells<<",\"route\":"<<s.route<<"}";}
+ for(size_t i=0;i<d.shapes.size();i++){const auto& s=d.shapes[i];if(i)o<<",";o<<"\n  {\"id\":"<<s.id<<",\"material\":\""<<s.material<<"\",\"preset\":\""<<s.preset<<"\",\"blend\":"<<(s.blend?"true":"false")<<",\"blend_cells\":"<<s.blend_cells<<",\"route\":"<<s.route;if(s.bevel){const auto& b=*s.bevel;o<<",\"bevel\":{\"enabled\":"<<(b.enabled?"true":"false")<<",\"profile\":\""<<b.profile<<"\",\"contact\":\""<<b.contact<<"\",\"width_m\":"<<b.width_m<<",\"depth_m\":"<<b.depth_m<<",\"smoothness\":"<<b.smoothness<<"}";}o<<"}";}
  o<<"\n ],\n \"strokes\":[";for(size_t i=0;i<d.strokes.size();i++){const auto& s=d.strokes[i];if(i)o<<",";o<<"\n  {\"shape\":"<<s.shape<<",\"erase\":"<<(s.erase?"true":"false")<<",\"x\":"<<s.x<<",\"y\":"<<s.y<<",\"u\":"<<s.u<<",\"v\":"<<s.v<<",\"size\":"<<s.size<<",\"mode\":"<<s.mode<<",\"curve\":"<<s.curve<<"}";}
  return o.str()+"\n ]\n}\n";
 }
 Document decode(const std::string& text){
  Json j=Reader(text).read();require(integer(j,"version")==1&&integer(j,"base_cell")==base&&integer(j,"sample_step")==step,"Unsupported terrain version/resolution");require(j.object.size()==5,"Unknown terrain root fields");Document d;
- for(const auto& n:get(j,"shapes",2).array){require(n.object.size()==6,"Unknown shape fields");Shape s;s.id=integer(n,"id");s.material=get(n,"material",3).string;s.preset=get(n,"preset",3).string;s.blend=get(n,"blend",4).number!=0;s.blend_cells=integer(n,"blend_cells");s.route=integer(n,"route");d.shapes.push_back(s);}
+ for(const auto& n:get(j,"shapes",2).array){require(n.object.size()==6||(n.object.size()==7&&n.object.count("bevel")),"Unknown shape fields");Shape s;if(n.object.count("bevel")){const auto& b=get(n,"bevel",1);require(b.object.size()==6,"Unknown bevel fields");Bevel v;v.enabled=get(b,"enabled",4).number!=0;v.profile=get(b,"profile",3).string;v.contact=get(b,"contact",3).string;v.width_m=num(b,"width_m");v.depth_m=num(b,"depth_m");v.smoothness=num(b,"smoothness");s.bevel=v;}s.id=integer(n,"id");s.material=get(n,"material",3).string;s.preset=get(n,"preset",3).string;s.blend=get(n,"blend",4).number!=0;s.blend_cells=integer(n,"blend_cells");s.route=integer(n,"route");d.shapes.push_back(s);}
  for(const auto& n:get(j,"strokes",2).array){require(n.object.size()==9,"Unknown stroke fields");Stroke s;s.shape=integer(n,"shape");s.erase=get(n,"erase",4).number!=0;s.x=num(n,"x");s.y=num(n,"y");s.u=num(n,"u");s.v=num(n,"v");s.size=integer(n,"size");s.mode=integer(n,"mode");s.curve=num(n,"curve");d.strokes.push_back(s);}
  validate(d);return d;
 }
 std::vector<Material> decode_materials(const std::string& text){
  Json root=Reader(text).read();require(integer(root,"version")==1&&root.object.size()==2,"Unsupported material registry");
- const auto& records=get(root,"materials",2).array;require(!records.empty()&&records.size()<=64,"Material count must be 1..64");
+ const auto& records=get(root,"materials",2).array;require(!records.empty()&&records.size()<=4096,"Material count must be 1..4096");
  std::set<std::string> ids;std::vector<Material> out;
  auto reference=[](const Json& value){require(value.type==6||(value.type==3&&safe(value.string)),"Invalid material hook reference");return value.type==6?std::string{}:value.string;};
  for(const auto& record:records){

@@ -1,0 +1,223 @@
+{
+  "format": 1,
+  "project_id": "project:powersurge-lab",
+  "name": "PowerSurge laboratory database",
+  "records": [
+    {
+      "id": "dialogue:choice_list",
+      "file": "records/dialogue-choice_list.json"
+    },
+    {
+      "id": "dialogue:training_choice",
+      "file": "records/dialogue-training_choice.json"
+    },
+    {
+      "id": "effect:strawberry_heal",
+      "file": "records/effect-strawberry_heal.json"
+    },
+    {
+      "id": "event:calendar_days",
+      "file": "records/event-calendar_days.json"
+    },
+    {
+      "id": "event:calendar_hour",
+      "file": "records/event-calendar_hour.json"
+    },
+    {
+      "id": "event:door_arrival",
+      "file": "records/event-door_arrival.json"
+    },
+    {
+      "id": "event:door_unlock",
+      "file": "records/event-door_unlock.json"
+    },
+    {
+      "id": "event:gameplay_wait",
+      "file": "records/event-gameplay_wait.json"
+    },
+    {
+      "id": "event:objective_retry",
+      "file": "records/event-objective_retry.json"
+    },
+    {
+      "id": "event:objective_reward",
+      "file": "records/event-objective_reward.json"
+    },
+    {
+      "id": "event:pickup_fill",
+      "file": "records/event-pickup_fill.json"
+    },
+    {
+      "id": "event:quest_accept",
+      "file": "records/event-quest_accept.json"
+    },
+    {
+      "id": "event:quest_claim",
+      "file": "records/event-quest_claim.json"
+    },
+    {
+      "id": "event:shop_buy",
+      "file": "records/event-shop_buy.json"
+    },
+    {
+      "id": "event:shop_sell",
+      "file": "records/event-shop_sell.json"
+    },
+    {
+      "id": "event:training_reward",
+      "file": "records/event-training_reward.json"
+    },
+    {
+      "id": "field:wind_lab",
+      "file": "records/field-wind_lab.json"
+    },
+    {
+      "id": "field:wind_source",
+      "file": "records/field-wind_source.json"
+    },
+    {
+      "id": "item:strawberry",
+      "file": "records/item-strawberry.json"
+    },
+    {
+      "id": "item:training_sword",
+      "file": "records/item-training_sword.json"
+    },
+    {
+      "id": "switch:berries_claimed",
+      "file": "records/switch-berries_claimed.json"
+    },
+    {
+      "id": "switch:door_open",
+      "file": "records/switch-door_open.json"
+    },
+    {
+      "id": "switch:quest_supplies_accepted",
+      "file": "records/switch-quest_supplies_accepted.json"
+    },
+    {
+      "id": "switch:quest_supplies_completed",
+      "file": "records/switch-quest_supplies_completed.json"
+    },
+    {
+      "id": "switch:training_reward",
+      "file": "records/switch-training_reward.json"
+    },
+    {
+      "id": "variable:arrivals",
+      "file": "records/variable-arrivals.json"
+    },
+    {
+      "id": "variable:coins",
+      "file": "records/variable-coins.json"
+    },
+    {
+      "id": "variable:shop_berries",
+      "file": "records/variable-shop_berries.json"
+    },
+    {
+      "id": "variable:training_choices",
+      "file": "records/variable-training_choices.json"
+    },
+    {
+      "id": "level:cell-lab",
+      "file": "records/level-cell-lab.json"
+    },
+    {
+      "id": "level:cell-annex",
+      "file": "records/level-cell-annex.json"
+    },
+    {
+      "id": "level:cell-plain",
+      "file": "records/level-cell-plain.json"
+    },
+    {
+      "id": "level:physics-lab",
+      "file": "records/level-physics-lab.json"
+    },
+    {
+      "id": "sequence:cell-lab",
+      "file": "records/sequence-cell-lab.json"
+    },
+    {
+      "id": "shader:terrain-unlit",
+      "file": "records/shader-terrain_unlit.json"
+    },
+    {
+      "id": "shader:terrain-lit",
+      "file": "records/shader-terrain_lit.json"
+    },
+    {
+      "id": "light:sun",
+      "file": "records/light-sun.json"
+    },
+    {
+      "id": "light:moon",
+      "file": "records/light-moon.json"
+    },
+    {
+      "id": "lighting:outdoor",
+      "file": "records/lighting-outdoor.json"
+    },
+    {
+      "id": "material-library:terrain",
+      "file": "records/terrain-materials.json"
+    },
+    {
+      "id": "light:torch",
+      "file": "records/light-torch.json"
+    },
+    {
+      "id": "light:spot",
+      "file": "records/light-spot.json"
+    },
+    {
+      "id": "material-library:lighting-study",
+      "file": "records/terrain-lighting-study.json"
+    },
+    {
+      "id": "level:lighting-study",
+      "file": "records/level-lighting-study.json"
+    },
+    {
+      "id": "material-library:terrain-lighting",
+      "file": "records/terrain-lighting.json"
+    },
+    {
+      "id": "lighting:terrain-static",
+      "file": "records/lighting-terrain-static.json"
+    },
+    {
+      "id": "level:terrain-lighting",
+      "file": "records/level-terrain-lighting.json"
+    },
+    {
+      "id": "material-library:creator-textures",
+      "file": "records/creator-textures.json"
+    },
+    {
+      "id": "light:bevel-default",
+      "file": "records/light-bevel-default.json"
+    },
+    {
+      "id": "lighting:bevel-default",
+      "file": "records/lighting-bevel-default.json"
+    },
+    {
+      "id": "level:bevel-demo",
+      "file": "records/level-bevel-demo.json"
+    },
+    {
+      "id": "material-library:bevel-demo",
+      "file": "records/bevel-materials.json"
+    },
+    {
+      "id": "sky:study",
+      "file": "records/sky-study.json"
+    },
+    {
+      "id": "level:sky-study",
+      "file": "records/level-sky-study.json"
+    }
+  ]
+}

@@ -31,10 +31,13 @@
 #include "teleport_records.hpp"
 #include "calendar_records.hpp"
 #include "weather_records.hpp"
+#include "../environment/projection.hpp"
 #include "level_records.hpp"
+#include "../authoring/world_records.hpp"
 #include "session.hpp"
 #include "bor_health_effects.hpp"
 #include "foundation_records.hpp"
+namespace bsl {const Catalog& database_snapshot();}
 #include "interaction_records.hpp"
 #include "actor_placement_records.hpp"
 #include "actor_template_records.hpp"
@@ -60,7 +63,7 @@ std::map<uint64_t,BorActor*> bindings;
 std::map<uint64_t,std::string> player_slots;
 uint64_t session_generation=0;
 std::unique_ptr<bsl::PlayerRoster> gameplay_roster;
-const bsl::LevelRegistry& level_registry(){static const bsl::LevelRegistry registry(compiled_levels());return registry;}
+const bsl::LevelRegistry& level_registry(){return ps::authoring::world_snapshot().levels;}
 bool gameplay_enabled(){const char* value=std::getenv("BSL_GAMEPLAY");return value&&std::string(value)=="1";}
 bool progression_enabled(){const char* value=std::getenv("BSL_PROGRESSION");return gameplay_enabled()&&value&&std::string(value)=="1";}
 bool learning_enabled(){const char* value=std::getenv("BSL_LEARNING");return progression_enabled()&&value&&std::string(value)=="1";}
@@ -145,7 +148,7 @@ struct Session {
  double ui_seconds=0,simulation_seconds=0,calendar_seconds=0;
  bool barrier=false,captures_commands=false;
  int selected=0,choice=0,choice_first=0,choice_last=0,category_index=0;
- int menu_page=1,last_menu_page=1,menu_row=0,home_row=0;uint64_t menu_revision=0;bool menu_test_mix_confirm=false,menu_test_mix_applied=false;
+ int menu_page=1,last_menu_page=1,menu_row=0,home_row=0;bsl::Lease authoring_lease=0;uint64_t menu_revision=0;bool menu_test_mix_confirm=false,menu_test_mix_applied=false;
  std::string last_event;
  std::map<uint64_t,uint64_t> used_actions;
  std::map<uint64_t,std::string> anchor_runs;
@@ -622,7 +625,7 @@ bool preupdate(){
   return false;
  }
  bool was_modal=s.modal();
- if(ps_ui_enabled()&&s.dialogue_open()&&!s.menu){
+ if(!s.authoring_lease&&ps_ui_enabled()&&s.dialogue_open()&&!s.menu){
   PsUiCommand command{};while(ps_ui_command(s.talking?s.talking->initiator:s.owner,s.conversation_id,&command)){
    if(!s.dialogue_open())break;
    if(command.action==PS_UI_SELECT)s.choice=command.index;
@@ -630,7 +633,7 @@ bool preupdate(){
    else {s.conversation.cancel();consume_frame=true;}
   }
  }
- if(s.menu&&!edge(ALLEGRO_KEY_ESCAPE)&&!edge(ALLEGRO_KEY_J)&&!edge(ALLEGRO_KEY_I)&&!edge(ALLEGRO_KEY_P)&&!edge(ALLEGRO_KEY_F12)){
+ if(!s.authoring_lease&&s.menu&&!edge(ALLEGRO_KEY_ESCAPE)&&!edge(ALLEGRO_KEY_J)&&!edge(ALLEGRO_KEY_I)&&!edge(ALLEGRO_KEY_P)&&!edge(ALLEGRO_KEY_F12)){
   PsUiMenuCommand command{};while(ps_ui_menu_command(s.owner,s.menu_revision,&command)){
    if(!s.menu)break;
    bool item=command.action==PS_MENU_SELECT||command.action==PS_MENU_ACTIVATE||command.action==PS_MENU_ASSIGN;
@@ -693,7 +696,7 @@ bool preupdate(){
  const bool reward_edge=edge(ALLEGRO_KEY_V);
  const bool checkpoint_edge=edge(ALLEGRO_KEY_C),rewind_edge=edge(ALLEGRO_KEY_BACKSPACE);
  for(int i=0;i<ALLEGRO_KEY_MAX;++i)s.previous[i]=held(i);
- s.captures_commands=s.modal()||was_modal||consume_frame||s.barrier;
+ s.captures_commands=s.modal()||was_modal||consume_frame||s.barrier||s.authoring_lease;
  if(s.captures_commands)s.interaction_requested=false;
  if(!s.captures_commands&&s.alive()&&interact_edge){s.interaction_requested=true;s.interaction_subject=s.owner;}
  if(s.learning&&!s.captures_commands&&s.alive()&&reward_edge)bsl_host_reward(s.owner,"source:lab_exploration","lab/exploration");
@@ -719,7 +722,7 @@ bool preupdate(){
  trace();return s.policies.paused();
 }
 void render(){
- if(!session||bsl_engine_editor())return;
+ if(!session||bsl_engine_editor()||session->authoring_lease)return;
  bsl_particles_render();bsl_acoustic_render();
  auto& s=*session;auto* a=s.actor();s.dialogue_presentation();
  if(s.player_failed){bsl_ui_draw(s.player_error.c_str(),"","",s.ui_seconds);return;}
@@ -795,6 +798,8 @@ void render(){
 
 }
 }
+extern "C" void bsl_host_authoring_pause(bool active){guarded([&]{if(!session)return;auto& s=*session;if(active&&!s.authoring_lease)s.authoring_lease=s.policies.menu(owner_id(s.owner));else if(!active&&s.authoring_lease){s.policies.close(s.authoring_lease);s.authoring_lease=0;s.barrier=true;}});}
+extern "C" int ps_database_runtime_probe(char* name,unsigned capacity){if(!session)return -1;const auto* item=session->catalog.item("item:strawberry");if(!item)return -1;if(name&&capacity)snprintf(name,capacity,"%s",item->name.c_str());const auto* effect=session->catalog.effect(item->effect);return effect?effect->amount:-1;}
 extern "C" bool bsl_gameplay_enabled(void){return gameplay_enabled();}
 extern "C" bool bsl_host_controlled(uint64_t id){return gameplay_enabled()&&gameplay_roster&&gameplay_roster->controls(id);}
 // Registry queries expose authored defaults plus live attachment identity; they never spawn or select. Signed: Mech.
@@ -1168,7 +1173,7 @@ extern "C" void bsl_host_simulation_tick(void){guarded([]{
 
 // Catalog discovery never creates a Session or applies the lab loadout. Signed: Atlas.
 namespace {
-const bsl::Catalog& anchor_catalog(){static const auto catalog=bsl::load_compiled_snapshot();return catalog;}
+const bsl::Catalog& anchor_catalog(){return bsl::database_snapshot();}
 std::string placement_owner(uint64_t id){std::ostringstream text;text<<"placement/"<<std::hex<<id;return text.str();}
 bool anchor_terminal(bsl::EventStatus status){return status==bsl::EventStatus::completed||status==bsl::EventStatus::cancelled||status==bsl::EventStatus::failed;}
 }
@@ -1335,7 +1340,7 @@ extern "C" int ps_ui_pilot_inventory(){int code=-1;guarded([&]{if(!ps_lab_automa
 extern "C" int ps_ui_pilot_open(const char* definition){
  int code=-1;guarded([&]{if(!std::getenv("PS_UI_PILOT")||!session||!definition||!session->catalog.dialogue(definition))return;auto& s=*session;if(!s.alive()||s.menu||s.dialogue_open()||bsl_engine_editor())return;s.talking.reset();s.conversation.open(definition,owner_id(s.owner),{owner_id(s.owner)});s.choice=s.choice_first=0;++s.conversation_id;s.barrier=true;s.captures_commands=true;code=0;});return code;
 }
-extern "C" int bsl_host_calendar_test_policy(int mode){int code=static_cast<int>(bsl::Code::disabled);guarded([&]{if((!std::getenv("BSL_CALENDAR_TEST")&&!std::getenv("BSL_WEATHER_TEST")&&!std::getenv("BSL_AUDIO_TEST"))||!session||!session->clock||bsl_host_boot_busy())return;auto& s=*session;s.cancel();if(mode==1)s.open_menu(3);else if(mode==2)s.conversation.open("dialogue:training_choice",roster().profile().player,{roster().profile().player});else if(mode!=0)return;code=0;});return code;}
+extern "C" int bsl_host_calendar_test_policy(int mode){int code=static_cast<int>(bsl::Code::disabled);guarded([&]{if((!std::getenv("BSL_CALENDAR_TEST")&&!std::getenv("BSL_WEATHER_TEST")&&!std::getenv("BSL_AUDIO_TEST")&&!(ps_lab_automatic()&&std::getenv("BSL_ENVIRONMENT_TEST")))||!session||!session->clock||bsl_host_boot_busy())return;auto& s=*session;s.cancel();if(mode==1)s.open_menu(3);else if(mode==2)s.conversation.open("dialogue:training_choice",roster().profile().player,{roster().profile().player});else if(mode!=0)return;code=0;});return code;}
 
 extern "C" int bsl_host_inventory_resize(uint64_t actor,int slots,int rows){
  int result=static_cast<int>(bsl::Code::invalid);guarded([&]{
@@ -1345,14 +1350,30 @@ extern "C" int bsl_host_inventory_resize(uint64_t actor,int slots,int rows){
 }
 
 namespace {
-bsl::WeatherView current_weather(Session& s,const bsl::WeatherOverride* override){
+bsl::WeatherView current_weather(Session& s,const bsl::WeatherOverride* override,bool atmosphere=false){
  const auto& c=s.clock->calendar().definition();auto date=s.clock->date();double seconds=s.calendar_seconds*c.numerator/c.denominator+c.hour*3600+c.minute*60+c.second;
  double fraction=(date.month-1+(date.day-1+(date.hour*3600+date.minute*60+date.second)/86400.0)/c.months.at(date.month-1).days)/c.months.size();
  const auto& level=level_registry().effective(bsl_engine_level_file());const auto& w=level.weather;
  std::string location=level.country.empty()?level.locality:level.country+", "+level.locality;
  bsl::WeatherContext context{w.region,location,w.indoor,w.preset,w.wind_factor,w.precipitation_factor,w.hemisphere=="inherit"?"":w.hemisphere};
+ if(atmosphere)context.indoor=false;
  return s.weather->project(seconds,fraction,context,override);
 }
+}
+extern "C" void bsl_host_environment_probe(BslEnvironmentProbe* out){
+ if(!out)return;*out={};
+ try{
+  if(!session||!session->clock||!session->weather)return;auto& s=*session;
+  BslEnvironmentProbe next{};auto phase=ps::environment::calendar_view(s.clock->calendar(),s.calendar_seconds);
+  next.generation=session_generation;next.paused=s.policies.paused();next.simulation_seconds=s.simulation_seconds;next.ui_seconds=s.ui_seconds;next.calendar_elapsed=s.calendar_seconds;next.calendar_factor=s.policies.calendar_factor();
+  next.day_fraction=phase.day_fraction;next.year_fraction=phase.year_fraction;next.weather_season_fraction=phase.weather_season_fraction;
+  const auto* modifier=s.weather_override?&*s.weather_override:nullptr;
+  auto atmosphere=current_weather(s,modifier,true),local=current_weather(s,modifier);
+  next.indoor=local.indoor;std::snprintf(next.level,sizeof next.level,"%s",level_registry().effective(bsl_engine_level_file()).id.c_str());std::snprintf(next.region,sizeof next.region,"%s",local.region.c_str());
+  auto copy=[](BslEnvironmentWeather& target,const bsl::WeatherView& v){target.wind=v.wind;target.direction_degrees=v.direction;target.precipitation=v.amount;std::snprintf(target.preset,sizeof target.preset,"%s",v.preset.c_str());std::snprintf(target.kind,sizeof target.kind,"%s",v.precipitation.c_str());std::snprintf(target.season,sizeof target.season,"%s",v.season.c_str());std::snprintf(target.hemisphere,sizeof target.hemisphere,"%s",v.hemisphere.c_str());};
+  copy(next.atmosphere,atmosphere);copy(next.local,local);next.available=true;*out=next;
+ }catch(const std::exception& e){std::snprintf(out->diagnostic,sizeof out->diagnostic,"%s",e.what());}
+ catch(...){std::snprintf(out->diagnostic,sizeof out->diagnostic,"Environment snapshot unavailable");}
 }
 extern "C" void bsl_host_weather_probe(BslWeatherProbe* out){
  if(!out)return;

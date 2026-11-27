@@ -300,6 +300,39 @@ shader_t* shader_create_ex(const char* name, const char* fs_glsl, const char* vs
     return shader;
 }
 
+/* Optional shaders never replace an existing program or terminate on a compile error. */
+shader_t* shader_try_create(const char* name, const char* fs_glsl, char* error, size_t capacity)
+{
+    if(registry == NULL || name == NULL || *name == '\0' || fs_glsl == NULL || shader_exists(name)) {
+        if(error && capacity) snprintf(error, capacity, "Shader registry/name unavailable or already registered");
+        return NULL;
+    }
+    char diagnostic[1024] = "";
+    ALLEGRO_SHADER* compiled = create_glsl_shader(fs_glsl, default_vs_glsl, diagnostic, sizeof diagnostic);
+    if(!compiled) {
+        if(error && capacity) snprintf(error, capacity, "%s", diagnostic);
+        return NULL;
+    }
+    shader_t* shader = mallocx(sizeof *shader);
+    shader->shader = compiled;
+    shader->vs = str_dup(default_vs_glsl);
+    shader->fs = str_dup(fs_glsl);
+    shader->uniforms = dictionary_create(true, uniform_dtor, NULL);
+    shader->next_texture_unit = 1;
+    dictionary_put(registry, name, shader);
+    if(error && capacity) *error = '\0';
+    return shader;
+}
+
+/* Release borrowed samplers before their owned images leave the session. */
+void shader_clear_uniforms(shader_t* shader)
+{
+    if(!shader) return;
+    dictionary_destroy(shader->uniforms);
+    shader->uniforms = dictionary_create(true, uniform_dtor, NULL);
+    shader->next_texture_unit = 1;
+}
+
 /*
  * shader_set_active()
  * Use the shader for the subsequent drawing operations on the current target image

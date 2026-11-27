@@ -1,5 +1,6 @@
 /* Local placed helper: native sequence traversal, no RPG record. GPL-3.0-or-later. Signed: Atlas. */
 #include "../core/quest.h"
+#include "../foundation/world_snapshot.h"
 #define BSL_SEQUENCE_EXIT_LIMIT 4096
 static struct {
     uint64_t id,actor,pending;
@@ -46,7 +47,7 @@ static const char* bsl_sequence_exit_context(void)
 {
     const quest_t* sequence=quest_current();
     const char* path=sequence?quest_file(sequence):NULL;
-    if(!path||strncmp(path,"quests/sequences/",17)||strstr(path,".."))return "No active authored sequence";
+    if(!path||(strncmp(path,"quests/sequences/",17)&&bsl_sequence_probe(path,NULL,0)<=0)||strstr(path,".."))return "No active authored sequence";
     int next=quest_next_level(),count=quest_entry_count(sequence);
     if(next<1||next>count||!quest_entry_is_level(sequence,next-1)||strcmp(quest_entry_path(sequence,next-1),file))return "Not the current sequence member";
     if(next<count&&(!quest_entry_is_level(sequence,next)||!asset_exists(quest_entry_path(sequence,next))))return "Next sequence level is unavailable";

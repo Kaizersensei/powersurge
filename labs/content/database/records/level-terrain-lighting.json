@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "kind": "level",
+  "id": "level:terrain-lighting",
+  "scene": "levels/terrain-lighting.lev",
+  "parent": "",
+  "name": "Terrain lighting course",
+  "location": {
+    "country": "Terrain Lab",
+    "locality": "Terrain lighting course"
+  },
+  "properties": {
+    "editable": true,
+    "weather": {
+      "region": "",
+      "hemisphere": "inherit",
+      "indoor": false,
+      "preset": "",
+      "wind_factor": 1,
+      "precipitation_factor": 1
+    },
+    "terrain": {
+      "document": "terrain/terrain-lighting.json",
+      "materials": "terrain/terrain-lighting-materials.json"
+    },
+    "lighting": {
+      "profile": "lighting:terrain-static"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "kind": "shader_profile",
+  "id": "shader:terrain-unlit",
+  "name": "Terrain / Unlit",
+  "program": "builtin:terrain-unlit",
+  "source": null,
+  "parameters": {}
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "kind": "level",
+  "id": "level:sky-study",
+  "scene": "levels/sky-study.lev",
+  "parent": "",
+  "name": "Sky and environment course",
+  "location": {
+    "country": "Environment Lab",
+    "locality": "Sky course"
+  },
+  "properties": {
+    "editable": true,
+    "weather": {
+      "region": "",
+      "hemisphere": "inherit",
+      "indoor": false,
+      "preset": "weather:clear",
+      "wind_factor": 1,
+      "precipitation_factor": 1
+    },
+    "terrain": {
+      "document": "terrain/sky-study.json",
+      "materials": "terrain/cell-materials.json"
+    },
+    "sky": {
+      "profile": "sky:study",
+      "origin_y_px": 4096,
+      "px_per_m": 32,
+      "visible_indoors": true
+    }
+  }
+}

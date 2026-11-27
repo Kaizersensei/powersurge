@@ -1,0 +1,11 @@
+{
+  "id": "variable:coins",
+  "kind": "variable",
+  "version": 1,
+  "name": "Coins",
+  "provenance": "Original scoped commerce fixture. Signed: Atlas.",
+  "scope": "player",
+  "initial": 12,
+  "minimum": 0,
+  "maximum": 999999
+}

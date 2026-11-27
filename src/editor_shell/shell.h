@@ -11,10 +11,11 @@ typedef struct BslShellState {
  bool editing,terrain,terrain_dirty,placements_dirty,readonly,presentation;
  int ready_kind,ready_index;
  int tool,grid,paint_action,brightness,selected_shape,preset,mode,blend_cells,material,materials;
- bool blend;
+ bool blend,bevel_override,bevel_enabled;
+ int bevel_profile,bevel_contact;float bevel_width,bevel_depth,bevel_smoothness;
  float curve,x,y,selected_x,selected_y,zoom;
  uint64_t selection;
- char level[512],name[256],message[512];
+ char level[512],name[256],message[512],definition[257];
 } BslShellState;
 typedef struct BslShellDrop {int kind,index;float x,y;} BslShellDrop;
 void bsl_shell_request_drop(int kind,int index,float x,float y);

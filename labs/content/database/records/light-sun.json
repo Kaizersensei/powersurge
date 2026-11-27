@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "kind": "light",
+  "id": "light:sun",
+  "name": "Daylight",
+  "type": "directional",
+  "enabled": true,
+  "color": [
+    1,
+    0.94,
+    0.82
+  ],
+  "energy": 1,
+  "angle_degrees": 315,
+  "elevation_degrees": 45,
+  "height_m": 1,
+  "range_m": 10,
+  "falloff": 2,
+  "inner_degrees": 20,
+  "outer_degrees": 45,
+  "shadows": true
+}

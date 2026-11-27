@@ -1,0 +1,9 @@
+{
+  "id": "switch:quest_supplies_completed",
+  "kind": "switch",
+  "version": 1,
+  "name": "Training supplies completed",
+  "provenance": "Quest-owned selected progress; change through quest service. Signed: Atlas.",
+  "scope": "player",
+  "initial": false
+}

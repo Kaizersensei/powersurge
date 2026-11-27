@@ -26,6 +26,7 @@
 #include "global.h"
 #include "logfile.h"
 #include "quest.h"
+#include "../foundation/world_snapshot.h"
 #include "asset.h"
 #include "nanoparser.h"
 #include "../util/util.h"
@@ -66,10 +67,23 @@ quest_t *quest_load(const char *filepath)
         darray_init(q->entry);
 
         /* read quest file */
-        const char* fullpath = asset_path(filepath);
-        parsetree_program_t* prog = nanoparser_construct_tree(fullpath);
-        nanoparser_traverse_program_ex(prog, q, traverse_quest);
-        nanoparser_deconstruct_tree(prog);
+        char name[129], scene[257];
+        int count = bsl_sequence_probe(filepath, name, sizeof name);
+        if(count < 0) fatal_error("Invalid sequence database for %s", filepath);
+        if(count > 0) {
+            free(q->name); q->name = str_dup(name);
+            for(int i = 0; i < count; ++i) {
+                if(!bsl_sequence_entry(filepath, i, scene, sizeof scene))
+                    fatal_error("Invalid sequence entry %d in %s", i, filepath);
+                darray_push(q->entry, str_dup(scene));
+            }
+        }
+        else {
+            const char* fullpath = asset_path(filepath);
+            parsetree_program_t* prog = nanoparser_construct_tree(fullpath);
+            nanoparser_traverse_program_ex(prog, q, traverse_quest);
+            nanoparser_deconstruct_tree(prog);
+        }
 
     }
     else if(str_pathhasextension(filepath, ".lev")) {

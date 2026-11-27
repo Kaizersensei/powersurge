@@ -1,0 +1,47 @@
+// New immutable files first, atomic index last; recoverable on process interruption. Signed: President.
+namespace {
+const char* creation_marker=".authoring-create.json";
+fs::path project_file(const fs::path& root,const std::string& name){
+ auto relative=fs::u8path(name);require(!name.empty()&&name.size()<256&&!relative.is_absolute()&&name.find('\\')==name.npos&&name.find(':')==name.npos,"Unsafe creation path");auto p=root;require(!link(p)&&fs::canonical(p)==p,"Project root changed");
+ for(auto& part:relative){require(part!=".."&&part!="."&&!part.empty(),"Unsafe creation component");p/=part;require(!link(p),"Linked creation path refused");}return p;
+}
+void no_alias(const fs::path& target){require(fs::is_directory(target.parent_path()),"Creation parent folder missing");auto key=target.filename().u8string();std::transform(key.begin(),key.end(),key.begin(),[](unsigned char c){return char(std::tolower(c));});for(auto& e:fs::directory_iterator(target.parent_path())){auto name=e.path().filename().u8string();std::transform(name.begin(),name.end(),name.begin(),[](unsigned char c){return char(std::tolower(c));});require(name!=key,"Creation would overwrite an existing file: "+target.filename().u8string());}}
+void install_new(const fs::path& target,const std::string& bytes){
+ // Unique staging file is verified before a no-replace install. Never truncate a target.
+ auto temp=target;temp+=".create.pending";bool created=false;
+ try{
+#ifdef _WIN32
+ HANDLE f=CreateFileW(temp.c_str(),GENERIC_WRITE,0,nullptr,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,nullptr);require(f!=INVALID_HANDLE_VALUE,"Cannot stage new level file");created=true;DWORD written=0;bool okay=WriteFile(f,bytes.data(),DWORD(bytes.size()),&written,nullptr)&&written==bytes.size()&&FlushFileBuffers(f);CloseHandle(f);require(okay,"New level staging write failed");require(read_file(temp)==bytes,"New level staging verification failed");require(MoveFileExW(temp.c_str(),target.c_str(),MOVEFILE_WRITE_THROUGH),"New level file appeared during creation; original preserved");
+#else
+ int f=::open(temp.c_str(),O_CREAT|O_EXCL|O_WRONLY,0600);require(f>=0,"Cannot stage new level file");created=true;size_t at=0;while(at<bytes.size()){auto n=::write(f,bytes.data()+at,bytes.size()-at);if(n<=0){::close(f);throw std::runtime_error("New level staging write failed");}at+=size_t(n);}bool okay=fsync(f)==0;::close(f);require(okay&&read_file(temp)==bytes,"New level staging verification failed");require(::link(temp.c_str(),target.c_str())==0,"New level file appeared during creation; original preserved");fs::remove(temp);
+#endif
+ }catch(...){if(created){std::error_code error;fs::remove(temp,error);}throw;}
+}
+void recover_creation_locked(const fs::path& root){
+ auto marker=project_file(root,std::string("database/")+creation_marker);auto marker_stage=marker;marker_stage+=".create.pending";bool prepared_only=!fs::exists(marker);auto raw=read_file(prepared_only?marker_stage:marker);auto journal=parse(raw);require(journal.value("format",0)==1&&journal.value("operation",std::string{})=="create_level","Unknown creation recovery; preserved");
+ require(journal.at("before").is_string()&&journal.at("after").is_string(),"Invalid creation index recovery");auto before=journal["before"].get<std::string>(),after=journal["after"].get<std::string>();require(before.size()<=1024*1024&&after.size()<=1024*1024,"Creation index exceeds recovery limit");auto plan=level_plan(parse(before),world_text(journal,"slug"),world_text(journal,"name"),world_text(journal,"parent"));require(after==plan.index.dump(2)+"\n"&&journal.at("files")==Json(plan.files),"Creation recovery differs from its known template; preserved");
+ auto index=project_file(root,"database/project.json");auto current=read_file(index);require(current==before||current==after,"Index conflicts with interrupted creation; preserved");bool committed=current==after;require(!prepared_only||!committed,"Unpublished journal conflicts with committed index; preserved");
+ for(auto& file:plan.files){auto path=project_file(root,file.first);require(!fs::exists(path)||read_file(path)==file.second,"Creation recovery file was externally changed; all files preserved");if(committed)require(fs::is_regular_file(path),"Committed creation is incomplete; preserved");auto stage=project_file(root,file.first+".create.pending");if(fs::exists(stage)){auto bytes=read_file(stage);require(!prepared_only&&file.second.compare(0,bytes.size(),bytes)==0,"Interrupted staging file was externally changed; preserved");}if(prepared_only)require(!fs::exists(path),"Unpublished journal has unexpected files; preserved");}
+ require(read_file(prepared_only?marker_stage:marker)==raw&&read_file(index)==current,"Recovery inputs changed; preserved");if(!prepared_only&&fs::exists(marker_stage))require(read_file(marker_stage)==raw,"Journal staging conflict; preserved");
+ if(!committed)for(auto& file:plan.files){auto path=project_file(root,file.first);if(fs::exists(path))fs::remove(path);}
+ for(auto& file:plan.files){auto stage=project_file(root,file.first+".create.pending");if(fs::exists(stage))fs::remove(stage);}if(fs::exists(marker_stage))fs::remove(marker_stage);if(!prepared_only)fs::remove(marker);
+}
+}
+bool Workspace::creation_pending()const{try{return fs::exists(root_/"database"/creation_marker)||link(root_/"database"/creation_marker)||fs::exists(root_/"database"/(std::string(creation_marker)+".create.pending"))||link(root_/"database"/(std::string(creation_marker)+".create.pending"));}catch(...){return true;}}
+void Workspace::refresh_index(){auto next=read_file(root_/"database/project.json");auto records=read_records([&](const std::string& p){return p=="project.json"?next:read_file(source_path(p));});compile(records);auto project=parse(next);std::vector<Entry> entries;size_t i=0;for(auto& e:project["records"]){auto& j=records.at(i++);entries.push_back({text(e,"id"),text(e,"file"),text(j,"kind"),text(j,"name"),text(j,"kind")=="item"?text(j,"storage"):std::string{}});}project_baseline_=std::move(next);entries_=std::move(entries);}
+void Workspace::recover_creation(){require(!dirty(),"Keep/export or discard database drafts before structural recovery");Lock lock(root_/"database");if(creation_pending())recover_creation_locked(root_);refresh_index();}
+std::string Workspace::create_level(const std::string& slug,const std::string& name,const std::string& parent){
+ require(!dirty(),"Save or discard database drafts before creating a level");Lock lock(root_/"database");require(!creation_pending(),"Resolve interrupted level creation first");require(read_file(root_/"database/project.json")==project_baseline_,"Project index changed externally; reopen before creation");for(auto& p:documents_)require(read_file(source_path(p.second->file))==p.second->baseline,"Open record changed externally; resolve before creation");
+ require(project_baseline_.size()<=1024*1024,"Source index exceeds1MiB recovery limit; no creation started");auto plan=level_plan(parse(project_baseline_),slug,name,parent);std::map<std::string,std::string> inputs;
+ auto records=read_records([&](const std::string& file){if(file=="project.json")return plan.index.dump();auto new_file=plan.files.find("database/"+file);if(new_file!=plan.files.end())return new_file->second;auto raw=read_file(source_path(file));inputs["database/"+file]=raw;return raw;});compile(records);
+ auto dependency=[&](const std::string& file){auto raw=read_file(project_file(root_,file));inputs[file]=raw;return raw;};auto projection=compile_render(records).legacy_materials("terrain/cell-materials.json");auto materials=cell::decode_materials(projection.empty()?dependency("terrain/cell-materials.json"):projection);auto stone=std::find_if(materials.begin(),materials.end(),[](const auto& m){return m.id=="material:stone";});require(stone!=materials.end(),"Starter stone material is unavailable");dependency(stone->texture);for(auto* file:{"themes/presentation.brk","themes/template.bg","scripts/project_runtime.ss","scripts/bor.ss","scripts/core/camera.ss","images/presentation/transparent.png"})dependency(file);
+ for(auto& file:plan.files){no_alias(project_file(root_,file.first));no_alias(project_file(root_,file.first+".create.pending"));}
+ const auto before=project_baseline_;auto after=plan.index.dump(2)+"\n";auto marker=project_file(root_,std::string("database/")+creation_marker);install_new(marker,creation_journal(plan,before,slug,name,parent).dump(2));bool committed=false;
+ try{
+  for(auto& file:plan.files){auto path=project_file(root_,file.first);no_alias(path);install_new(path,file.second);}
+  for(auto& input:inputs)require(read_file(project_file(root_,input.first))==input.second,"Creation input changed; index not published");for(auto& file:plan.files)require(read_file(project_file(root_,file.first))==file.second,"New level file changed before registry commit");require(read_file(root_/"database/project.json")==before,"Index changed during creation; new files await recovery");
+  atomic_file(root_/"database/project.json",after);committed=true;
+ }catch(...){if(!committed){try{recover_creation_locked(root_);}catch(...){}}throw;}
+ // Cleanup failure leaves a recognizable committed journal, not an ambiguous failed creation.
+ try{refresh_index();}catch(const std::exception& e){throw std::runtime_error(std::string("Level committed; creation recovery/refresh is pending. Do not recreate it: ")+e.what());}std::error_code error;fs::remove(marker,error);return plan.id;
+}

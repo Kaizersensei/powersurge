@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "kind": "light",
+  "id": "light:moon",
+  "name": "Moonlight",
+  "type": "directional",
+  "enabled": true,
+  "color": [
+    0.6,
+    0.7,
+    1
+  ],
+  "energy": 0.25,
+  "angle_degrees": 225,
+  "elevation_degrees": 45,
+  "height_m": 1,
+  "range_m": 10,
+  "falloff": 2,
+  "inner_degrees": 20,
+  "outer_degrees": 45,
+  "shadows": true
+}

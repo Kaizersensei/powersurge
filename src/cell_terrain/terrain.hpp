@@ -6,9 +6,13 @@
 #include <vector>
 #include <cstdint>
 #include <set>
+#include <optional>
 namespace cell {
 constexpr int base=32,step=2,side=32,chunk=side*step,limit=2048;
-struct Shape {int id=0;std::string material="material:stone",preset="square";bool blend=false;int blend_cells=1,route=0;};
+constexpr size_t max_chunks=size_t((2*limit+chunk-1)/chunk)*((2*limit+chunk-1)/chunk);
+struct Bevel {bool enabled=false;std::string profile="linear",contact="separate";double width_m=.25,depth_m=.125,smoothness=.5;};
+void validate_bevel(const Bevel&);
+struct Shape {int id=0;std::string material="material:stone",preset="square";bool blend=false;int blend_cells=1,route=0;std::optional<Bevel> bevel;};
 struct Stroke {int shape=0;bool erase=false;double x=0,y=0,u=0,v=0;int size=32,mode=0;double curve=.5;};
 struct Document {std::vector<Shape> shapes;std::vector<Stroke> strokes;};
 using Key=std::pair<int,int>;

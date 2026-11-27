@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "kind": "shader_profile",
+  "id": "shader:terrain-lit",
+  "name": "Terrain / Normal lighting (renderer pending)",
+  "program": "builtin:terrain-lit",
+  "source": null,
+  "parameters": {
+    "normal_strength": {
+      "type": "float",
+      "minimum": 0,
+      "maximum": 16,
+      "default": 1
+    },
+    "roughness": {
+      "type": "float",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.8
+    },
+    "specular": {
+      "type": "float",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.25
+    },
+    "emission_energy": {
+      "type": "float",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0
+    }
+  }
+}

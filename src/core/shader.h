@@ -33,6 +33,9 @@ void shader_recreate_all();
 
 shader_t* shader_create(const char* name, const char* fs_glsl);
 shader_t* shader_create_ex(const char* name, const char* fs_glsl, const char* vs_glsl);
+/* Nonfatal, non-replacing creation for optional renderers. Signed: President. */
+shader_t* shader_try_create(const char* name, const char* fs_glsl, char* error, size_t capacity);
+void shader_clear_uniforms(shader_t* shader);
 shader_t* shader_get(const char* name);
 bool shader_exists(const char* name);
 

@@ -1,0 +1,13 @@
+{
+  "id": "event:quest_accept",
+  "kind": "event",
+  "version": 1,
+  "name": "Accept training supplies",
+  "provenance": "Original quest conversation outcome. Signed: Atlas.",
+  "commands": [
+    {
+      "op": "accept_quest",
+      "target": "quest:training_supplies"
+    }
+  ]
+}

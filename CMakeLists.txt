@@ -349,7 +349,7 @@ include(bsl/foundation/audio/surge.cmake)
 
 include(bsl/foundation/presentation/presentation.cmake)
 
-target_sources(${GAME_UNIXNAME} PRIVATE src/cell_terrain/terrain.cpp src/cell_terrain/native.cpp src/cell_terrain/native_c.c)
+target_sources(${GAME_UNIXNAME} PRIVATE src/cell_terrain/terrain.cpp src/cell_terrain/material_images.cpp src/cell_terrain/native.cpp src/cell_terrain/native_c.c)
 
 # BSL unified editor shell; pinned MIT toolkit. Signed: President.
 target_sources(${GAME_UNIXNAME} PRIVATE src/ui/widgets.cpp src/editor_shell/shell.cpp
@@ -364,7 +364,12 @@ target_link_libraries(${GAME_UNIXNAME} box2d::box2d)
 target_sources(${GAME_UNIXNAME} PRIVATE src/physics_lab/world.cpp src/physics_lab/bor_hurtbox.c src/physics_lab/object_factory.cpp)
 
 # Native laboratories; ordinary source ownership, no staging scripts. Signed: President.
-target_sources(${GAME_UNIXNAME} PRIVATE src/labs/lab.cpp src/labs/ui_compat_check.cpp)
+target_include_directories(${GAME_UNIXNAME} PRIVATE bsl/third_party/json/include)
+target_sources(${GAME_UNIXNAME} PRIVATE src/authoring/documents.cpp src/authoring/hub.cpp src/authoring/document_check.cpp src/authoring/project_ui.cpp src/authoring/render_check.cpp)
+
+target_sources(${GAME_UNIXNAME} PRIVATE src/environment/projection.cpp src/environment/check.cpp src/environment/sky_frame.cpp src/environment/sky.cpp src/environment/sky_check.cpp)
+
+target_sources(${GAME_UNIXNAME} PRIVATE src/labs/lab.cpp src/labs/ui_compat_check.cpp src/lighting/surface.cpp src/lighting/study.cpp src/lighting/check.cpp src/lighting/terrain.cpp)
 
 # Portable testing package; build inputs stay in the repository. Signed: President.
 get_filename_component(PS_COMPILER_BIN "${CMAKE_C_COMPILER}" DIRECTORY)
